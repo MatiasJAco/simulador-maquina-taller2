@@ -1,0 +1,35 @@
+(ARCTools Version 2.0.3)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                              .org 2048                  
+                                              .equ 3000                  
+                                              .equ 5                     
+                                                                         
+00000800  0000002048  82902005                orcc %r0, 5, %r1           !CLEARS THE FLAGS
+00000804  0000002052  82206001                sub %r1, 1, %r1            
+00000808  0000002056  be1fc01f                xor %r31, %i31, %g31       
+0000080c  0000002060  83286002                sll %r1, 2, %r1            
+00000810  0000002064            loop:                                    
+00000814  0000002068  ca006bcc                ld %r1, [3020], %r5        
+00000818  0000002072  ca206bb8                st %r5, %r1, [3000]        
+0000081c  0000002076  82206004                sub %r1, 4, %r1            
+00000820  0000002080  02800003                be 3                       
+00000824  0000002084  80a06000                subcc %r1, 0, %r0          
+00000828  0000002088  10bffffa                ba -6                      
+0000082c  0000002092            done:                                    
+00000830  0000002096  ffffffff                halt                       
+                                              .org a_start               
+00000bb8  0000003000            array:        .dwb 5                     
+00000bcc  0000003020  0000002f  a:                                       
+00000bd0  0000003024  fffffff6
+00000bd4  0000003028  00000021
+00000bd8  0000003032  fffffffb
+00000bdc  0000003036  00000007
+                                                                         
+
+--- Symbol Table ---
+a: 3020
+done: 2092
+loop: 2064
+a_start: 3000
+array_size: 5
+array: 3000

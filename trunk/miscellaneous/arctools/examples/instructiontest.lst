@@ -1,0 +1,168 @@
+(ARCTools Version 2.0.3)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                              .org 2048                  
+                                              .equ 24                    
+                                                                         !Assembly line arithmetic
+00000800  0000002048  c2002030                ld [48], %r1               
+00000804  0000002052  c4006024                ld %r1, [36], %r2          
+                                                                         !ld %r1+3, %r3, %r4 !INCORRECT %r4 is not a constant
+00000808  0000002056  84006078                add %r1, 120, %r2          
+                                                                         
+                                                                         !ld and store 
+                                                                         !memory accesses have to be word aligned
+                                                                         !These three instructions are identical
+0000080c  0000002060  c4002018                ld [24], %r2               
+00000810  0000002064  c4002018                ld %r0, [24], %r2          
+00000814  0000002068  c4002018                ld %r0, [24], %r2          
+00000818  0000002072  c4002018                ld %r0, [24], %r2          
+                                                                         
+                                                                         !These three instructions are identical
+0000081c  0000002076  c6008000                ld %r2, %r3                
+00000820  0000002080  c6008000                ld %r2, %r0, %r3           
+00000824  0000002084  c6008000  a:            ld %r2, %r0, %r3           
+                                                                         
+00000828  0000002088  84102010                or %r0, 16, %r2            !moves the value 16 into r2
+                                                                         
+0000082c  0000002092            b:                                       
+00000830  0000002096  c4202824                st %r2, [2084]             
+00000834  0000002100  c420282c  c:            st %r2, %r0, [2092]        
+00000838  0000002104  c4202834                st %r2, %r0, [2100]        
+0000083c  0000002108  c4202834                st %r2, %r0, [2100]        
+                                                                         
+00000840  0000002112  c4200000                st %r2, %r0                
+00000844  0000002116  c4200002                st %r2, %r0, %r2           
+00000848  0000002120  c220c002                st %r1, %r3, %r2           
+                                                                         
+0000084c  0000002124  8210200f                or %r0, 15, %r1            
+00000850  0000002128  c220c001                st %r1, %r3, %r1           !%r1 is not word aligned so 
+                                                                         !a warning will be issued, execution will stop
+                                                                         !and 0 will be store into the destination address
+                                                                         
+                                                                         
+00000854  0000002132  03304f15                sethi 3165973, %r1         !Sets bits 31:10 of %r1 to 0x304f15
+                                                                         
+                                                                         !Logical operations only modify the negative and zero flags
+                                                                         
+00000858  0000002136  82300000                orn %r0, %r0, %r1          !sets %r1 to all ones
+                                                                         
+0000085c  0000002140  86884002                andcc %r1, %r2, %r3        
+00000860  0000002144  848860ff                andcc %r1, 255, %r2        
+                                                                         
+00000864  0000002148  82900002                orcc %r0, %r2, %r1         
+00000868  0000002152  82902043                orcc %r0, 67, %r1          
+                                                                         
+0000086c  0000002156  82b04000                orncc %r1, %r0, %r1        
+00000870  0000002160  82b0e022                orncc %r3, 34, %r1         
+                                                                         
+00000874  0000002164  82984001                xorcc %r1, %r1, %r1        !This should set %r27 to 0
+00000878  0000002168  8298602d                xorcc %r1, 45, %r1         
+                                                                         
+0000087c  0000002172  82084001                and %r1, %r1, %r1          
+00000880  0000002176  86086017                and %r1, 23, %r3           
+                                                                         
+00000884  0000002180  82100003                or %r0, %r3, %r1           
+00000888  0000002184  82102001                or %r0, 1, %r1             
+                                                                         
+0000088c  0000002188  82304000                orn %r1, %r0, %r1          
+00000890  0000002192  82306022                orn %r1, 34, %r1           
+                                                                         
+00000894  0000002196  82184000                xor %r1, %r0, %r1          
+00000898  0000002200  8218602d                xor %r1, 45, %r1           
+                                                                         
+                                                                         
+0000089c  0000002204  03200000                sethi 2097152, %r1         !sets the msb of %r1 to 1
+000008a0  0000002208  85386005                sra %r1, 5, %r2            
+000008a4  0000002212  031fffff                sethi 2097151, %r1         !Sets the msb %r1 to 0
+000008a8  0000002216  84102008                or %r0, 8, %r2             
+000008ac  0000002220  85384002                sra %r1, %r2, %r2          
+000008b0  0000002224  85304002                srl %r1, %r2, %r2          
+000008b4  0000002228  85304005                srl %r1, %r5, %r2          
+000008b8  0000002232  82102008                or %r0, 8, %r1             
+000008bc  0000002236  85286003                sll %r1, 3, %r2            
+000008c0  0000002240  85284002                sll %r1, %r2, %r2          
+                                                                         
+000008c4  0000002244  82806005                addcc %r1, 5, %r1          
+000008c8  0000002248  82804004                addcc %r1, %r4, %r1        
+000008cc  0000002252  82006005                add %r1, 5, %r1            
+000008d0  0000002256  82004005                add %r1, %r5, %r1          
+000008d4  0000002260  82a06005                subcc %r1, 5, %r1          
+000008d8  0000002264  82a04002                subcc %r1, %r2, %r1        
+000008dc  0000002268  82206005                sub %r1, 5, %r1            
+000008e0  0000002272  82204007                sub %r1, %r7, %r1          
+                                                                         
+000008e4  0000002276  10800010                ba 16                      
+000008e8  0000002280  81c3e004  ljmp:         jmpl %r15, 4, %r0          
+                                                                         
+000008ec  0000002284  82a06bb8  lbne:         subcc %r1, 3000, %r1       
+000008f0  0000002288  12bffffe                bne -2                     
+                                                                         
+000008f4  0000002292  1abffffe  lbcc:         bcc -2                     
+                                                                         
+000008f8  0000002296  1cbfffff  lbpos:        bpos -1                    
+                                                                         
+000008fc  0000002300  1ebfffff  lbvc:         bvc -1                     
+                                                                         
+00000900  0000002304  82a04001  lbe:          subcc %r1, %r1, %r1        
+00000904  0000002308  02bffffe                be -2                      
+                                                                         
+00000908  0000002312  0cbffffe  lbneg:        bneg -2                    
+                                                                         
+0000090c  0000002316  03300000  lbcs:         sethi 3145728, %r1         
+00000910  0000002320  82804001                addcc %r1, %r1, %r1        
+00000914  0000002324  0abffffd                bcs -3                     
+                                                                         
+00000918  0000002328  03200000  lbvs:         sethi 2097152, %r1         
+0000091c  0000002332  82a06fff                subcc %r1, 4095, %r1       
+00000920  0000002336  0ebffffb                bvs -5                     
+                                                                         
+00000924  0000002340  7ffffffd  belowBranch:  call -3                    
+                                                                         !The operand of branch is always divided by 4 and subtracted from the PC.
+                                                                         !So if you are going to enter an absolute address just enter the address
+                                                                         !and the compiler will do the math.
+                                                                         !So ba 0x100 will branch to address 0x100 if it can.
+                                                                         
+00000928  0000002344  ffffffff                halt                       
+0000092c  0000002348  033fffff                sethi -1, %r1              
+00000930  0000002352  033fffff                sethi 4194303, %r1         
+00000934  0000002356  033fffff                sethi -1, %r1              
+00000938  0000002360  033fffff                sethi -1, %r1              
+                                                                         
+0000093c  0000002364  10bffdb0                ba -592                    !0x3fffff is 22bits but it's not word aligned
+00000940  0000002368  1087fdaf                ba 523695                  
+00000944  0000002372  10b7fdaf                ba -524881                 
+00000948  0000002376  10bffdad                ba -595                    
+                                                                         
+0000094c  0000002380  7ffffdac                call -596                  !0x3fffffff is 30 bits but not word aligned
+00000950  0000002384  47fffdab                call 134217131             
+00000954  0000002388  77fffdab                call -134218325            
+00000958  0000002392  7ffffda9                call -599                  
+                                                                         
+0000095c  0000002396  82006fff                add %r1, 4095, %r1         
+00000960  0000002400  82007000                add %r1, -4096, %r1        
+00000964  0000002404  82007fff                add %r1, -1, %r1           
+00000968  0000002408  82007fff                add %r1, -1, %r1           
+                                                                         
+                                                                         !LD and ST are the same
+0000096c  0000002412  c2002fff                ld [4095], %r1             
+00000970  0000002416  c2003000                ld [-4096], %r1            
+00000974  0000002420  c2003fff                ld [-1], %r1               
+00000978  0000002424  c2003fff                ld [-1], %r1               
+                                                                         
+0000097c  0000002428  ffffffff                halt                       
+                                                                         
+
+--- Symbol Table ---
+lbvs: 2328
+ljmp: 2280
+belowBranch: 2340
+lbneg: 2312
+lbcc: 2292
+lbne: 2284
+lbcs: 2316
+c: 2100
+b: 2092
+lbvc: 2300
+a: 2084
+lbpos: 2296
+x: 24
+lbe: 2304

@@ -1,0 +1,21 @@
+(ARCTools Version 2.0.3)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                              .org 04000                 
+                                              .equ 0xbb8                 
+00000fa0  0000004000  84004001                add %r1, %r1, %r2          
+00000fa4  0000004004  c2002bb8                ld [3000], %r1             
+00000fa8  0000004008  c4002bbc                ld [3004], %r2             
+00000fac  0000004012  c6002bc0                ld [3008], %r3             
+00000fb0  0000004016  ffffffff                halt                       
+                                                                         
+                                              .org astart                
+00000bb8  0000003000  00001388  a:                                       
+00000bbc  0000003004  00000bbb  b:                                       
+00000bc0  0000003008  00000019  c:                                       
+                                                                         
+
+--- Symbol Table ---
+b: 3004
+a: 3000
+astart: 3000
+c: 3008

@@ -1,0 +1,15 @@
+(ARCTools Version 2.0.3)
+ HexLoc     DecLoc    MachWord   Label        Instruction                Comment
+                                              .org 2048                  
+00000800  0000002048  c8002830                ld [2096], %g4             
+00000804  0000002052  8b312001                srl %g4, 1, %g5            
+00000808  0000002056  8d392001                sra %g4, 1, %g6            
+0000080c  0000002060  93392010                sra %g4, 16, %r9           
+00000810  0000002064  8f292008                sll %g4, 8, %g7            
+00000814  0000002068  91292004                sll %g4, 4, %r8            
+00000818  0000002072  ffffffff                halt                       
+                                              .org 2096                  
+00000830  0000002096  ffffffe9  minus23:                                 
+
+--- Symbol Table ---
+minus23: 2096
