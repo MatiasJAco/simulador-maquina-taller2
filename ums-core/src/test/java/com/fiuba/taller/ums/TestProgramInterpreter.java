@@ -4,11 +4,13 @@ import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
 import org.junit.Test;
 
@@ -23,65 +25,65 @@ public class TestProgramInterpreter {
 
 
 	@Test
-	public void testInterpretarCargaM() {
+	public void testInterpretarCargaM() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("ldm R,XY");
 		assertEquals("1RXY",result);
 	}
 
 	@Test
-	public void testInterpretarCargaI() {
+	public void testInterpretarCargaI() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("ldi R,XY");
 		assertEquals("2RXY",result);
 	}@Test
-	public void testInterpretarAlmacen() {
+	public void testInterpretarAlmacen() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("stm R,XY");
 		assertEquals("3RXY",result);
 	}@Test
-	public void testInterpretarCopia() {
+	public void testInterpretarCopia() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("cop R,S");
 		assertEquals("40RS",result);
 	}@Test
-	public void testInterpretarSuma() {
+	public void testInterpretarSuma() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("add R,S,T");
 		assertEquals("5RST",result);
 	}@Test
-	public void testInterpretarSumaF() {
+	public void testInterpretarSumaF() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("addf R,S,T");
 		assertEquals("6RST",result);
 	}@Test
-	public void testInterpretarOr() {
+	public void testInterpretarOr() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("or R,S,T");
 		assertEquals("7RST",result);
 	}@Test
-	public void testInterpretarAnd() {
+	public void testInterpretarAnd() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("and R,S,T");
 		assertEquals("8RST",result);
 	}@Test
-	public void testInterpretarXor() {
+	public void testInterpretarXor() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("xor R,S,T");
 		assertEquals("9RST",result);
 	}@Test
-	public void testInterpretarRotd() {
+	public void testInterpretarRotd() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("rotd R,X");
 		assertEquals("AR0X",result);
 	}@Test
-	public void testInterpretarSalta() {
+	public void testInterpretarSalta() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("jpz R,XY");
 		assertEquals("BRXY",result);
 	}
 	@Test
-	public void testInterpretarParar() {
+	public void testInterpretarParar() throws InputFileFormatException {
 		ProgramInterpreter pi = new ProgramInterpreter();
 		String result= pi.interpret("ret");
 		assertEquals("C000",result);
@@ -90,72 +92,10 @@ public class TestProgramInterpreter {
 
 
 	@Test
-	public void testFileHandling() {
-
-		// The name of the file to open.
-		String fileName = "c:\\temp\\input.txt";
-
-		// This will reference one line at a time
-		String line = null;
-
-		try {
-			// FileReader reads text files in the default encoding.
-			FileReader fileReader = 
-					new FileReader(fileName);
-
-			// Always wrap FileReader in BufferedReader.
-			BufferedReader bufferedReader = 
-					new BufferedReader(fileReader);
-
-			while((line = bufferedReader.readLine()) != null) {
-				System.out.println(line);
-			}	
-
-			// Always close files.
-			bufferedReader.close();			
-		}
-		catch(FileNotFoundException ex) {
-			System.out.println(
-					"Unable to open file '" + 
-							fileName + "'");				
-		}
-		catch(IOException ex) {
-			System.out.println(
-					"Error reading file '" 
-							+ fileName + "'");					
-			// Or we could just do this: 
-			// ex.printStackTrace();
-		}
-
-		//Escritura
-		
-		String f = "c:\\temp\\output.txt";
-
-		
-		try{
-
-			FileWriter w = new FileWriter(f);
-
-			BufferedWriter bw = new BufferedWriter(w);
-
-			PrintWriter wr = new PrintWriter(bw);  
-
-			wr.write("Esta es una linea de codigo");//escribimos en el archivo
-
-			wr.append(" - y aqui continua"); //concatenamos en el archivo sin borrar lo existente
-
-			//ahora cerramos los flujos de canales de datos, al cerrarlos el archivo quedará guardado con información escrita
-
-			//de no hacerlo no se escribirá nada en el archivo
-
-			wr.close();
-
-			bw.close();
-
-		}catch(IOException e){};
-
+	public void testGenerarCodigoMaquina() {
+		ProgramInterpreter pi = new ProgramInterpreter();
+		pi.generateAbsoluteCodeFile("C:\\temp\\input.asm");
 	}
-
 
 
 }
