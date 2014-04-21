@@ -12,10 +12,15 @@
 	<groupId>com.fiuba.taller.ums</groupId>
 	<artifactId>ums-gui</artifactId>
 	<packaging>jar</packaging>
-	<version>${parent.project.version}</version>
+	<version>${parent.version}</version>
 	<name>Universal Machine Simulator - GUI</name>
 
 	<dependencies>
 
+		<dependency>
+			<groupId>com.fiuba.taller.ums</groupId>
+			<artifactId>ums-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	</dependencies>
 </project>
