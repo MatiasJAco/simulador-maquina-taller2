@@ -70,9 +70,9 @@ public class EditorUmsGui {
 		// Scrollable text area with line numbers
 		JTextPane editorText = new JTextPane();
 		JScrollPane scrollPane = new JScrollPane(editorText);
-//		TextLineNumber textLineNumber = new TextLineNumber(editorText);
-//		scrollPane.setRowHeaderView(textLineNumber);
-//		frmUms.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		TextLineNumber textLineNumber = new TextLineNumber(editorText);
+		scrollPane.setRowHeaderView(textLineNumber);
+		frmUms.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		// Menu bar
 		JMenuBar menuBar = new JMenuBar();
