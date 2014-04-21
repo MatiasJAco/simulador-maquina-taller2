@@ -18,6 +18,8 @@ import com.fiuba.taller.ums.action.NewFileAction;
 import com.fiuba.taller.ums.action.OpenFileAction;
 import com.fiuba.taller.ums.action.SaveFileAction;
 import com.fiuba.taller.ums.component.TextLineNumber;
+import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 
 public class EditorUmsGui {
 
@@ -131,14 +133,12 @@ public class EditorUmsGui {
 
 		JMenu language = new JMenu("Language");
 		menuBar.add(language);
-
-		JCheckBoxMenuItem assemblerChkBoxItem = new JCheckBoxMenuItem(
-				"Assembler");
-		language.add(assemblerChkBoxItem);
-
-		JCheckBoxMenuItem machineCodeChkBox = new JCheckBoxMenuItem(
-				"Machine Code");
-		language.add(machineCodeChkBox);
+		
+		JRadioButtonMenuItem assemblerRadioItem = new JRadioButtonMenuItem("Assembler");
+		language.add(assemblerRadioItem);
+		
+		JRadioButtonMenuItem machineCodeRadioItem = new JRadioButtonMenuItem("Machine Code");
+		language.add(machineCodeRadioItem);
 
 		JMenu projectMenu = new JMenu("Project");
 		menuBar.add(projectMenu);
