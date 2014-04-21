@@ -70,9 +70,9 @@ public class EditorUmsGui {
 		// Scrollable text area with line numbers
 		JTextPane editorText = new JTextPane();
 		JScrollPane scrollPane = new JScrollPane(editorText);
-		TextLineNumber textLineNumber = new TextLineNumber(editorText);
-		scrollPane.setRowHeaderView(textLineNumber);
-		frmUms.getContentPane().add(scrollPane, BorderLayout.CENTER);
+//		TextLineNumber textLineNumber = new TextLineNumber(editorText);
+//		scrollPane.setRowHeaderView(textLineNumber);
+//		frmUms.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		// Menu bar
 		JMenuBar menuBar = new JMenuBar();
@@ -83,16 +83,15 @@ public class EditorUmsGui {
 
 		JMenuItem newFileMenuItem = new JMenuItem("New");
 		newFileMenuItem
-				.setIcon(new ImageIcon(
-						"C:\\Users\\Federico\\Downloads\\splashy_icons_icons_pack_120729\\document_a4_new.png"));
+		.setIcon(new ImageIcon(getClass().getResource("/img/icon/NewFile.png")));
+		
 		fileMenu.add(newFileMenuItem);
 		newFileMenuItem.addActionListener(new NewFileAction(editorText));
 
 		JMenuItem openFileMenuItem = new JMenuItem("Open File...");
 		fileMenu.add(openFileMenuItem);
 		openFileMenuItem
-				.setIcon(new ImageIcon(
-						"C:\\Users\\Federico\\Downloads\\splashy_icons_icons_pack_120729\\folder_classic_opened_stuffed.png"));
+				.setIcon(new ImageIcon(getClass().getResource("/img/icon/OpenFile.png")));
 		openFileMenuItem.addActionListener(new OpenFileAction(frmUms,
 				editorText));
 
@@ -101,8 +100,7 @@ public class EditorUmsGui {
 
 		JMenuItem closeFileMenuItem = new JMenuItem("Close");
 		closeFileMenuItem
-				.setIcon(new ImageIcon(
-						"C:\\Users\\Federico\\Downloads\\splashy_icons_icons_pack_120729\\close.png"));
+				.setIcon(new ImageIcon(getClass().getResource("/img/icon/CloseFile.png")));
 		fileMenu.add(closeFileMenuItem);
 
 		JSeparator closeFileSeparator = new JSeparator();
@@ -110,16 +108,14 @@ public class EditorUmsGui {
 
 		JMenuItem saveAsFileMenuItem = new JMenuItem("Save As...");
 		saveAsFileMenuItem
-				.setIcon(new ImageIcon(
-						"C:\\Users\\Federico\\Downloads\\splashy_icons_icons_pack_120729\\documents_okay.png"));
+				.setIcon(new ImageIcon(getClass().getResource("/img/icon/SaveAsFile.png")));
 		fileMenu.add(saveAsFileMenuItem);
 		saveAsFileMenuItem.addActionListener(new SaveFileAction(frmUms,
 				editorText, fileName));
 
 		JMenuItem saveFileMenuItem = new JMenuItem("Save");
 		saveFileMenuItem
-				.setIcon(new ImageIcon(
-						"C:\\Users\\Federico\\Downloads\\splashy_icons_icons_pack_120729\\document_a4_okay.png"));
+				.setIcon(new ImageIcon(getClass().getResource("/img/icon/SaveFile.png")));
 		fileMenu.add(saveFileMenuItem);
 		openFileMenuItem.addActionListener(new SaveFileAction(frmUms,
 				editorText, fileName));
@@ -158,8 +154,7 @@ public class EditorUmsGui {
 
 		JMenuItem helpContentsMenuItem = new JMenuItem("Help Contents");
 		helpContentsMenuItem
-				.setIcon(new ImageIcon(
-						"C:\\Users\\Federico\\Downloads\\splashy_icons_icons_pack_120729\\help.png"));
+				.setIcon(new ImageIcon(getClass().getResource("/img/icon/HelpContents.png")));
 		helpMenu.add(helpContentsMenuItem);
 
 		JSeparator helpContentsSeparator = new JSeparator();
