@@ -19,13 +19,13 @@ import javax.swing.JTextPane;
 
 public class OpenFileAction implements ActionListener {
 
-	private String filename; // To hold the file name
+	private String fileName; // To hold the file name
 	private JTextPane editorText;
-	private JFrame frmUms;
+	private JFrame frame;
 
-	public OpenFileAction(JFrame frmUms, JTextPane editorText) {
+	public OpenFileAction(JFrame frame, JTextPane editorText) {
 		this.editorText = editorText;
-		this.frmUms = frmUms;
+		this.frame = frame;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -38,15 +38,15 @@ public class OpenFileAction implements ActionListener {
 			File selectedFile = chooser.getSelectedFile();
 
 			// Get the path of the selected file.
-			filename = selectedFile.getPath();
+			fileName = selectedFile.getPath();
 
 			// Open the file.
-			if (!openFile(filename)) {
+			if (!openFile(fileName)) {
 				JOptionPane.showMessageDialog(null,
-						"Error reading " + filename, "Error",
+						"Error reading " + fileName, "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}else{
-				frmUms.setTitle(filename + " - UMS Code Editor");
+				frame.setTitle(fileName + " - UMS Code Editor");
 			}
 		}
 	}

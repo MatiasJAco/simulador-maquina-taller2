@@ -3,25 +3,24 @@ package com.fiuba.taller.ums;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 
+import com.fiuba.taller.ums.action.AboutAction;
 import com.fiuba.taller.ums.action.ExitAction;
 import com.fiuba.taller.ums.action.NewFileAction;
 import com.fiuba.taller.ums.action.OpenFileAction;
 import com.fiuba.taller.ums.action.SaveFileAction;
 import com.fiuba.taller.ums.component.StatusBar;
 import com.fiuba.taller.ums.component.TextLineNumber;
-
-import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
 
 public class EditorUmsGui {
 
@@ -34,7 +33,7 @@ public class EditorUmsGui {
 	private int newFileCounter = 1;
 	private String fileName = DEFAULT_NEWFILE_NAME + newFileCounter++;
 
-	private JFrame frmUms;
+	private JFrame frame;
 
 	/**
 	 * Launch the application.
@@ -44,7 +43,7 @@ public class EditorUmsGui {
 			public void run() {
 				try {
 					EditorUmsGui window = new EditorUmsGui();
-					window.frmUms.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -63,22 +62,22 @@ public class EditorUmsGui {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frmUms = new JFrame();
-		frmUms.setTitle(fileName + " - UMS Code Editor");
-		frmUms.setBounds(WINDOW_POSITION_X, WINDOW_POSITION_Y,
+		frame = new JFrame();
+		frame.setTitle(fileName + " - UMS Code Editor");
+		frame.setBounds(WINDOW_POSITION_X, WINDOW_POSITION_Y,
 				WINDOW_WIDTH_SIZE, WINDOW_HEIGH_SIZE);
-		frmUms.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// Scrollable text area with line numbers
 		JTextPane editorText = new JTextPane();
 		JScrollPane scrollPane = new JScrollPane(editorText);
 		TextLineNumber textLineNumber = new TextLineNumber(editorText);
 		scrollPane.setRowHeaderView(textLineNumber);
-		frmUms.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		// Menu bar at top of window
 		JMenuBar menuBar = new JMenuBar();
-		frmUms.getContentPane().add(menuBar, BorderLayout.NORTH);
+		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
 
 		// File operations menu
 		JMenu fileMenu = new JMenu("File");
@@ -96,10 +95,9 @@ public class EditorUmsGui {
 		fileMenu.add(openFileMenuItem);
 		openFileMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/OpenFile.png")));
-		openFileMenuItem.addActionListener(new OpenFileAction(frmUms,
-				editorText));
-		
-		
+		openFileMenuItem
+				.addActionListener(new OpenFileAction(frame, editorText));
+
 		JSeparator openFileSeparator = new JSeparator();
 		fileMenu.add(openFileSeparator);
 
@@ -108,8 +106,9 @@ public class EditorUmsGui {
 		closeFileMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/CloseFile.png")));
 		fileMenu.add(closeFileMenuItem);
-		
-		// Separator between Close file operation and Save file operations @ File operations menu
+
+		// Separator between Close file operation and Save file operations @
+		// File operations menu
 		JSeparator closeFileSeparator = new JSeparator();
 		fileMenu.add(closeFileSeparator);
 
@@ -118,7 +117,7 @@ public class EditorUmsGui {
 		saveAsFileMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/SaveAsFile.png")));
 		fileMenu.add(saveAsFileMenuItem);
-		saveAsFileMenuItem.addActionListener(new SaveFileAction(frmUms,
+		saveAsFileMenuItem.addActionListener(new SaveFileAction(frame,
 				editorText, fileName));
 
 		// Save file item @ File operations menu
@@ -126,10 +125,11 @@ public class EditorUmsGui {
 		saveFileMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/SaveFile.png")));
 		fileMenu.add(saveFileMenuItem);
-		openFileMenuItem.addActionListener(new SaveFileAction(frmUms,
+		openFileMenuItem.addActionListener(new SaveFileAction(frame,
 				editorText, fileName));
 
-		// Separator between Save file operations and exit program @ File operations menu
+		// Separator between Save file operations and exit program @ File
+		// operations menu
 		JSeparator saveFileSeparator = new JSeparator();
 		fileMenu.add(saveFileSeparator);
 
@@ -139,18 +139,23 @@ public class EditorUmsGui {
 		exitMenuItem.addActionListener(new ExitAction());
 
 		// Language menu
-		JMenu language = new JMenu("Language");
-		menuBar.add(language);
+		JMenu languageCode = new JMenu("Language Code");
+		menuBar.add(languageCode);
 
 		// Assembler codification item @ Language menu
 		JRadioButtonMenuItem assemblerRadioItem = new JRadioButtonMenuItem(
 				"Assembler");
-		language.add(assemblerRadioItem);
+		languageCode.add(assemblerRadioItem);
 
 		// Machine code codification item @ Language menu
 		JRadioButtonMenuItem machineCodeRadioItem = new JRadioButtonMenuItem(
 				"Machine Code");
-		language.add(machineCodeRadioItem);
+		languageCode.add(machineCodeRadioItem);
+
+		// Group the radio buttons.
+		ButtonGroup languageCodeGroup = new ButtonGroup();
+		languageCodeGroup.add(assemblerRadioItem);
+		languageCodeGroup.add(machineCodeRadioItem);
 
 		// Project menu
 		JMenu projectMenu = new JMenu("Project");
@@ -188,10 +193,11 @@ public class EditorUmsGui {
 		// About item @ Help menu
 		JMenuItem aboutHelpMenuItem = new JMenuItem("About UMS");
 		helpMenu.add(aboutHelpMenuItem);
+		aboutHelpMenuItem.addActionListener(new AboutAction(frame));
 
 		// Status bar at the bottom of the window
 		StatusBar statusBar = new StatusBar();
-		frmUms.add(statusBar, BorderLayout.SOUTH);
+		frame.add(statusBar, BorderLayout.SOUTH);
 
 	}
 }
