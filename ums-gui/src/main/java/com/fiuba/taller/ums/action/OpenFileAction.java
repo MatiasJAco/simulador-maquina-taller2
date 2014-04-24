@@ -11,6 +11,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Private inner class that handles the event that is generated when the user
@@ -32,6 +34,10 @@ public class OpenFileAction implements ActionListener {
 		int chooserStatus;
 
 		JFileChooser chooser = new JFileChooser();
+
+		FileFilter filter = new FileNameExtensionFilter(
+				"Assembler or Machine Code (*.asm, *.maq)", "asm", "maq");
+		chooser.setFileFilter(filter);
 		chooserStatus = chooser.showOpenDialog(null);
 		if (chooserStatus == JFileChooser.APPROVE_OPTION) {
 			// Get a reference to the selected file.
@@ -45,7 +51,7 @@ public class OpenFileAction implements ActionListener {
 				JOptionPane.showMessageDialog(null,
 						"Error reading " + fileName, "Error",
 						JOptionPane.ERROR_MESSAGE);
-			}else{
+			} else {
 				frame.setTitle(fileName + " - UMS Code Editor");
 			}
 		}
