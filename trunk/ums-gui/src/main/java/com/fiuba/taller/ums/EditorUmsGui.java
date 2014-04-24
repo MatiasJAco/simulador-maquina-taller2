@@ -15,6 +15,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextPane;
 
 import com.fiuba.taller.ums.action.AboutAction;
+import com.fiuba.taller.ums.action.CompileAction;
 import com.fiuba.taller.ums.action.ExitAction;
 import com.fiuba.taller.ums.action.NewFileAction;
 import com.fiuba.taller.ums.action.OpenFileAction;
@@ -167,6 +168,7 @@ public class EditorUmsGui {
 		projectMenu.add(compileMenuItem);
 		compileMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/CompileFile.png")));
+		compileMenuItem.addActionListener(new CompileAction(editorText));
 
 		// Convert code menu @ Project menu
 		JMenu converterMenu = new JMenu("Converter");
@@ -174,7 +176,7 @@ public class EditorUmsGui {
 
 		// Compile code item @ Convert code menu
 		JMenuItem assemToCodMachMenuItem = new JMenuItem(
-				"Assembler to Code Machine");
+				"Assembler >> Machine Code");
 		converterMenu.add(assemToCodMachMenuItem);
 
 		// Help menu
@@ -182,10 +184,11 @@ public class EditorUmsGui {
 		menuBar.add(helpMenu);
 
 		// Help Contents item @ Help menu
-		JMenuItem helpContentsMenuItem = new JMenuHelpContents("Help Contents", frame);
+		JMenuItem helpContentsMenuItem = new JMenuHelpContents("Help Contents",
+				frame);
 		helpContentsMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/HelpContents.png")));
-		helpMenu.add(helpContentsMenuItem);		
+		helpMenu.add(helpContentsMenuItem);
 
 		// Separator between Help contents and about @ Help menu
 		JSeparator helpContentsSeparator = new JSeparator();
