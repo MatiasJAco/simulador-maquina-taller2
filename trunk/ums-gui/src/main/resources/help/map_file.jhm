@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE map
+PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 2.0//EN"
+"http://java.sun.com/products/javahelp/map_2_0.dtd">
+
+<map version="1.0">
+    <mapID target="introduccion" 	url="html/main.html" />
+	<mapID target="assembler"		url="html/lenguajeAssembler.html" />   
+	<mapID target="maquina"			url="html/lenguajeMaquina.html"/>     
+   	<mapID target="FolderClosed"    url="images/FolderClosed.gif"/>  
+	<mapID target="FolderOpened"    url="images/FolderOpened.gif"/> 
+	<mapID target="ItemIco"         url="images/book.png"/> 
+	<mapID target="ContentIco"      url="images/bookBlue.png"/> 
+	<mapID target="SearchIco"       url="images/view.png"/>  
+	<mapID target="BackwardIco"     url="images/Previous.gif"/>
+	<mapID target="ForwardIco"      url="images/Next.gif"/>
+	<mapID target="PrintIco"        url="images/printer.png"/>  
+    <mapID target="PrintSetupIco"   url="images/printersetup.png"/>
+</map>

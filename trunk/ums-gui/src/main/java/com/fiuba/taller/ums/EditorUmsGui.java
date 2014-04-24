@@ -19,6 +19,7 @@ import com.fiuba.taller.ums.action.ExitAction;
 import com.fiuba.taller.ums.action.NewFileAction;
 import com.fiuba.taller.ums.action.OpenFileAction;
 import com.fiuba.taller.ums.action.SaveFileAction;
+import com.fiuba.taller.ums.component.JMenuHelpContents;
 import com.fiuba.taller.ums.component.StatusBar;
 import com.fiuba.taller.ums.component.TextLineNumber;
 
@@ -181,10 +182,10 @@ public class EditorUmsGui {
 		menuBar.add(helpMenu);
 
 		// Help Contents item @ Help menu
-		JMenuItem helpContentsMenuItem = new JMenuItem("Help Contents");
+		JMenuItem helpContentsMenuItem = new JMenuHelpContents("Help Contents", frame);
 		helpContentsMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/HelpContents.png")));
-		helpMenu.add(helpContentsMenuItem);
+		helpMenu.add(helpContentsMenuItem);		
 
 		// Separator between Help contents and about @ Help menu
 		JSeparator helpContentsSeparator = new JSeparator();

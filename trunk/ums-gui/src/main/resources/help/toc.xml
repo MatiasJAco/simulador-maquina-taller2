@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<toc version="1.0" categoryclosedimage="FolderClosed" categoryopenimage="FolderOpened"  topicimage="ItemIco">  
+
+	
+    <tocitem text="Introducción"    target="introduccion">
+    	<tocitem text="Lenguaje Máquina"    target="maquina"/>
+        <tocitem text="Lenguaje Assembler"    target="assembler"/>
+    </tocitem>
+</toc>
