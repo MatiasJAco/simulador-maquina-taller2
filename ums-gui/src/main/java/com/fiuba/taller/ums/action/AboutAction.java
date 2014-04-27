@@ -17,7 +17,6 @@ public class AboutAction implements ActionListener {
 		this.frame = frame;
 	}
 
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		JOptionPane
 				.showMessageDialog(frame, "UMS Code Editor - Version: 1.0.0");
