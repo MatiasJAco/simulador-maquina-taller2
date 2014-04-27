@@ -63,6 +63,12 @@ public class EditorUmsGui {
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	/**
+	 * 
+	 */
+	/**
+	 * 
+	 */
 	private void initialize() {
 		frame = new JFrame();
 		frame.setTitle(fileName + " - UMS Code Editor");
@@ -84,14 +90,19 @@ public class EditorUmsGui {
 		// File operations menu
 		JMenu fileMenu = new JMenu("File");
 		menuBar.add(fileMenu);
-
-		// New file item @ File operations menu
-		JMenuItem newFileMenuItem = new JMenuItem("New");
-		newFileMenuItem.setIcon(new ImageIcon(getClass().getResource(
-				"/img/icon/NewFile.png")));
-		fileMenu.add(newFileMenuItem);
-		newFileMenuItem.addActionListener(new NewFileAction(editorText));
-
+		
+		JMenu newFileMenu = new JMenu("New");
+		newFileMenu.setIcon(new ImageIcon(EditorUmsGui.class.getResource("/img/icon/NewFile.png")));
+		fileMenu.add(newFileMenu);
+		
+		JMenuItem newAssemblerFileItem = new JMenuItem("Assembler");
+		newFileMenu.add(newAssemblerFileItem);
+		newAssemblerFileItem.addActionListener(new NewFileAction(editorText));
+		
+		JMenuItem newMachineCodeFileItem = new JMenuItem("Machine Code");
+		newFileMenu.add(newMachineCodeFileItem);
+		newMachineCodeFileItem.addActionListener(new NewFileAction(editorText));
+		
 		// Open file item @ File operations menu
 		JMenuItem openFileMenuItem = new JMenuItem("Open File...");
 		fileMenu.add(openFileMenuItem);
@@ -201,7 +212,7 @@ public class EditorUmsGui {
 
 		// Status bar at the bottom of the window
 		StatusBar statusBar = new StatusBar();
-		frame.add(statusBar, BorderLayout.SOUTH);
+		frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
 
 	}
 }
