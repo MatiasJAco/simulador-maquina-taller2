@@ -4,13 +4,16 @@ import java.net.URL;
 
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
-import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 
-@SuppressWarnings("serial")
-public class JMenuHelpContents extends JMenuItem{
+public class HelpContentsMenuItem extends JMenuItem{
 
-	public JMenuHelpContents(String string, JFrame frame) {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4375150046025057334L;
+
+	public HelpContentsMenuItem(String string) {
 		super(string);
 		
 		try {		
@@ -20,9 +23,6 @@ public class JMenuHelpContents extends JMenuItem{
 			
 			hb.enableHelpOnButton(this, "introduccion", helpset);			
 			
-			// habilita la tecla F1 para invocar la ayuda
-			hb.enableHelpKey(frame.getContentPane(), "introduccion", helpset);
-
 		} catch (Exception exception) {
 			exception.printStackTrace();
 		}
