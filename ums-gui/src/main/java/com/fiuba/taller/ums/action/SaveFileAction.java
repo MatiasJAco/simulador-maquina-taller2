@@ -12,6 +12,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
+import com.fiuba.taller.ums.EditorUmsGui;
+import com.fiuba.taller.ums.component.TextEditorPane;
+
 /**
  * Private inner class that handles the event that is generated when the user
  * selects Save or Save As from the file menu.
@@ -23,10 +26,16 @@ public class SaveFileAction implements ActionListener {
 	private JTextPane editorText;
 	private JFrame frmUms;
 
+	private EditorUmsGui editorUmsGui;
+	
 	public SaveFileAction(JFrame frmUms, JTextPane editorText, String fileName) {
 		this.editorText = editorText;
 		this.fileName = fileName;
 		this.frmUms = frmUms;
+	}
+
+	public SaveFileAction(EditorUmsGui editorUmsGui) {
+		this.editorUmsGui = editorUmsGui;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -36,6 +45,10 @@ public class SaveFileAction implements ActionListener {
 		// of the editor have not been saved, use a file
 		// chooser to get the file name. Otherwise, save
 		// the file under the current file name.
+		
+		TextEditorPane textEditor = editorUmsGui.getMultiTabPane().getSelectedTab();
+		String textContent = textEditor.getContent();
+		String fileName = textEditor.getName();
 
 		if (e.getActionCommand() == "Save As..." || fileName == null) {
 			JFileChooser chooser = new JFileChooser();
@@ -48,13 +61,20 @@ public class SaveFileAction implements ActionListener {
 				fileName = selectedFile.getPath();
 			}
 		}
-
+		String languageCode = editorUmsGui.getLanguageCodeMenu().getLanguageCodeSelected();
+		
+		if(languageCode == "Assembler"){
+			fileName = fileName + ".asm";
+		}else{
+			fileName = fileName + ".maq";
+		}
+		
 		// Save the file.
-		if (!saveFile(fileName)) {
+		if (!saveFile(fileName,textContent)) {
 			JOptionPane.showMessageDialog(null, "Error saving " + fileName,
 					"Error", JOptionPane.ERROR_MESSAGE);
 		} else {
-			frmUms.setTitle(fileName + " - UMS Code Editor");
+			textEditor.setName(fileName);
 		}
 	}
 
@@ -68,9 +88,8 @@ public class SaveFileAction implements ActionListener {
 	 * @return true if successful, false otherwise.
 	 */
 
-	private boolean saveFile(String filename) {
+	private boolean saveFile(String filename, String fileContent) {
 		boolean success;
-		String editorString;
 		FileWriter fwriter;
 		PrintWriter outputFile;
 
@@ -81,8 +100,7 @@ public class SaveFileAction implements ActionListener {
 
 			// Write the contents of the text area
 			// to the file.
-			editorString = editorText.getText();
-			outputFile.print(editorString);
+			outputFile.print(fileContent);
 
 			// Close the file.
 			outputFile.close();
