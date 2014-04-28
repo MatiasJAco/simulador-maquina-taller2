@@ -8,11 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import com.fiuba.taller.ums.EditorUmsGui;
+import com.fiuba.taller.ums.UmsEditorGui;
 
 public class CompileAction implements ActionListener {
 
-	public CompileAction(EditorUmsGui editorUmsGui) {
+	public CompileAction(UmsEditorGui editorUmsGui) {
 		// TODO Auto-generated constructor stub
 	}
 
