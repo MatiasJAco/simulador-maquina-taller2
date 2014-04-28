@@ -5,7 +5,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
-import com.fiuba.taller.ums.EditorUmsGui;
+import com.fiuba.taller.ums.UmsEditorGui;
 
 public class FileMenu extends JMenu {
 
@@ -28,7 +28,7 @@ public class FileMenu extends JMenu {
 
 		// File operations menu
 		newFileMenu = new JMenu("New");
-		newFileMenu.setIcon(new ImageIcon(EditorUmsGui.class
+		newFileMenu.setIcon(new ImageIcon(UmsEditorGui.class
 				.getResource("/img/icon/NewFile.png")));
 		this.add(newFileMenu);
 
