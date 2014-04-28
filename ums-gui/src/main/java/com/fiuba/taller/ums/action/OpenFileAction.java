@@ -14,7 +14,7 @@ import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import com.fiuba.taller.ums.EditorUmsGui;
+import com.fiuba.taller.ums.UmsEditorGui;
 
 /**
  * Private inner class that handles the event that is generated when the user
@@ -27,9 +27,9 @@ public class OpenFileAction implements ActionListener {
 	private JTextPane editorText;
 	private JFrame frame;
 	
-	private EditorUmsGui editorUmsGui;
+	private UmsEditorGui editorUmsGui;
 
-	public OpenFileAction(EditorUmsGui editorUmsGui) {
+	public OpenFileAction(UmsEditorGui editorUmsGui) {
 		this.editorUmsGui = editorUmsGui;
 	}
 

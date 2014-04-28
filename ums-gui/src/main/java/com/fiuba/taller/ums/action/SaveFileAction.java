@@ -12,7 +12,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
 
-import com.fiuba.taller.ums.EditorUmsGui;
+import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.TextEditorPane;
 
 /**
@@ -26,7 +26,7 @@ public class SaveFileAction implements ActionListener {
 	private JTextPane editorText;
 	private JFrame frmUms;
 
-	private EditorUmsGui editorUmsGui;
+	private UmsEditorGui editorUmsGui;
 	
 	public SaveFileAction(JFrame frmUms, JTextPane editorText, String fileName) {
 		this.editorText = editorText;
@@ -34,7 +34,7 @@ public class SaveFileAction implements ActionListener {
 		this.frmUms = frmUms;
 	}
 
-	public SaveFileAction(EditorUmsGui editorUmsGui) {
+	public SaveFileAction(UmsEditorGui editorUmsGui) {
 		this.editorUmsGui = editorUmsGui;
 	}
 

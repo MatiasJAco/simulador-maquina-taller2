@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import com.fiuba.taller.ums.EditorUmsGui;
+import com.fiuba.taller.ums.UmsEditorGui;
 
 /**
  * Private inner class that handles the event that is generated when the user

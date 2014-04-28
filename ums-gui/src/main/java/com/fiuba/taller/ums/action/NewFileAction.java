@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 
-import com.fiuba.taller.ums.EditorUmsGui;
+import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.TextLineNumber;
 
 /**
@@ -18,10 +18,10 @@ import com.fiuba.taller.ums.component.TextLineNumber;
 
 public class NewFileAction implements ActionListener {
 
-	private EditorUmsGui editorUmsGui;
+	private UmsEditorGui editorUmsGui;
 	private int newFileCounter = 1;
 
-	public NewFileAction(EditorUmsGui editorUmsGui) {
+	public NewFileAction(UmsEditorGui editorUmsGui) {
 		this.editorUmsGui = editorUmsGui;
 	}
 
