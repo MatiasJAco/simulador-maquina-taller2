@@ -20,7 +20,7 @@ import com.fiuba.taller.ums.component.ProjectMenu;
 import com.fiuba.taller.ums.component.StatusBar;
 import com.fiuba.taller.ums.component.TextEditorPane;
 
-public class EditorUmsGui {
+public class UmsEditorGui {
 
 	private final static int WINDOW_POSITION_X = 100;
 	private final static int WINDOW_POSITION_Y = 100;
@@ -45,7 +45,7 @@ public class EditorUmsGui {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditorUmsGui window = new EditorUmsGui();
+					UmsEditorGui window = new UmsEditorGui();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class EditorUmsGui {
 	/**
 	 * Create the application.
 	 */
-	public EditorUmsGui() {
+	public UmsEditorGui() {
 		initialize();
 	}
 
