@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import com.fiuba.taller.ums.action.CloseFileAction;
@@ -18,7 +17,6 @@ import com.fiuba.taller.ums.component.LanguageCodeMenu;
 import com.fiuba.taller.ums.component.MultiTabPane;
 import com.fiuba.taller.ums.component.ProjectMenu;
 import com.fiuba.taller.ums.component.StatusBar;
-import com.fiuba.taller.ums.component.TextEditorPane;
 
 public class UmsEditorGui {
 
@@ -94,16 +92,18 @@ public class UmsEditorGui {
 
 		menuBar.add(fileMenu);
 
+		// Language Code Menu
 		languageCodeMenu = new LanguageCodeMenu();
 		menuBar.add(languageCodeMenu);
 
+		// Project menu
 		projectMenu = new ProjectMenu();
 		menuBar.add(projectMenu);
 
 		// Help menu
 		helpMenu = new HelpMenu();
 		menuBar.add(helpMenu);
-	
+
 		// Status bar at the bottom of the window
 		StatusBar statusBar = new StatusBar();
 		frame.getContentPane().add(statusBar, BorderLayout.SOUTH);

@@ -11,6 +11,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.TextEditorPane;
@@ -27,7 +29,7 @@ public class SaveFileAction implements ActionListener {
 	private JFrame frmUms;
 
 	private UmsEditorGui editorUmsGui;
-	
+
 	public SaveFileAction(JFrame frmUms, JTextPane editorText, String fileName) {
 		this.editorText = editorText;
 		this.fileName = fileName;
@@ -45,37 +47,48 @@ public class SaveFileAction implements ActionListener {
 		// of the editor have not been saved, use a file
 		// chooser to get the file name. Otherwise, save
 		// the file under the current file name.
-		
-		TextEditorPane textEditor = editorUmsGui.getMultiTabPane().getSelectedTab();
+
+		TextEditorPane textEditor = editorUmsGui.getMultiTabPane()
+				.getSelectedTab();
 		String textContent = textEditor.getContent();
 		String fileName = textEditor.getName();
+		boolean saveFile = true;
 
 		if (e.getActionCommand() == "Save As..." || fileName == null) {
 			JFileChooser chooser = new JFileChooser();
+			FileFilter filter = new FileNameExtensionFilter(
+					"Assembler or Machine Code (*.asm, *.maq)", "asm", "maq");
+			chooser.setFileFilter(filter);
 			chooserStatus = chooser.showSaveDialog(null);
+
 			if (chooserStatus == JFileChooser.APPROVE_OPTION) {
 				// Get a reference to the selected file.
 				File selectedFile = chooser.getSelectedFile();
 
 				// Get the path of the selected file.
 				fileName = selectedFile.getPath();
+			} else {
+				saveFile = false;
 			}
 		}
-		String languageCode = editorUmsGui.getLanguageCodeMenu().getLanguageCodeSelected();
-		
-		if(languageCode == "Assembler"){
-			fileName = fileName + ".asm";
-		}else{
-			fileName = fileName + ".maq";
+		String languageCode = editorUmsGui.getLanguageCodeMenu()
+				.getLanguageCodeSelected();
+
+		if (saveFile) {
+			if (languageCode == "Assembler") {
+				fileName = fileName + ".asm";
+			} else {
+				fileName = fileName + ".maq";
+			}
+			// Save the file.
+			if (!saveFile(fileName, textContent)) {
+				JOptionPane.showMessageDialog(null, "Error saving " + fileName,
+						"Error", JOptionPane.ERROR_MESSAGE);
+			} else {
+				editorUmsGui.getMultiTabPane().setSelectedTabName(fileName);
+			}
 		}
-		
-		// Save the file.
-		if (!saveFile(fileName,textContent)) {
-			JOptionPane.showMessageDialog(null, "Error saving " + fileName,
-					"Error", JOptionPane.ERROR_MESSAGE);
-		} else {
-			textEditor.setName(fileName);
-		}
+
 	}
 
 	/**
