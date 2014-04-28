@@ -14,6 +14,8 @@ import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.fiuba.taller.ums.EditorUmsGui;
+
 /**
  * Private inner class that handles the event that is generated when the user
  * selects Open from the file menu.
@@ -24,10 +26,11 @@ public class OpenFileAction implements ActionListener {
 	private String fileName; // To hold the file name
 	private JTextPane editorText;
 	private JFrame frame;
+	
+	private EditorUmsGui editorUmsGui;
 
-	public OpenFileAction(JFrame frame, JTextPane editorText) {
-		this.editorText = editorText;
-		this.frame = frame;
+	public OpenFileAction(EditorUmsGui editorUmsGui) {
+		this.editorUmsGui = editorUmsGui;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -52,7 +55,7 @@ public class OpenFileAction implements ActionListener {
 						"Error reading " + fileName, "Error",
 						JOptionPane.ERROR_MESSAGE);
 			} else {
-				frame.setTitle(fileName + " - UMS Code Editor");
+				editorUmsGui.getMultiTabPane().addTab(fileName);
 			}
 		}
 	}
