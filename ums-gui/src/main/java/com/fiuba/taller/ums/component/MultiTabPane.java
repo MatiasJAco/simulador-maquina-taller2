@@ -14,17 +14,22 @@ public class MultiTabPane extends JTabbedPane {
 
 	public void addTab(String tabName) {
 		TextEditorPane textEditorPane = new TextEditorPane(tabName);
-		//this.addTab(tabName, textEditorPane);
 		this.add(textEditorPane);
 	}
 
 	public void closeTab() {
-		TextEditorPane textEditorPane = (TextEditorPane) this.getSelectedComponent();
+		TextEditorPane textEditorPane = (TextEditorPane) this
+				.getSelectedComponent();
 		textEditorPane.removeAll();
 		this.remove(textEditorPane);
 	}
 
 	public TextEditorPane getSelectedTab() {
 		return (TextEditorPane) this.getSelectedComponent();
+	}
+
+	public void setSelectedTabName(String name) {
+		int index = this.getSelectedIndex();
+		this.setTitleAt(index, name);
 	}
 }
