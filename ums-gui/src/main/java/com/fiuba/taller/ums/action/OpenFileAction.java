@@ -8,14 +8,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fiuba.taller.ums.UmsEditorGui;
-import com.fiuba.taller.ums.component.TextEditorPane;
+import com.fiuba.taller.ums.component.FileEditorPane;
 
 /**
  * Private inner class that handles the event that is generated when the user
@@ -34,70 +32,73 @@ public class OpenFileAction implements ActionListener {
 		int chooserStatus;
 
 		JFileChooser chooser = new JFileChooser();
-		String fileName;
-		String fileContent = null;
+		String fileName = null;
+		String filePath = null;
+		String fileContent = "";
 
 		FileFilter filter = new FileNameExtensionFilter(
-				"Assembler or Machine Code (*.asm, *.maq)", "asm", "maq");
+				"Assembler & Machine Code (*.asm, *.maq)", "asm", "maq");
+
 		chooser.setFileFilter(filter);
+		chooser.setAcceptAllFileFilterUsed(false);
 		chooserStatus = chooser.showOpenDialog(null);
 		if (chooserStatus == JFileChooser.APPROVE_OPTION) {
 			// Get a reference to the selected file.
 			File selectedFile = chooser.getSelectedFile();
 
 			// Get the path of the selected file.
-			fileName = selectedFile.getPath();
+			filePath = selectedFile.getPath();
+			fileName = selectedFile.getName();
 
 			// Open the file.
-			if (!openFile(fileName, fileContent)) {
+			try {
+				fileContent = openFile(filePath);
+				FileType fileType;
+				if (fileName.endsWith(".asm")) {
+					fileType = FileType.ASSEMBLER;
+				} else {
+					fileType = FileType.MACHINE_CODE;
+				}
+				FileEditorPane editorPane = new FileEditorPane(fileName,
+						filePath, fileContent, fileType);
+				editorUmsGui.getMultiTabPane().addTab(editorPane);
+			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(null,
 						"Error reading " + fileName, "Error",
 						JOptionPane.ERROR_MESSAGE);
-			} else {
-				TextEditorPane editorPane = new TextEditorPane(fileName, fileContent);
-				editorUmsGui.getMultiTabPane().addTab(editorPane);
 			}
 		}
 	}
 
 	/**
 	 * The openFile method opens the file specified by filename and reads its
-	 * contents into the text area. The method returns true if the file was
-	 * opened and read successfully, or false if an error occurred.
+	 * contents into the text area.
 	 * 
-	 * @param filename
+	 * @param fileName
 	 *            The name of the file to open.
+	 * @throws IOException
 	 */
 
-	private boolean openFile(String filename, String fileContent) {
-		boolean success;
+	private String openFile(String fileName) throws IOException {
 		String inputLine = "";
+		String fileContent = "";
 		FileReader freader;
 		BufferedReader inputFile;
 
-		try {
-			// Open the file.
-			freader = new FileReader(filename);
-			inputFile = new BufferedReader(freader);
+		// Open the file.
+		freader = new FileReader(fileName);
+		inputFile = new BufferedReader(freader);
 
-			// Read the file contents into the editor.
+		// Read the file contents into the editor.
+		inputLine = inputFile.readLine();
+		while (inputLine != null) {
+			fileContent = fileContent + inputLine + "\n";
 			inputLine = inputFile.readLine();
-			while (inputLine != null) {
-				fileContent = fileContent + inputLine + "\n";
-				inputLine = inputFile.readLine();
-			}
-
-			// Close the file.
-			inputFile.close();
-
-			// Indicate that everything went OK.
-			success = true;
-		} catch (IOException e) {
-			// Something went wrong.
-			success = false;
 		}
 
-		// Return our status.
-		return success;
+		// Close the file.
+		inputFile.close();
+
+		return fileContent;
 	}
 }

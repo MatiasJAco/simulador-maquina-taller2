@@ -88,6 +88,8 @@ public class UmsEditorGui {
 				new CloseFileAction(this));
 		fileMenu.getSaveAsFileMenuItem().addActionListener(
 				new SaveFileAction(this));
+		fileMenu.getSaveFileMenuItem().addActionListener(
+				new SaveFileAction(this));
 		fileMenu.getExitMenuItem().addActionListener(new ExitAction());
 
 		menuBar.add(fileMenu);

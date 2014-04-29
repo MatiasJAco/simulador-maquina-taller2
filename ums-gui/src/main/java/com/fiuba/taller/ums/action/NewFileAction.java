@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.fiuba.taller.ums.UmsEditorGui;
-import com.fiuba.taller.ums.component.TextEditorPane;
+import com.fiuba.taller.ums.component.FileEditorPane;
 
 /**
  * Private inner class that handles the event that is generated when the user
@@ -21,11 +21,13 @@ public class NewFileAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		TextEditorPane editorPane;
+		FileEditorPane editorPane;
 		if (e.getActionCommand() == "Assembler") {
-			editorPane = new TextEditorPane("NewFile" + newFileCounter++ + ".asm");
-		}else{
-			editorPane = new TextEditorPane("NewFile" + newFileCounter++ + ".maq");
+			editorPane = new FileEditorPane("NewFile" + newFileCounter++, null,
+					FileType.ASSEMBLER);
+		} else {
+			editorPane = new FileEditorPane("NewFile" + newFileCounter++, null,
+					FileType.MACHINE_CODE);
 		}
 		editorUmsGui.getMultiTabPane().addTab(editorPane);
 	}

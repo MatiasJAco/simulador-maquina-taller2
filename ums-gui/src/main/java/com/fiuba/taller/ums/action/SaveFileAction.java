@@ -15,7 +15,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fiuba.taller.ums.UmsEditorGui;
-import com.fiuba.taller.ums.component.TextEditorPane;
+import com.fiuba.taller.ums.component.FileEditorPane;
 
 /**
  * Private inner class that handles the event that is generated when the user
@@ -48,14 +48,14 @@ public class SaveFileAction implements ActionListener {
 		// chooser to get the file name. Otherwise, save
 		// the file under the current file name.
 
-		TextEditorPane textEditor = (TextEditorPane) editorUmsGui.getMultiTabPane()
-				.getSelectedTab();
+		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
+				.getMultiTabPane().getSelectedTab();
 		String textContent = textEditor.getContent();
 		String fileName = textEditor.getName();
-		String filePath = null;
+		String filePath = textEditor.getFilePath();
 		boolean saveFileApproved = true;
 
-		if (e.getActionCommand() == "Save As..." || fileName == null) {
+		if (e.getActionCommand() == "Save As..." || filePath == null) {
 			JFileChooser chooser = new JFileChooser();
 			FileFilter filter = new FileNameExtensionFilter(
 					"Assembler or Machine Code (*.asm, *.maq)", "asm", "maq");
@@ -81,6 +81,7 @@ public class SaveFileAction implements ActionListener {
 						"Error", JOptionPane.ERROR_MESSAGE);
 			} else {
 				editorUmsGui.getMultiTabPane().setSelectedTabName(fileName);
+				textEditor.setFilePath(filePath);
 			}
 		}
 
