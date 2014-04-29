@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fiuba.taller.ums.UmsEditorGui;
+import com.fiuba.taller.ums.component.TextEditorPane;
 
 /**
  * Private inner class that handles the event that is generated when the user
@@ -23,10 +24,6 @@ import com.fiuba.taller.ums.UmsEditorGui;
 
 public class OpenFileAction implements ActionListener {
 
-	private String fileName; // To hold the file name
-	private JTextPane editorText;
-	private JFrame frame;
-	
 	private UmsEditorGui editorUmsGui;
 
 	public OpenFileAction(UmsEditorGui editorUmsGui) {
@@ -37,6 +34,8 @@ public class OpenFileAction implements ActionListener {
 		int chooserStatus;
 
 		JFileChooser chooser = new JFileChooser();
+		String fileName;
+		String fileContent = null;
 
 		FileFilter filter = new FileNameExtensionFilter(
 				"Assembler or Machine Code (*.asm, *.maq)", "asm", "maq");
@@ -50,12 +49,13 @@ public class OpenFileAction implements ActionListener {
 			fileName = selectedFile.getPath();
 
 			// Open the file.
-			if (!openFile(fileName)) {
+			if (!openFile(fileName, fileContent)) {
 				JOptionPane.showMessageDialog(null,
 						"Error reading " + fileName, "Error",
 						JOptionPane.ERROR_MESSAGE);
 			} else {
-				editorUmsGui.getMultiTabPane().addTab(fileName);
+				TextEditorPane editorPane = new TextEditorPane(fileName, fileContent);
+				editorUmsGui.getMultiTabPane().addTab(editorPane);
 			}
 		}
 	}
@@ -69,9 +69,9 @@ public class OpenFileAction implements ActionListener {
 	 *            The name of the file to open.
 	 */
 
-	private boolean openFile(String filename) {
+	private boolean openFile(String filename, String fileContent) {
 		boolean success;
-		String inputLine, editorString = "";
+		String inputLine = "";
 		FileReader freader;
 		BufferedReader inputFile;
 
@@ -83,10 +83,9 @@ public class OpenFileAction implements ActionListener {
 			// Read the file contents into the editor.
 			inputLine = inputFile.readLine();
 			while (inputLine != null) {
-				editorString = editorString + inputLine + "\n";
+				fileContent = fileContent + inputLine + "\n";
 				inputLine = inputFile.readLine();
 			}
-			editorText.setText(editorString);
 
 			// Close the file.
 			inputFile.close();

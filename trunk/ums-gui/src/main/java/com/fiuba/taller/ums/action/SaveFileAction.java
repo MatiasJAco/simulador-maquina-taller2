@@ -48,11 +48,12 @@ public class SaveFileAction implements ActionListener {
 		// chooser to get the file name. Otherwise, save
 		// the file under the current file name.
 
-		TextEditorPane textEditor = editorUmsGui.getMultiTabPane()
+		TextEditorPane textEditor = (TextEditorPane) editorUmsGui.getMultiTabPane()
 				.getSelectedTab();
 		String textContent = textEditor.getContent();
 		String fileName = textEditor.getName();
-		boolean saveFile = true;
+		String filePath = null;
+		boolean saveFileApproved = true;
 
 		if (e.getActionCommand() == "Save As..." || fileName == null) {
 			JFileChooser chooser = new JFileChooser();
@@ -66,23 +67,17 @@ public class SaveFileAction implements ActionListener {
 				File selectedFile = chooser.getSelectedFile();
 
 				// Get the path of the selected file.
-				fileName = selectedFile.getPath();
+				filePath = selectedFile.getPath();
+				fileName = selectedFile.getName();
 			} else {
-				saveFile = false;
+				saveFileApproved = false;
 			}
 		}
-		String languageCode = editorUmsGui.getLanguageCodeMenu()
-				.getLanguageCodeSelected();
 
-		if (saveFile) {
-			if (languageCode == "Assembler") {
-				fileName = fileName + ".asm";
-			} else {
-				fileName = fileName + ".maq";
-			}
+		if (saveFileApproved) {
 			// Save the file.
 			if (!saveFile(fileName, textContent)) {
-				JOptionPane.showMessageDialog(null, "Error saving " + fileName,
+				JOptionPane.showMessageDialog(null, "Error saving " + filePath,
 						"Error", JOptionPane.ERROR_MESSAGE);
 			} else {
 				editorUmsGui.getMultiTabPane().setSelectedTabName(fileName);

@@ -93,8 +93,8 @@ public class UmsEditorGui {
 		menuBar.add(fileMenu);
 
 		// Language Code Menu
-		languageCodeMenu = new LanguageCodeMenu();
-		menuBar.add(languageCodeMenu);
+		// languageCodeMenu = new LanguageCodeMenu();
+		// menuBar.add(languageCodeMenu);
 
 		// Project menu
 		projectMenu = new ProjectMenu();

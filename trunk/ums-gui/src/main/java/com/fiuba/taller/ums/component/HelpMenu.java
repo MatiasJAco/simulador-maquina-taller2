@@ -5,8 +5,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
-import com.fiuba.taller.ums.action.AboutAction;
-
 public class HelpMenu extends JMenu {
 
 	/**

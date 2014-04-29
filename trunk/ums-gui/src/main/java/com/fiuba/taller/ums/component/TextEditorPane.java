@@ -21,6 +21,11 @@ public class TextEditorPane extends JScrollPane {
 		this.setName(name);
 	}
 
+	public TextEditorPane(String tabName, String tabContent) {
+		this(tabName);
+		editorText.setText(tabContent);
+	}
+
 	public String getContent() {
 		return editorText.getText();
 	}

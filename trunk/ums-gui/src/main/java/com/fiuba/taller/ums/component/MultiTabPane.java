@@ -1,5 +1,6 @@
 package com.fiuba.taller.ums.component;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 public class MultiTabPane extends JTabbedPane {
@@ -12,20 +13,20 @@ public class MultiTabPane extends JTabbedPane {
 	public MultiTabPane() {
 	}
 
-	public void addTab(String tabName) {
-		TextEditorPane textEditorPane = new TextEditorPane(tabName);
-		this.add(textEditorPane);
+	public void addTab(JScrollPane componentPane) {
+		this.add(componentPane);
+		this.setSelectedIndex(this.getTabCount()-1);
 	}
 
 	public void closeTab() {
-		TextEditorPane textEditorPane = (TextEditorPane) this
+		JScrollPane componentPane = (JScrollPane) this
 				.getSelectedComponent();
-		textEditorPane.removeAll();
-		this.remove(textEditorPane);
+		componentPane.removeAll();;
+		this.remove(componentPane);
 	}
 
-	public TextEditorPane getSelectedTab() {
-		return (TextEditorPane) this.getSelectedComponent();
+	public JScrollPane getSelectedTab() {
+		return (JScrollPane) this.getSelectedComponent();
 	}
 
 	public void setSelectedTabName(String name) {

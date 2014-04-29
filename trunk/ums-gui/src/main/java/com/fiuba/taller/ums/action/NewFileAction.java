@@ -1,15 +1,15 @@
 package com.fiuba.taller.ums.action;
 
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextPane;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fiuba.taller.ums.UmsEditorGui;
-import com.fiuba.taller.ums.component.TextLineNumber;
+import com.fiuba.taller.ums.component.TextEditorPane;
 
 /**
  * Private inner class that handles the event that is generated when the user
@@ -26,6 +26,12 @@ public class NewFileAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		editorUmsGui.getMultiTabPane().addTab("New File " + newFileCounter++);
+		TextEditorPane editorPane;
+		if (e.getActionCommand() == "Assembler") {
+			editorPane = new TextEditorPane("NewFile" + newFileCounter++ + ".asm");
+		}else{
+			editorPane = new TextEditorPane("NewFile" + newFileCounter++ + ".maq");
+		}
+		editorUmsGui.getMultiTabPane().addTab(editorPane);
 	}
 }
