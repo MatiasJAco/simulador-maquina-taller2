@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.fiuba.taller.ums.FileType;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
 

@@ -3,7 +3,7 @@ package com.fiuba.taller.ums.component;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import com.fiuba.taller.ums.action.FileType;
+import com.fiuba.taller.ums.FileType;
 
 public class FileEditorPane extends JScrollPane {
 
