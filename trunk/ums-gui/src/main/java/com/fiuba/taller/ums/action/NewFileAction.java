@@ -3,6 +3,9 @@ package com.fiuba.taller.ums.action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import com.fiuba.taller.ums.FileType;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
@@ -24,12 +27,14 @@ public class NewFileAction implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		FileEditorPane editorPane;
 		if (e.getActionCommand() == "Assembler") {
-			editorPane = new FileEditorPane("NewFile" + newFileCounter++, null,
-					FileType.ASSEMBLER);
+			editorPane = new FileEditorPane("NewFile" + newFileCounter++
+					+ ".asm", null, FileType.ASSEMBLER);
 		} else {
-			editorPane = new FileEditorPane("NewFile" + newFileCounter++, null,
-					FileType.MACHINE_CODE);
+			editorPane = new FileEditorPane("NewFile" + newFileCounter++
+					+ ".maq", null, FileType.MACHINE_CODE);
+			;
 		}
-		editorUmsGui.getMultiTabPane().addTab(editorPane);
+		editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(),
+				editorPane.getFilePath());
 	}
 }

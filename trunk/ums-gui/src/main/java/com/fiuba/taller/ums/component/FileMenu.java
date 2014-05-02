@@ -28,8 +28,7 @@ public class FileMenu extends JMenu {
 
 		// File operations menu
 		newFileMenu = new JMenu("New");
-		newFileMenu.setIcon(new ImageIcon(UmsEditorGui.class
-				.getResource("/img/icon/NewFile.png")));
+		newFileMenu.setIcon(new ImageIcon(getClass().getResource("/img/icon/NewFile.png")));
 		this.add(newFileMenu);
 
 		newAssemblerFileItem = new JMenuItem("Assembler");

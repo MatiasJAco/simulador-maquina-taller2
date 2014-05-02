@@ -14,6 +14,7 @@ import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import com.fiuba.taller.ums.FileType;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
 
@@ -24,17 +25,7 @@ import com.fiuba.taller.ums.component.FileEditorPane;
 
 public class SaveFileAction implements ActionListener {
 
-	private String fileName;
-	private JTextPane editorText;
-	private JFrame frmUms;
-
 	private UmsEditorGui editorUmsGui;
-
-	public SaveFileAction(JFrame frmUms, JTextPane editorText, String fileName) {
-		this.editorText = editorText;
-		this.fileName = fileName;
-		this.frmUms = frmUms;
-	}
 
 	public SaveFileAction(UmsEditorGui editorUmsGui) {
 		this.editorUmsGui = editorUmsGui;
@@ -52,14 +43,23 @@ public class SaveFileAction implements ActionListener {
 				.getMultiTabPane().getSelectedTab();
 		String textContent = textEditor.getContent();
 		String fileName = textEditor.getName();
+		String fileExtension;
 		String filePath = textEditor.getFilePath();
 		boolean saveFileApproved = true;
 
 		if (e.getActionCommand() == "Save As..." || filePath == null) {
 			JFileChooser chooser = new JFileChooser();
-			FileFilter filter = new FileNameExtensionFilter(
-					"Assembler or Machine Code (*.asm, *.maq)", "asm", "maq");
+			FileFilter filter;
+			if (textEditor.getFileType() == FileType.ASSEMBLER) {
+				filter = new FileNameExtensionFilter("Assembler (*.asm)", "asm");
+				fileExtension = ".asm";
+			} else {
+				filter = new FileNameExtensionFilter("Machine Code (*.maq)",
+						"maq");
+				fileExtension = ".maq";
+			}
 			chooser.setFileFilter(filter);
+			chooser.setSelectedFile(new File(fileName));
 			chooserStatus = chooser.showSaveDialog(null);
 
 			if (chooserStatus == JFileChooser.APPROVE_OPTION) {
@@ -67,8 +67,13 @@ public class SaveFileAction implements ActionListener {
 				File selectedFile = chooser.getSelectedFile();
 
 				// Get the path of the selected file.
-				filePath = selectedFile.getPath();
-				fileName = selectedFile.getName();
+				if (!selectedFile.getName().endsWith(fileExtension)) {
+					filePath = selectedFile.getPath() + fileExtension;
+					fileName = selectedFile.getName() + fileExtension;
+				} else {
+					filePath = selectedFile.getPath();
+					fileName = selectedFile.getName();
+				}
 			} else {
 				saveFileApproved = false;
 			}
@@ -76,11 +81,12 @@ public class SaveFileAction implements ActionListener {
 
 		if (saveFileApproved) {
 			// Save the file.
-			if (!saveFile(fileName, textContent)) {
+			if (!saveFile(filePath, textContent)) {
 				JOptionPane.showMessageDialog(null, "Error saving " + filePath,
 						"Error", JOptionPane.ERROR_MESSAGE);
 			} else {
 				editorUmsGui.getMultiTabPane().setSelectedTabName(fileName);
+				editorUmsGui.getMultiTabPane().setSelectedTabToolTip(filePath);
 				textEditor.setFilePath(filePath);
 			}
 		}
