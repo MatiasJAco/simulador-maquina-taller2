@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -51,6 +53,7 @@ public class OpenFileAction implements ActionListener {
 			filePath = selectedFile.getPath();
 			fileName = selectedFile.getName();
 
+
 			// Open the file.
 			try {
 				fileContent = openFile(filePath);
@@ -62,10 +65,11 @@ public class OpenFileAction implements ActionListener {
 				}
 				FileEditorPane editorPane = new FileEditorPane(fileName,
 						filePath, fileContent, fileType);
-				editorUmsGui.getMultiTabPane().addTab(editorPane);
+
+				editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(), editorPane.getFilePath());
 			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(null,
-						"Error reading " + fileName, "Error",
+						"Error reading " + filePath, "Error",
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}
