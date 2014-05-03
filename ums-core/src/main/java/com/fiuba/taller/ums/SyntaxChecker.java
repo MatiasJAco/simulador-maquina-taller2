@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 public class SyntaxChecker {
 
 	private static Logger log;
+//	private MainLogger mlogger;
 
 	private enum MustUseSwitch{
 		LDM,
@@ -33,9 +34,11 @@ public class SyntaxChecker {
 	private static final String  MAQVALUES= "123456789ABC";
 
 	public static boolean checkAssembly(String inst) {
-		log = Logger.getLogger("UMS Log");
+//		log = Logger.getLogger("UMS Log");
 		boolean result=true;
-		log.info("Verificando sintaxis de instruccion : "+ inst);
+//		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+
 		String[] instructionArray = inst.split(" ");
 		String instName = instructionArray[0];
 		String instParam="";
@@ -44,36 +47,36 @@ public class SyntaxChecker {
 		if(ASSEMBLYVALUES.contains(instName))
 			result=validateParametersAssembly(instParam,instName);
 		else{
-			log.error("No se reconoce la instruccion: "+instName+" .");
+			MainLogger.logError("No se reconoce la instruccion: "+instName+" .");
 			result = false;
 		}
 
 
 		if (!result)
-			log.error("Error al interpretar la instruccion: "+inst+" .");
+			MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
 		else
-			log.info("Sintaxis correcta");
+			MainLogger.logInfo("Sintaxis correcta");
 
 		return result;
 	}
 
 	public static boolean checkMaq(String inst) {
-		log = Logger.getLogger("UMS Log");
+//		log = Logger.getLogger("UMS Log");
 		boolean result=true;
-		log.info("Verificando sintaxis de instruccion : "+ inst);
+		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
 		char opCode = inst.charAt(0);
 		String instParam=inst.substring(1);
 		if(MAQVALUES.contains(Character.toString(opCode)))
 			result=validateParametersMaq(instParam, opCode);
 		else{
-			log.error("No se reconoce el codigo de operacion: "+opCode+" .");
+			MainLogger.logError("No se reconoce el codigo de operacion: "+opCode+" .");
 			result=false;
 		}
 
 		if (!result)
-			log.error("Error al interpretar la instruccion: "+inst+" .");
+			MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
 		else
-			log.info("Sintaxis correcta");
+			MainLogger.logInfo("Sintaxis correcta");
 
 		return result;
 
@@ -103,7 +106,7 @@ public class SyntaxChecker {
 			if(instParam.equals("000"))
 				result = true;
 			else
-				log.error("Valor de parametros incorrecto");
+				MainLogger.logError("Valor de parametros incorrecto");
 			break;
 		case '1':
 		case '2':
@@ -115,7 +118,7 @@ public class SyntaxChecker {
 			if(instParam.charAt(0) == '0')
 				result = true;
 			else
-				log.error("Valor de parametros incorrecto");
+				MainLogger.logError("Valor de parametros incorrecto");
 			break;
 		case '5':
 		case '6':
@@ -128,7 +131,7 @@ public class SyntaxChecker {
 			if(instParam.charAt(1) == '0')
 				result = true;
 			else
-				log.error("Valor de parametros incorrecto");
+				MainLogger.logError("Valor de parametros incorrecto");
 			break;
 		default: break;
 		}
@@ -160,12 +163,12 @@ public class SyntaxChecker {
 		boolean result = true;
 		if(paramArray.length >3){
 			String msg = "Cantidad de parametros excedida. Hay "+ paramArray.length + " parametros.";
-			log.error(msg);
+			MainLogger.logError(msg);
 			result = false;
 		}
 		if(paramArray.length <2 && !instName.equals("ret")){
 			String msg = "Cantidad de parametros insuficiente. Hay "+ paramArray.length + " parametros.";
-			log.error(msg);
+			MainLogger.logError(msg);
 			result = false;
 		}		
 
@@ -175,7 +178,7 @@ public class SyntaxChecker {
 
 
 	public static String getMaqInstruction(String inst) {
-		log.info("Traduciendo a lenguaje maquina: "+ inst);
+		MainLogger.logInfo("Traduciendo a lenguaje maquina: "+ inst);
 		String[] instructionArray = inst.split(" ");
 		String instName = instructionArray[0];
 		String instParam="";
@@ -184,7 +187,7 @@ public class SyntaxChecker {
 		String opCode = getOpCode(instName);
 		String param = getParameters(instParam, opCode.charAt(0));
 		String result = opCode + param;
-		log.info("Traduccion completada satisfactoriamente: "+ result);
+		MainLogger.logInfo("Traduccion completada satisfactoriamente: "+ result);
 		return result;
 	}
 
@@ -204,7 +207,7 @@ public class SyntaxChecker {
 		if (string.length() > 2){
 
 			String msg = "Tamanio de parametro excedido. Supera los 2 bytes. Tamanio: " + string.length() + ".";
-			log.error(msg);
+			MainLogger.logError(msg);
 			result = false;
 //			throw new InstructionParametersException(msg);
 
@@ -217,12 +220,12 @@ public class SyntaxChecker {
 		boolean result = true;
 		if(paramArray.length >3){
 			String msg = "Cantidad de parametros excedida. Hay "+ paramArray.length + " parametros.";
-			log.error(msg);
+			MainLogger.logError(msg);
 			result = false;			
 		}
 		if(paramArray.length <3 ){
 			String msg = "Cantidad de parametros insuficiente. Hay "+ paramArray.length + " parametros.";
-			log.error(msg);
+			MainLogger.logError(msg);
 			result = false;			
 		}
 		return result;		
@@ -294,11 +297,11 @@ public class SyntaxChecker {
 			}
 		}catch(InputFileFormatException exc){
 
-			log.error("El archivo input no tiene el formato aceptado.");
+			MainLogger.logError("El archivo input no tiene el formato aceptado.");
 
 		}
 		catch(IllegalArgumentException exc){
-			log.error("El archivo input no tiene el formato aceptado.");
+			MainLogger.logError("El archivo input no tiene el formato aceptado.");
 			return "X";
 		}
 		return result;

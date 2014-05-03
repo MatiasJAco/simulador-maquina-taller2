@@ -1,5 +1,8 @@
 package com.fiuba.taller.ums.action;
 
+import com.fiuba.taller.ums.component.JTextPaneAppender;
+import com.fiuba.taller.ums.MainLogger;
+
 import java.awt.BorderLayout;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -40,7 +43,9 @@ public class CompileAction implements ActionListener {
 
 		frame.setVisible(true);
 
-		
+		MainLogger.init(
+				new JTextPaneAppender(editorText),
+				org.apache.log4j.Level.TRACE);
 		
 		//guardar archivo
 		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
