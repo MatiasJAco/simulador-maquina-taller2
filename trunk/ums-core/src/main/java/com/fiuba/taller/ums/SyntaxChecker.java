@@ -206,7 +206,7 @@ public class SyntaxChecker {
 			String msg = "Tamanio de parametro excedido. Supera los 2 bytes. Tamanio: " + string.length() + ".";
 			log.error(msg);
 			result = false;
-			throw new InstructionParametersException(msg);
+//			throw new InstructionParametersException(msg);
 
 		}
 		return result;
