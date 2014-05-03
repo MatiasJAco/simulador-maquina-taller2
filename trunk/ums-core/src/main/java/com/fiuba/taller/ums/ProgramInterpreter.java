@@ -42,7 +42,7 @@ public class ProgramInterpreter {
 		// The name of the file to open.
 		File input = new File(inputFile);
 
-		String f = generateOutputFilename(inputFile);
+		String f = generateOutputFilePath(inputFile);
 
 		// This will reference one line at a time
 		String line = null;
@@ -87,7 +87,7 @@ public class ProgramInterpreter {
 		}
 	}
 
-	private String generateOutputFilename(String inputFile) {
+	public String generateOutputFilePath(String inputFile) {
 		String result = "";		
 		//		BasicConfigurator.configure();
 		//        log = Logger.getLogger("UMS Log");
@@ -175,5 +175,6 @@ public class ProgramInterpreter {
 		return SyntaxChecker.checkMaq(line);
 	}
 
+	
 
 }

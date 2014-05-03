@@ -3,14 +3,18 @@ package com.fiuba.taller.ums.action;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import com.fiuba.taller.ums.FileType;
 import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.SyntaxChecker;
 import com.fiuba.taller.ums.UmsEditorGui;
@@ -18,50 +22,87 @@ import com.fiuba.taller.ums.component.FileEditorPane;
 
 public class ConvertAction implements ActionListener {
 
-	private static final String TEMPASMFILE = "c:\\\\Temp\\\\test.asm";
+	private static final String TEMPASMFILE = "c:\\\\Temp\\\\default.asm";
+	private static final String TEMPMAQFILE = "c:\\\\Temp\\\\default.maq";
 	private UmsEditorGui editorUmsGui;
-	
+
 	public ConvertAction(UmsEditorGui editorUmsGui) {
 		this.editorUmsGui = editorUmsGui;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		//guardar archivo
+
+
 		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
 				.getMultiTabPane().getSelectedTab();
-		String textContent = textEditor.getContent();
-		if(saveFile(TEMPASMFILE, textContent)){
-			//Compilar (chequear sintaxis)
-			ProgramInterpreter pi = new ProgramInterpreter();
-			if(!pi.compileAssembly(TEMPASMFILE)){
-				//Cancelar conversion y mostrar error.
-			}else{
-				//Generar el maq
-				pi.generateAbsoluteCodeFile(TEMPASMFILE);
-				//Devolverlo a la pantalla
-				
+		//Solo si se trata de un assembler.
+		if (textEditor.getFileType() == FileType.ASSEMBLER){
+
+			String textContent = textEditor.getContent();
+			//Get filepath if exists, if not use temp 
+			String filepath = textEditor.getFilePath();
+			if(filepath == null)
+				filepath=TEMPASMFILE;
+			//Save file 
+			if(saveFile(filepath, textContent)){
+				//Compilar (chequear sintaxis)
+				ProgramInterpreter pi = new ProgramInterpreter();
+				if(!pi.compileAssembly(filepath)){
+					//Cancelar conversion y mostrar error.
+				}else{
+					//Generar el maq
+					pi.generateAbsoluteCodeFile(filepath);
+
+
+					//Abrir el archivo creado
+					String maqFilePath = pi.generateOutputFilePath(filepath);
+					String fileName= maqFilePath.substring(maqFilePath.lastIndexOf('\\') + 1);
+					FileType fileType;
+					try {
+						String fileContent = openFile(maqFilePath);					
+						fileType = FileType.MACHINE_CODE;						
+						FileEditorPane editorPane = new FileEditorPane(fileName,
+								maqFilePath, fileContent, fileType);
+						editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(), editorPane.getFilePath());
+					} catch (IOException ex) {
+						JOptionPane.showMessageDialog(null,
+								"Error reading " + maqFilePath, "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+
+					try {
+						String fileContent = openFile(TEMPMAQFILE);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					////Devolverlo a la pantalla
+
+
 				};
+			};
+
 		};
-		
-		
-		
-		
+
+
 		// TODO Auto-generated method stub
 		JFrame frame = new JFrame();
 		frame.setTitle("Convertion Log");
 		frame.setBounds(0, 0,
 				200, 300);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+
 		JTextPane editorText = new JTextPane();
 		editorText.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(editorText);
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-		
+
 		frame.setVisible(true);
+
+
 	}
 
-	
+
 	/**
 	 * The saveFile method saves the contents of the text area to a file. The
 	 * method returns true if the file was saved successfully, or false if an
@@ -99,4 +140,29 @@ public class ConvertAction implements ActionListener {
 		// Return our status.
 		return success;
 	}
+
+
+	private String openFile(String fileName) throws IOException {
+		String inputLine = "";
+		String fileContent = "";
+		FileReader freader;
+		BufferedReader inputFile;
+
+		// Open the file.
+		freader = new FileReader(fileName);
+		inputFile = new BufferedReader(freader);
+
+		// Read the file contents into the editor.
+		inputLine = inputFile.readLine();
+		while (inputLine != null) {
+			fileContent = fileContent + inputLine + "\n";
+			inputLine = inputFile.readLine();
+		}
+
+		// Close the file.
+		inputFile.close();
+
+		return fileContent;
+	}
+
 }
