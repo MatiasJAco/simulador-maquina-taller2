@@ -1,7 +1,6 @@
 package com.fiuba.taller.ums.action;
 
 import java.awt.BorderLayout;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
@@ -12,60 +11,67 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import com.fiuba.taller.ums.FileType;
 import com.fiuba.taller.ums.ProgramInterpreter;
+import com.fiuba.taller.ums.SyntaxChecker;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
 
-public class CompileAction implements ActionListener {
-	private static final String TEMPASMFILE = "c:\\\\Temp\\\\input.asm";
-	private static final String TEMPMAQFILE = "c:\\\\Temp\\\\input.maq";
-	private UmsEditorGui editorUmsGui;
+public class ConvertAction implements ActionListener {
 
-	public CompileAction(UmsEditorGui editorUmsGui) {
+	private static final String TEMPASMFILE = "c:\\\\Temp\\\\test.asm";
+	private UmsEditorGui editorUmsGui;
+	
+	public ConvertAction(UmsEditorGui editorUmsGui) {
 		this.editorUmsGui = editorUmsGui;
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame frame = new JFrame();
-		frame.setTitle("Compilation Log");
-		frame.setBounds(0, 0,
-				200, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		JTextPane editorText = new JTextPane();
-		editorText.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(editorText);
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-		frame.setVisible(true);
-
-		
-		
 		//guardar archivo
 		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
 				.getMultiTabPane().getSelectedTab();
 		String textContent = textEditor.getContent();
-		String tempfile="";
-		if (textEditor.getFileType() == FileType.ASSEMBLER)
-			tempfile=TEMPASMFILE;
-		else
-			tempfile=TEMPMAQFILE;
-		
-		
-		if(saveFile(tempfile, textContent)){
+		if(saveFile(TEMPASMFILE, textContent)){
 			//Compilar (chequear sintaxis)
 			ProgramInterpreter pi = new ProgramInterpreter();
-			if (textEditor.getFileType() == FileType.ASSEMBLER)
-				pi.compileAssembly(tempfile);
-			else
-				pi.compileMachinecode(tempfile);
+			if(!pi.compileAssembly(TEMPASMFILE)){
+				//Cancelar conversion y mostrar error.
+			}else{
+				//Generar el maq
+				pi.generateAbsoluteCodeFile(TEMPASMFILE);
+				//Devolverlo a la pantalla
+				
+				};
 		};
+		
+		
+		
+		
 		// TODO Auto-generated method stub
-			}
+		JFrame frame = new JFrame();
+		frame.setTitle("Convertion Log");
+		frame.setBounds(0, 0,
+				200, 300);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		JTextPane editorText = new JTextPane();
+		editorText.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(editorText);
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		frame.setVisible(true);
+	}
 
 	
-	
+	/**
+	 * The saveFile method saves the contents of the text area to a file. The
+	 * method returns true if the file was saved successfully, or false if an
+	 * error occurred.
+	 * 
+	 * @param filename
+	 *            The name of the file.
+	 * @return true if successful, false otherwise.
+	 */
+
 	private boolean saveFile(String filename, String fileContent) {
 		boolean success;
 		FileWriter fwriter;
@@ -93,5 +99,4 @@ public class CompileAction implements ActionListener {
 		// Return our status.
 		return success;
 	}
-
 }

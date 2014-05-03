@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
 import com.fiuba.taller.ums.action.CloseFileAction;
+import com.fiuba.taller.ums.action.CompileAction;
+import com.fiuba.taller.ums.action.ConvertAction;
 import com.fiuba.taller.ums.action.ExitAction;
 import com.fiuba.taller.ums.action.NewFileAction;
 import com.fiuba.taller.ums.action.OpenFileAction;
@@ -101,7 +103,10 @@ public class UmsEditorGui {
 		// Project menu
 		projectMenu = new ProjectMenu();
 		menuBar.add(projectMenu);
-
+		projectMenu.getCompileMenuItem().addActionListener(new CompileAction(this));
+		projectMenu.getAssemToCodMachMenuItem().addActionListener(new ConvertAction(this));
+		
+		
 		// Help menu
 		helpMenu = new HelpMenu();
 		menuBar.add(helpMenu);
