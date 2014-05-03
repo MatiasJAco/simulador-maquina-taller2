@@ -15,7 +15,7 @@ public class ProgramInterpreter {
 	private Logger log;
 	private static final String FILESYSTEM_SEPARATOR = "\\\\";
 	private static final String ASM_EXT = ".asm";
-	private static final String CODABS_EXT = ".mq";
+	private static final String CODABS_EXT = ".maq";
 
 	public ProgramInterpreter() {
 		BasicConfigurator.configure();
@@ -25,18 +25,18 @@ public class ProgramInterpreter {
 	public String interpret (String inst) throws InputFileFormatException{
 		//ldm R,XY
 		String result="";
-		
+
 		if(SyntaxChecker.checkAssembly(inst)){
 			result = SyntaxChecker.getMaqInstruction(inst);
 		}else{
 			result = "ERROR";
 		}
-		
-		
+
+
 
 		return result;
 	}
-	
+
 
 	public void generateAbsoluteCodeFile(String inputFile) {
 		// The name of the file to open.
@@ -65,7 +65,7 @@ public class ProgramInterpreter {
 			}	
 
 			// Always close files.
-			
+
 			scanner.close();
 
 			wr.close();
@@ -89,15 +89,91 @@ public class ProgramInterpreter {
 
 	private String generateOutputFilename(String inputFile) {
 		String result = "";		
-//		BasicConfigurator.configure();
-//        log = Logger.getLogger("UMS Log");
-//		log.warn("un warning");
-//        log.error("un error");
+		//		BasicConfigurator.configure();
+		//        log = Logger.getLogger("UMS Log");
+		//		log.warn("un warning");
+		//        log.error("un error");
 		result = inputFile.replace(ASM_EXT,CODABS_EXT);
 		return result;
 	}
 
+	public boolean compileAssembly(String inputFile) {
+		boolean result = true;
+		// The name of the file to open.
+		File input = new File(inputFile);
+		// This will reference one line at a time
+		String line = null;
+		try {
+			//Open  file reader
+			Scanner scanner = new Scanner(input);
 
+			while (scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				if(!this.checkAssemblyLine(line))
+					result=false;				
+			}	
+
+			// Always close files.
+			scanner.close();
+		}
+		catch(FileNotFoundException ex) {
+			System.out.println(
+					"Unable to open file '" + 
+							input + "'");				
+		}
+		catch(IOException ex) {
+			System.out.println(
+					"Error reading file '" 
+							+ input + "'");					
+			// Or we could just do this: 
+			// ex.printStackTrace();
+		}
+
+		return result;
+	}
+
+	private boolean checkAssemblyLine(String inst) {
+		return SyntaxChecker.checkAssembly(inst);
+	}
+
+	public boolean compileMachinecode(String inputFile) {
+		boolean result = true;
+		// The name of the file to open.
+		File input = new File(inputFile);
+		// This will reference one line at a time
+		String line = null;
+		try {
+			//Open  file reader
+			Scanner scanner = new Scanner(input);
+
+			while (scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				if(!this.checkMachineLine(line))
+					result=false;				
+			}	
+
+			// Always close files.
+			scanner.close();
+		}
+		catch(FileNotFoundException ex) {
+			System.out.println(
+					"Unable to open file '" + 
+							input + "'");				
+		}
+		catch(IOException ex) {
+			System.out.println(
+					"Error reading file '" 
+							+ input + "'");					
+			// Or we could just do this: 
+			// ex.printStackTrace();
+		}
+
+		return result;
+	}
+
+	private boolean checkMachineLine(String line) {
+		return SyntaxChecker.checkMaq(line);
+	}
 
 
 }
