@@ -34,4 +34,11 @@ public class ProjectMenu extends JMenu {
 
 	}
 
+	public JMenuItem getCompileMenuItem() {
+		return compileMenuItem;
+	}
+	
+	public JMenuItem getAssemToCodMachMenuItem() {
+		return assemToCodMachMenuItem;
+	}
 }
