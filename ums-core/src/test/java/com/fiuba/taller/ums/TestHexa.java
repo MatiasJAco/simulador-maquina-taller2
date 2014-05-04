@@ -80,6 +80,13 @@ public class TestHexa {
 	}
 
 	//Decimal a hexa de 2 digitos
+		@Test
+		public void testDecimalAHexaUNO() {
+			String result = HexaConverter.decimalToBase(10,16,8);
+			assertEquals("0A", result);		
+		}
+	
+	//Decimal a hexa de 2 digitos
 	@Test
 	public void testDecimalAHexaDos() {
 		String result = HexaConverter.decimalToBase(239,16);

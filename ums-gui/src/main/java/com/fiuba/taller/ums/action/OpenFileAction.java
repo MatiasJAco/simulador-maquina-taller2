@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fiuba.taller.ums.FileType;
+import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
 
@@ -65,6 +66,9 @@ public class OpenFileAction implements ActionListener {
 							filePath, fileContent, fileType, false);
 				} else {
 					fileType = FileType.MACHINE_CODE;
+					//Memory addresses removed from string of maq file.
+					ProgramInterpreter pi = new ProgramInterpreter();
+					fileContent = pi.removeMemoryAddresses(fileContent);
 					editorPane = new FileEditorPane(fileName,
 							filePath, fileContent, fileType, true);
 				}
