@@ -5,14 +5,14 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-import com.fiuba.taller.ums.component.DecToHexConverter;
+import com.fiuba.taller.ums.component.DecToHexCalculatorWindow;
 
-public class DecToHexCalcAction implements ActionListener {
+public class DecToHexCalculatorAction implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
-		JFrame frmDecToHex = new DecToHexConverter();
+		JFrame frmDecToHex = new DecToHexCalculatorWindow();
 		frmDecToHex.setVisible(true);
 	}
 

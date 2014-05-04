@@ -1,10 +1,11 @@
 package com.fiuba.taller.ums.component;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
 import com.fiuba.taller.ums.UmsEditorGui;
-import com.fiuba.taller.ums.action.DecToHexCalcAction;
+import com.fiuba.taller.ums.action.DecToHexCalculatorAction;
 
 public class ExtraMenu extends JMenu {
 
@@ -20,8 +21,10 @@ public class ExtraMenu extends JMenu {
 
 		// Decimal to Hexadecimal calculator
 		decToHexCalcMenuItem = new JMenuItem("DEC to HEX calculator");
+		decToHexCalcMenuItem.setIcon(new ImageIcon(getClass().getResource(
+				"/img/icon/DecToHexCalculator.png")));
 		this.add(decToHexCalcMenuItem);
-		decToHexCalcMenuItem.addActionListener(new DecToHexCalcAction());
+		decToHexCalcMenuItem.addActionListener(new DecToHexCalculatorAction());
 	}
 
 	public JMenuItem getDecToHexCalcMenuItem() {

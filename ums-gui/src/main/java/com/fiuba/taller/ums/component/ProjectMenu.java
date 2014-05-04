@@ -29,6 +29,8 @@ public class ProjectMenu extends JMenu {
 
 		// Convert code menu @ Project menu
 		converterMenu = new JMenu("Converter");
+		converterMenu.setIcon(new ImageIcon(getClass().getResource(
+				"/img/icon/Converter.png")));
 		this.add(converterMenu);
 
 		// Compile code item @ Convert code menu

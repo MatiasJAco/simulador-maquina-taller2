@@ -12,7 +12,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
-public class DecToHexConverter extends JFrame {
+public class DecToHexCalculatorWindow extends JFrame {
 
 	/**
 	 * 
@@ -22,7 +22,7 @@ public class DecToHexConverter extends JFrame {
 	private JTextField decimalField;
 	private JTextField hexaField;
 
-	public DecToHexConverter() {
+	public DecToHexCalculatorWindow() {
 		super();
 		setTitle("DEC to HEX Converter");
 		setBounds(100, 100, 350, 160);

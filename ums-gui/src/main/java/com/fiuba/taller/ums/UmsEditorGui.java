@@ -9,7 +9,7 @@ import javax.swing.JMenuBar;
 import com.fiuba.taller.ums.action.CloseFileAction;
 import com.fiuba.taller.ums.action.CompileAction;
 import com.fiuba.taller.ums.action.ConvertAction;
-import com.fiuba.taller.ums.action.DecToHexCalcAction;
+import com.fiuba.taller.ums.action.DecToHexCalculatorAction;
 import com.fiuba.taller.ums.action.ExitAction;
 import com.fiuba.taller.ums.action.NewFileAction;
 import com.fiuba.taller.ums.action.OpenFileAction;

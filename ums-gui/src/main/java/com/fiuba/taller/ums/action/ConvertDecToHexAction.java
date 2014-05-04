@@ -3,13 +3,13 @@ package com.fiuba.taller.ums.action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.fiuba.taller.ums.component.DecToHexConverter;
+import com.fiuba.taller.ums.component.DecToHexCalculatorWindow;
 
 public class ConvertDecToHexAction implements ActionListener {
 
-	private DecToHexConverter decToHexConverter;
+	private DecToHexCalculatorWindow decToHexConverter;
 
-	public ConvertDecToHexAction(DecToHexConverter decToHexConverter) {
+	public ConvertDecToHexAction(DecToHexCalculatorWindow decToHexConverter) {
 		this.decToHexConverter = decToHexConverter;
 	}
 
