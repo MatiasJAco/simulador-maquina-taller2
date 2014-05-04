@@ -6,6 +6,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 import com.fiuba.taller.ums.UmsEditorGui;
+import com.fiuba.taller.ums.action.CloseFileAction;
+import com.fiuba.taller.ums.action.ExitAction;
+import com.fiuba.taller.ums.action.NewFileAction;
+import com.fiuba.taller.ums.action.OpenFileAction;
+import com.fiuba.taller.ums.action.SaveFileAction;
 
 public class FileMenu extends JMenu {
 
@@ -77,6 +82,23 @@ public class FileMenu extends JMenu {
 		// Exit program item @ File operations menu
 		exitMenuItem = new JMenuItem("Exit");
 		this.add(exitMenuItem);
+	}
+
+	public FileMenu(UmsEditorGui umsEditorGui) {
+		this();
+		newAssemblerFileItem.addActionListener(
+				new NewFileAction(umsEditorGui));
+		newMachineCodeFileItem.addActionListener(
+				new NewFileAction(umsEditorGui));
+		openFileMenuItem.addActionListener(
+				new OpenFileAction(umsEditorGui));
+		closeFileMenuItem.addActionListener(
+				new CloseFileAction(umsEditorGui));
+		saveAsFileMenuItem.addActionListener(
+				new SaveFileAction(umsEditorGui));
+		saveFileMenuItem.addActionListener(
+				new SaveFileAction(umsEditorGui));
+		exitMenuItem.addActionListener(new ExitAction());
 	}
 
 	public JMenu getNewFileMenu() {

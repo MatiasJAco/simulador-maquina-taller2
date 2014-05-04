@@ -4,6 +4,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import com.fiuba.taller.ums.UmsEditorGui;
+import com.fiuba.taller.ums.action.CompileAction;
+import com.fiuba.taller.ums.action.ConvertAction;
+
 public class ProjectMenu extends JMenu {
 	
 	/**
@@ -32,6 +36,12 @@ public class ProjectMenu extends JMenu {
 				"Assembler >> Machine Code");
 		converterMenu.add(assemToCodMachMenuItem);
 
+	}
+
+	public ProjectMenu(UmsEditorGui umsEditorGui) {
+		this();
+		compileMenuItem.addActionListener(new CompileAction(umsEditorGui));
+		assemToCodMachMenuItem.addActionListener(new ConvertAction(umsEditorGui));
 	}
 
 	public JMenuItem getCompileMenuItem() {
