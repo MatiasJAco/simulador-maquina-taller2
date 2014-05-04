@@ -15,10 +15,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import com.fiuba.taller.ums.FileType;
+import com.fiuba.taller.ums.MainLogger;
 import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.SyntaxChecker;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
+import com.fiuba.taller.ums.component.JTextPaneAppender;
 
 public class ConvertAction implements ActionListener {
 
@@ -31,6 +33,23 @@ public class ConvertAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
+		JFrame frame = new JFrame();
+		frame.setTitle("Convertion Log");
+		frame.setBounds(0, 0,
+				200, 300);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		JTextPane editorText = new JTextPane();
+		editorText.setEditable(false);
+		JScrollPane scrollPane = new JScrollPane(editorText);
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+		frame.setVisible(true);
+
+		MainLogger.init(
+				new JTextPaneAppender(editorText),
+				org.apache.log4j.Level.TRACE);
+
 
 
 		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
@@ -70,12 +89,6 @@ public class ConvertAction implements ActionListener {
 								JOptionPane.ERROR_MESSAGE);
 					}
 
-					try {
-						String fileContent = openFile(TEMPMAQFILE);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
 					////Devolverlo a la pantalla
 
 
@@ -85,19 +98,6 @@ public class ConvertAction implements ActionListener {
 		};
 
 
-		// TODO Auto-generated method stub
-		JFrame frame = new JFrame();
-		frame.setTitle("Convertion Log");
-		frame.setBounds(0, 0,
-				200, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		JTextPane editorText = new JTextPane();
-		editorText.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(editorText);
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-		frame.setVisible(true);
 
 
 	}
