@@ -1,14 +1,10 @@
 package com.fiuba.taller.ums.component;
 
-import java.text.ParseException;
-
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.AbstractDocument;
-import javax.swing.text.MaskFormatter;
 
 import com.fiuba.taller.ums.action.ConvertDecToHexAction;
 import com.jgoodies.forms.factories.FormFactory;
