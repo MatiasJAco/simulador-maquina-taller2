@@ -9,6 +9,10 @@ import org.apache.log4j.Logger;
 
 public class SyntaxChecker {
 
+	private static final String COMMENTARY_SEPARATOR = "#";
+
+	private static final int MINIMUM_INST_LENGHT = 3;
+
 	private static Logger log;
 	//	private MainLogger mlogger;
 
@@ -32,7 +36,7 @@ public class SyntaxChecker {
 			new String[] {"ldm","ldi" ,"stm","cop" ,"add" ,"addf","or","and","xor","rotd","jpz","ret"}));                  
 
 	private static final String  HEXAVALUES= "0123456789ABCDEF";
-	
+
 	private static final String  MAQVALUES= "123456789ABC";
 
 	private static final String ASSEMBLYSEPARATOR = " ";
@@ -42,9 +46,11 @@ public class SyntaxChecker {
 	private static final int BEGIN_POSITION_MAQ_INSTR = 4;
 
 	public static boolean checkAssembly(String inst) {
-		//		log = Logger.getLogger("UMS Log");
 		boolean result=true;
-		//		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+		//Procesar posible comentario
+		inst=getInstructionFromLine(inst);
+
+
 		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
 
 		String[] instructionArray = inst.split(ASSEMBLYSEPARATOR);
@@ -64,6 +70,23 @@ public class SyntaxChecker {
 			MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
 		else
 			MainLogger.logInfo("Sintaxis correcta");
+
+		return result;
+	}
+
+	private static String getInstructionFromLine(String inst) {
+		String result=null;
+		//buscar #, si existe
+		if(inst.contains(COMMENTARY_SEPARATOR)){
+			//si esta entre los primeros caracteres solo hay 
+			//comentario en la linea y debe ser ignorada			
+			if(!(inst.indexOf(COMMENTARY_SEPARATOR) < MINIMUM_INST_LENGHT)){
+				String[] lineParts = inst.split(COMMENTARY_SEPARATOR);
+				result = lineParts[0]; 
+			};			
+		}else{
+			result = inst;
+		};	
 
 		return result;
 	}
@@ -91,6 +114,21 @@ public class SyntaxChecker {
 
 		return result;
 
+	}
+
+	public static String getMaqInstruction(String inst) {
+		MainLogger.logInfo("Traduciendo a lenguaje maquina: "+ inst);
+		String[] instructionArray = inst.split(" ");
+		String instName = instructionArray[0];
+		String instParam="";
+		if (instructionArray.length > 1)
+			instParam = instructionArray[1];
+		instName = instName.toLowerCase();
+		String opCode = getOpCode(instName);
+		String param = getParameters(instParam, opCode.charAt(0));
+		String result = opCode + param;
+		MainLogger.logInfo("Traduccion completada satisfactoriamente: "+ result);
+		return result;
 	}
 
 	private static boolean validateParametersMaq(String instParam, char opCode) {
@@ -199,21 +237,6 @@ public class SyntaxChecker {
 	}
 
 
-
-	public static String getMaqInstruction(String inst) {
-		MainLogger.logInfo("Traduciendo a lenguaje maquina: "+ inst);
-		String[] instructionArray = inst.split(" ");
-		String instName = instructionArray[0];
-		String instParam="";
-		if (instructionArray.length > 1)
-			instParam = instructionArray[1];
-		instName = instName.toLowerCase();
-		String opCode = getOpCode(instName);
-		String param = getParameters(instParam, opCode.charAt(0));
-		String result = opCode + param;
-		MainLogger.logInfo("Traduccion completada satisfactoriamente: "+ result);
-		return result;
-	}
 
 	private static String getParameters(String instParam, char opCode) {
 		String[] paramArray = instParam.split(",");
