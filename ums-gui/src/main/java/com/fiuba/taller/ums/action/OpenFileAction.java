@@ -58,14 +58,16 @@ public class OpenFileAction implements ActionListener {
 			try {
 				fileContent = openFile(filePath);
 				FileType fileType;
+				FileEditorPane editorPane;
 				if (fileName.endsWith(".asm")) {
 					fileType = FileType.ASSEMBLER;
+					editorPane = new FileEditorPane(fileName,
+							filePath, fileContent, fileType, false);
 				} else {
 					fileType = FileType.MACHINE_CODE;
+					editorPane = new FileEditorPane(fileName,
+							filePath, fileContent, fileType, true);
 				}
-				FileEditorPane editorPane = new FileEditorPane(fileName,
-						filePath, fileContent, fileType);
-
 				editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(), editorPane.getFilePath());
 			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(null,

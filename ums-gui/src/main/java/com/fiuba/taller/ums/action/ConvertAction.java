@@ -81,7 +81,7 @@ public class ConvertAction implements ActionListener {
 						String fileContent = openFile(maqFilePath);					
 						fileType = FileType.MACHINE_CODE;						
 						FileEditorPane editorPane = new FileEditorPane(fileName,
-								maqFilePath, fileContent, fileType);
+								maqFilePath, fileContent, fileType, true);
 						editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(), editorPane.getFilePath());
 					} catch (IOException ex) {
 						JOptionPane.showMessageDialog(null,

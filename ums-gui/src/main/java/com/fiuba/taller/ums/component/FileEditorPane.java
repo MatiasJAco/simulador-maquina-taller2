@@ -16,11 +16,13 @@ public class FileEditorPane extends JScrollPane {
 	private String filePath;
 	private FileType fileType;
 
-	public FileEditorPane(String fileName, String filePath, FileType fileType) {
+	public FileEditorPane(String fileName, String filePath, FileType fileType,
+			boolean doubleZero) {
 		// Scrollable text area with line numbers
 		editorText = new JTextPane();
 		this.setViewportView(editorText);
-		TextLineNumber textLineNumber = new TextLineNumber(editorText);
+		TextLineNumber textLineNumber = new TextLineNumber(editorText,
+				doubleZero);
 		this.setRowHeaderView(textLineNumber);
 		this.setName(fileName);
 		this.filePath = filePath;
@@ -28,8 +30,8 @@ public class FileEditorPane extends JScrollPane {
 	}
 
 	public FileEditorPane(String fileName, String filePath, String fileContent,
-			FileType fileType) {
-		this(fileName, filePath, fileType);
+			FileType fileType, boolean doubleZero) {
+		this(fileName, filePath, fileType, doubleZero);
 		editorText.setText(fileContent);
 	}
 

@@ -28,10 +28,10 @@ public class NewFileAction implements ActionListener {
 		FileEditorPane editorPane;
 		if (e.getActionCommand() == "Assembler") {
 			editorPane = new FileEditorPane("NewFile" + newFileCounter++
-					+ ".asm", null, FileType.ASSEMBLER);
+					+ ".asm", null, FileType.ASSEMBLER, false);
 		} else {
 			editorPane = new FileEditorPane("NewFile" + newFileCounter++
-					+ ".maq", null, FileType.MACHINE_CODE);
+					+ ".maq", null, FileType.MACHINE_CODE, true);
 			;
 		}
 		editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(),
