@@ -20,7 +20,7 @@ public class MainLogger {
 			log.addAppender(appender);
 			log.setLevel(l);
 		}
-		init = true;
+		init = false;
 	}
 	
 	
