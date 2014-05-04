@@ -102,7 +102,7 @@ public class TextLineNumber extends JPanel implements CaretListener,
 			boolean doubleZero) {
 		this.component = component;
 		this.doubleZero = doubleZero;
-		
+
 		setFont(component.getFont());
 
 		setBorderGap(5);
@@ -322,16 +322,18 @@ public class TextLineNumber extends JPanel implements CaretListener,
 		int index = root.getElementIndex(rowStartOffset);
 		Element line = root.getElement(index);
 		String result = "";
-		// TODO: aca se toco para que escriba 00
+		
 		if (line.getStartOffset() == rowStartOffset) {
-			if (index < 10)
-				result = '0' + String.valueOf(index);
-			else
-				result = String.valueOf(index);
-		}
-		// return String.valueOf(index + 1);
-		String.valueOf(index);
+			if (doubleZero) {
+				if (index < 10)
+					result = '0' + String.valueOf(index);
+				else
+					result = String.valueOf(index);
+			} else {
+				result = String.valueOf(index + 1);
+			}
 
+		}
 		return result;
 	}
 
