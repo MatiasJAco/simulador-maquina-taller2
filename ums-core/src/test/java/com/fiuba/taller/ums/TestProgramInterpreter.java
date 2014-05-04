@@ -101,7 +101,7 @@ public class TestProgramInterpreter {
 
 	@Test
 	public void testGenerarCodigoMaquina() {
-		pi.generateAbsoluteCodeFile("C:\\temp\\input.asm");
+		pi.generateAbsoluteCodeFile(".\\src\\main\\resources\\input.asm");
 	}
 
 

@@ -21,8 +21,8 @@ import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
 
 public class CompileAction implements ActionListener {
-	private static final String TEMPASMFILE = "c:\\\\Temp\\\\input.asm";
-	private static final String TEMPMAQFILE = "c:\\\\Temp\\\\input.maq";
+	private static final String TEMPASMFILE = "input.asm";
+	private static final String TEMPMAQFILE = "input.maq";
 	private UmsEditorGui editorUmsGui;
 
 	public CompileAction(UmsEditorGui editorUmsGui) {
