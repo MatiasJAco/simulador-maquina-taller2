@@ -2,7 +2,7 @@
 # SUPOSICIONES
 
 # por defecto 0 es la direccion de memoria donde se empieza a almacenar los numeros,
-# COMO MAXIMO SE PUEDEN CARGAR 4 NUMEROS, podrian ser más numeros lo que significa más líneas
+# COMO MAXIMO SE PUEDEN CARGAR 4 NUMEROS, podrian ser mas numeros lo que significa mas lineas
 # de codigo porque faltan instrucciones y se tienen que repetir bloques de codigos... 
 # -> despues del 4to numero cargado (tope),  el siguiente es considerado como el 2do patron que 
 # determina que buscar.
