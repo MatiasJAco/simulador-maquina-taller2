@@ -54,8 +54,12 @@ public class CompileAction implements ActionListener {
 		String tempfile="";
 		if (textEditor.getFileType() == FileType.ASSEMBLER)
 			tempfile=TEMPASMFILE;
-		else
+		else{
 			tempfile=TEMPMAQFILE;
+			//Memory addresses added to  string of maq file.
+			ProgramInterpreter pi = new ProgramInterpreter();	
+			textContent = pi.appendMemoryAddress(textContent);
+		}
 		
 		
 		if(saveFile(tempfile, textContent)){

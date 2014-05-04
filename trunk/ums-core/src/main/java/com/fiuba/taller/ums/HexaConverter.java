@@ -61,6 +61,8 @@ public class HexaConverter {
 	public static String decimalToBase(int decNum, int base, int cantBits) {
 		String result = "";
 		int cocienteEntero= decNum;
+		if(cocienteEntero < base)
+			result = result +  hexaIntToChar(cocienteEntero);
 		while (cocienteEntero >= base) {
 //			int cocienteInicial = cocienteEntero;
 			float cociente= cocienteEntero / base;

@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 public class SyntaxChecker {
 
 	private static Logger log;
-//	private MainLogger mlogger;
+	//	private MainLogger mlogger;
 
 	private enum MustUseSwitch{
 		LDM,
@@ -33,14 +33,21 @@ public class SyntaxChecker {
 
 	private static final String  MAQVALUES= "123456789ABC";
 
+	private static final String ASSEMBLYSEPARATOR = " ";
+
+	private static final String MAQSEPARATOR = "  ";
+	
+	private static final int BEGIN_POSITION_MAQ_INSTR = 4;
+
 	public static boolean checkAssembly(String inst) {
-//		log = Logger.getLogger("UMS Log");
+		//		log = Logger.getLogger("UMS Log");
 		boolean result=true;
-//		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+		//		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
 		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
 
-		String[] instructionArray = inst.split(" ");
+		String[] instructionArray = inst.split(ASSEMBLYSEPARATOR);
 		String instName = instructionArray[0];
+		instName = instName.toLowerCase();
 		String instParam="";
 		if (instructionArray.length > 1)
 			instParam = instructionArray[1];
@@ -51,7 +58,6 @@ public class SyntaxChecker {
 			result = false;
 		}
 
-
 		if (!result)
 			MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
 		else
@@ -61,9 +67,12 @@ public class SyntaxChecker {
 	}
 
 	public static boolean checkMaq(String inst) {
-//		log = Logger.getLogger("UMS Log");
+
 		boolean result=true;
+		inst=inst.substring(BEGIN_POSITION_MAQ_INSTR);
 		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+
+		
 		char opCode = inst.charAt(0);
 		String instParam=inst.substring(1);
 		if(MAQVALUES.contains(Character.toString(opCode)))
@@ -184,6 +193,7 @@ public class SyntaxChecker {
 		String instParam="";
 		if (instructionArray.length > 1)
 			instParam = instructionArray[1];
+		instName = instName.toLowerCase();
 		String opCode = getOpCode(instName);
 		String param = getParameters(instParam, opCode.charAt(0));
 		String result = opCode + param;
@@ -195,8 +205,8 @@ public class SyntaxChecker {
 		String[] paramArray = instParam.split(",");
 		String result = "";
 		for (int i = 0; i < paramArray.length ; i++){
-				validarParameterSize(paramArray[i]);
-				result = result + paramArray[i];
+			validarParameterSize(paramArray[i]);
+			result = result + paramArray[i];
 		};		
 		result=parseSpecialInstructions(result,opCode);
 		return result;
@@ -209,7 +219,7 @@ public class SyntaxChecker {
 			String msg = "Tamanio de parametro excedido. Supera los 2 bytes. Tamanio: " + string.length() + ".";
 			MainLogger.logError(msg);
 			result = false;
-//			throw new InstructionParametersException(msg);
+			//			throw new InstructionParametersException(msg);
 
 		}
 		return result;

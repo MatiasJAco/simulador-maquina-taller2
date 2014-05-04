@@ -62,24 +62,28 @@ public class ConvertAction implements ActionListener {
 			String filepath = textEditor.getFilePath();
 			if(filepath == null)
 				filepath=TEMPASMFILE;
+
+			ProgramInterpreter pi = new ProgramInterpreter();
+
 			//Save file 
 			if(saveFile(filepath, textContent)){
 				//Compilar (chequear sintaxis)
-				ProgramInterpreter pi = new ProgramInterpreter();
+
 				if(!pi.compileAssembly(filepath)){
 					//Cancelar conversion y mostrar error.
 				}else{
 					//Generar el maq
-					pi.generateAbsoluteCodeFile(filepath);
-
-
-					//Abrir el archivo creado
-					String maqFilePath = pi.generateOutputFilePath(filepath);
+					pi.generateAbsoluteCodeFile(filepath);					
+					String maqFilePath = pi.generateOutputFilePath(filepath);					
 					String fileName= maqFilePath.substring(maqFilePath.lastIndexOf('\\') + 1);
 					FileType fileType;
 					try {
+						//Abrir el archivo creado
 						String fileContent = openFile(maqFilePath);					
-						fileType = FileType.MACHINE_CODE;						
+						fileType = FileType.MACHINE_CODE;
+						//Memory addresses removed from string of maq file.
+						fileContent = pi.removeMemoryAddresses(fileContent);
+						//Devolverlo a la pantalla
 						FileEditorPane editorPane = new FileEditorPane(fileName,
 								maqFilePath, fileContent, fileType, true);
 						editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(), editorPane.getFilePath());
@@ -88,10 +92,6 @@ public class ConvertAction implements ActionListener {
 								"Error reading " + maqFilePath, "Error",
 								JOptionPane.ERROR_MESSAGE);
 					}
-
-					////Devolverlo a la pantalla
-
-
 				};
 			};
 

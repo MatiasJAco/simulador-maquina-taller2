@@ -16,6 +16,8 @@ public class ProgramInterpreter {
 	private static final String FILESYSTEM_SEPARATOR = "\\\\";
 	private static final String ASM_EXT = ".asm";
 	private static final String CODABS_EXT = ".maq";
+	private static final String MAQINTRUCTIONSEPARATOR = "  ";
+	private static final int BEGIN_POSITION_MAQ_INSTR = 4;
 
 	public ProgramInterpreter() {
 		BasicConfigurator.configure();
@@ -54,14 +56,18 @@ public class ProgramInterpreter {
 			FileWriter w = new FileWriter(f);
 			BufferedWriter bw = new BufferedWriter(w);
 			PrintWriter wr = new PrintWriter(bw);  
-
+			int counter = 0;
 			while (scanner.hasNextLine()) {
 				line = scanner.nextLine();
 				line= this.interpret(line);
+				String hexaCounter="";
+				hexaCounter=HexaConverter.decimalToBase(counter, 16, 8);
+				line= hexaCounter + MAQINTRUCTIONSEPARATOR + line;
 				wr.write(line); 
 				//If not the last line.
 				if(scanner.hasNextLine())
 					wr.write("\n");
+				counter++;
 			}	
 
 			// Always close files.
@@ -175,6 +181,38 @@ public class ProgramInterpreter {
 		return SyntaxChecker.checkMaq(line);
 	}
 
-	
+	public String appendMemoryAddress(String textContent) {
+		String result= "";
+		int counter=0;
+
+		Scanner scanner = new Scanner(textContent);
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			String hexaCounter="";
+			hexaCounter=HexaConverter.decimalToBase(counter, 16, 8);
+			counter++;
+			if(scanner.hasNextLine())
+				line = line + "\n";
+			result += hexaCounter + MAQINTRUCTIONSEPARATOR + line;		  
+		}
+		scanner.close();		
+		return result;
+	}
+
+	public String removeMemoryAddresses(String fileContent) {
+		String result= "";
+		Scanner scanner = new Scanner(fileContent);
+		while (scanner.hasNextLine()) {
+			String line = scanner.nextLine();
+			line = line.substring(BEGIN_POSITION_MAQ_INSTR);
+			if(scanner.hasNextLine())
+				line = line + "\n";
+			result +=line;		  
+		}
+		scanner.close();		
+		return result;	
+	}
+
+
 
 }

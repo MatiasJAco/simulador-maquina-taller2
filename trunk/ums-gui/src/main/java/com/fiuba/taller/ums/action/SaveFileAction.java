@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.fiuba.taller.ums.FileType;
+import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
 
@@ -81,6 +82,11 @@ public class SaveFileAction implements ActionListener {
 
 		if (saveFileApproved) {
 			// Save the file.
+			if(textEditor.getFileType() == FileType.MACHINE_CODE){
+				//Memory addresses added to  string of maq file.
+				ProgramInterpreter pi = new ProgramInterpreter();	
+				textContent = pi.appendMemoryAddress(textContent);
+			}
 			if (!saveFile(filePath, textContent)) {
 				JOptionPane.showMessageDialog(null, "Error saving " + filePath,
 						"Error", JOptionPane.ERROR_MESSAGE);
