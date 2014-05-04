@@ -1,5 +1,6 @@
 package com.fiuba.taller.ums.action;
 
+import com.fiuba.taller.ums.common.FileType;
 import com.fiuba.taller.ums.component.JTextPaneAppender;
 import com.fiuba.taller.ums.MainLogger;
 
@@ -15,7 +16,6 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
-import com.fiuba.taller.ums.FileType;
 import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.component.FileEditorPane;
