@@ -9,10 +9,12 @@ import javax.swing.JMenuBar;
 import com.fiuba.taller.ums.action.CloseFileAction;
 import com.fiuba.taller.ums.action.CompileAction;
 import com.fiuba.taller.ums.action.ConvertAction;
+import com.fiuba.taller.ums.action.DecToHexCalcAction;
 import com.fiuba.taller.ums.action.ExitAction;
 import com.fiuba.taller.ums.action.NewFileAction;
 import com.fiuba.taller.ums.action.OpenFileAction;
 import com.fiuba.taller.ums.action.SaveFileAction;
+import com.fiuba.taller.ums.component.ExtraMenu;
 import com.fiuba.taller.ums.component.FileMenu;
 import com.fiuba.taller.ums.component.HelpMenu;
 import com.fiuba.taller.ums.component.LanguageCodeMenu;
@@ -37,6 +39,7 @@ public class UmsEditorGui {
 	private LanguageCodeMenu languageCodeMenu;
 	private ProjectMenu projectMenu;
 	private HelpMenu helpMenu;
+	private ExtraMenu extraMenu;
 
 	/**
 	 * Launch the application.
@@ -79,33 +82,16 @@ public class UmsEditorGui {
 		frame.getContentPane().add(menuBar, BorderLayout.NORTH);
 
 		// File operations menu
-		fileMenu = new FileMenu();
-		fileMenu.getNewAssemblerFileItem().addActionListener(
-				new NewFileAction(this));
-		fileMenu.getNewMachineCodeFileItem().addActionListener(
-				new NewFileAction(this));
-		fileMenu.getOpenFileMenuItem().addActionListener(
-				new OpenFileAction(this));
-		fileMenu.getCloseFileMenuItem().addActionListener(
-				new CloseFileAction(this));
-		fileMenu.getSaveAsFileMenuItem().addActionListener(
-				new SaveFileAction(this));
-		fileMenu.getSaveFileMenuItem().addActionListener(
-				new SaveFileAction(this));
-		fileMenu.getExitMenuItem().addActionListener(new ExitAction());
-
+		fileMenu = new FileMenu(this);
 		menuBar.add(fileMenu);
-
-		// Language Code Menu
-		// languageCodeMenu = new LanguageCodeMenu();
-		// menuBar.add(languageCodeMenu);
-
-		// Project menu
-		projectMenu = new ProjectMenu();
-		menuBar.add(projectMenu);
-		projectMenu.getCompileMenuItem().addActionListener(new CompileAction(this));
-		projectMenu.getAssemToCodMachMenuItem().addActionListener(new ConvertAction(this));
 		
+		// Project menu
+		projectMenu = new ProjectMenu(this);
+		menuBar.add(projectMenu);
+
+		// Extra menu
+		extraMenu = new ExtraMenu();
+		menuBar.add(extraMenu);
 		
 		// Help menu
 		helpMenu = new HelpMenu();
