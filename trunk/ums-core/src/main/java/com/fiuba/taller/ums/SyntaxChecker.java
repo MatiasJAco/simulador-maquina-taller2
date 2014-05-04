@@ -31,12 +31,14 @@ public class SyntaxChecker {
 	private static final Set<String> ASSEMBLYVALUES = new HashSet<String>(Arrays.asList(
 			new String[] {"ldm","ldi" ,"stm","cop" ,"add" ,"addf","or","and","xor","rotd","jpz","ret"}));                  
 
+	private static final String  HEXAVALUES= "0123456789ABCDEF";
+	
 	private static final String  MAQVALUES= "123456789ABC";
 
 	private static final String ASSEMBLYSEPARATOR = " ";
 
 	private static final String MAQSEPARATOR = "  ";
-	
+
 	private static final int BEGIN_POSITION_MAQ_INSTR = 4;
 
 	public static boolean checkAssembly(String inst) {
@@ -72,7 +74,7 @@ public class SyntaxChecker {
 		inst=inst.substring(BEGIN_POSITION_MAQ_INSTR);
 		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
 
-		
+
 		char opCode = inst.charAt(0);
 		String instParam=inst.substring(1);
 		if(MAQVALUES.contains(Character.toString(opCode)))
@@ -98,7 +100,7 @@ public class SyntaxChecker {
 		if (validarCantidadParametros(paramArray, opCode)){
 
 
-			if(!validarSpecificParameters(instParam,opCode)){
+			if(!validarSpecificParameters(instParam,opCode) || !validarValorHexa(instParam) ){
 				result=false;
 
 			}
@@ -155,7 +157,7 @@ public class SyntaxChecker {
 		if (validarCantidadParametros(paramArray, instName)){
 
 			for (int i = 0; i < paramArray.length ; i++){			
-				if(!validarParameterSize(paramArray[i])){
+				if(!validarParameterSize(paramArray[i]) || !validarValorHexa(paramArray[i])){
 					result=false;
 				};
 			}
@@ -166,6 +168,18 @@ public class SyntaxChecker {
 	}
 
 
+
+	private static boolean validarValorHexa(String s) {
+		boolean result = true;
+		for (int i = 0; i < s.length(); i++) {
+			if (!HEXAVALUES.contains(Character.toString(s.charAt(i)))){
+				result = false;
+				String msg = "Valor incorrecto de parametro. No es un valor hexadecimal : " + s.charAt(i);
+				MainLogger.logError(msg);
+			}
+		}
+		return result;
+	}
 
 	private static boolean validarCantidadParametros(String[] paramArray,
 			String instName) {
@@ -316,6 +330,7 @@ public class SyntaxChecker {
 		}
 		return result;
 	}	
+
 
 
 }

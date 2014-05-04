@@ -26,69 +26,69 @@ public class TestProgramInterpreter {
 	
 	@Test
 	public void testInterpretarCargaM() throws InputFileFormatException {
-		String result= pi.interpret("ldm R,XY");
-		assertEquals("1RXY",result);
+		String result= pi.interpret("ldm 1,A8");
+		assertEquals("11A8",result);
 	}
 
 	@Test
 	public void testInterpretarCargaI() throws InputFileFormatException {
-		String result= pi.interpret("ldi R,XY");
-		assertEquals("2RXY",result);
+		String result= pi.interpret("ldi 1,A8");
+		assertEquals("21A8",result);
 	}
 	
 	@Test
 	public void testInterpretarAlmacen() throws InputFileFormatException {
-		String result= pi.interpret("stm R,XY");
-		assertEquals("3RXY",result);
+		String result= pi.interpret("stm 1,A8");
+		assertEquals("31A8",result);
 	}
 	
 	@Test
 	public void testInterpretarCopia() throws InputFileFormatException {
-		String result= pi.interpret("cop R,S");
-		assertEquals("40RS",result);
+		String result= pi.interpret("cop 1,3");
+		assertEquals("4013",result);
 	}
 	
 	@Test
 	public void testInterpretarSuma() throws InputFileFormatException {
-		String result= pi.interpret("add R,S,T");
-		assertEquals("5RST",result);
+		String result= pi.interpret("add 1,A,B");
+		assertEquals("51AB",result);
 	}
 	
 	@Test
 	public void testInterpretarSumaF() throws InputFileFormatException {
-		String result= pi.interpret("addf R,S,T");
-		assertEquals("6RST",result);
+		String result= pi.interpret("addf 1,A,B");
+		assertEquals("61AB",result);
 	}
 	
 	@Test
 	public void testInterpretarOr() throws InputFileFormatException {
-		String result= pi.interpret("or R,S,T");
-		assertEquals("7RST",result);
+		String result= pi.interpret("or 1,A,B");
+		assertEquals("71AB",result);
 	}
 	
 	
 	@Test
 	public void testInterpretarAnd() throws InputFileFormatException {
-		String result= pi.interpret("and R,S,T");
-		assertEquals("8RST",result);
+		String result= pi.interpret("and 1,A,B");
+		assertEquals("81AB",result);
 	}
 	
 	@Test
 	public void testInterpretarXor() throws InputFileFormatException {
-		String result= pi.interpret("xor R,S,T");
-		assertEquals("9RST",result);
+		String result= pi.interpret("xor 1,A,B");
+		assertEquals("91AB",result);
 	}
 	
 	@Test
 	public void testInterpretarRotd() throws InputFileFormatException {
-		String result= pi.interpret("rotd R,X");
-		assertEquals("AR0X",result);
+		String result= pi.interpret("rotd 1,A");
+		assertEquals("A10A",result);
 	}
 	
 	@Test
 	public void testInterpretarSalta() throws InputFileFormatException {
-		String result= pi.interpret("jpz R,XY");
-		assertEquals("BRXY",result);
+		String result= pi.interpret("jpz 1,A8");
+		assertEquals("B1A8",result);
 	}
 	
 	@Test
@@ -101,7 +101,7 @@ public class TestProgramInterpreter {
 
 	@Test
 	public void testGenerarCodigoMaquina() {
-		pi.generateAbsoluteCodeFile(".\\src\\main\\resources\\input.asm");
+		pi.generateAbsoluteCodeFile(".\\src\\main\\resources\\input2.asm");
 	}
 
 
