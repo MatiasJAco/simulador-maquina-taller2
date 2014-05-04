@@ -14,7 +14,7 @@ public class ExitAction implements ActionListener {
 
 	public void actionPerformed(ActionEvent e) {
 
-		int n = JOptionPane.showConfirmDialog(null, "Exit UMS Editor?",
+		int n = JOptionPane.showConfirmDialog(null, "Exit UMS Code Editor?",
 				"Confirm Exit", JOptionPane.YES_NO_OPTION);
 
 		if (n == 0) {
