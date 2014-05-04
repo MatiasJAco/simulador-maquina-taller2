@@ -24,8 +24,8 @@ import com.fiuba.taller.ums.component.JTextPaneAppender;
 
 public class ConvertAction implements ActionListener {
 
-	private static final String TEMPASMFILE = "c:\\\\Temp\\\\default.asm";
-	private static final String TEMPMAQFILE = "c:\\\\Temp\\\\default.maq";
+	private static final String TEMPASMFILE = "default.asm";
+	private static final String TEMPMAQFILE = "default.maq";
 	private UmsEditorGui editorUmsGui;
 
 	public ConvertAction(UmsEditorGui editorUmsGui) {
