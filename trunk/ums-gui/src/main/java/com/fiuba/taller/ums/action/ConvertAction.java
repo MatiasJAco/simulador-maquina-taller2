@@ -33,75 +33,73 @@ public class ConvertAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame frame = new JFrame();
-		frame.setTitle("Convertion Log");
-		frame.setBounds(0, 0,
-				200, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-		JTextPane editorText = new JTextPane();
-		editorText.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(editorText);
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-		frame.setVisible(true);
-
-		MainLogger.init(
-				new JTextPaneAppender(editorText),
-				org.apache.log4j.Level.TRACE);
-
-
 
 		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
 				.getMultiTabPane().getSelectedTab();
-		//Solo si se trata de un assembler.
-		if (textEditor.getFileType() == FileType.ASSEMBLER){
+		if (textEditor != null) {
+			// Solo si se trata de un assembler.
+			if (textEditor.getFileType() == FileType.ASSEMBLER) {
 
-			String textContent = textEditor.getContent();
-			//Get filepath if exists, if not use temp 
-			String filepath = textEditor.getFilePath();
-			if(filepath == null)
-				filepath=TEMPASMFILE;
+				String textContent = textEditor.getContent();
+				// Get filepath if exists, if not use temp
+				String filepath = textEditor.getFilePath();
+				if (filepath == null)
+					filepath = TEMPASMFILE;
 
-			ProgramInterpreter pi = new ProgramInterpreter();
+				JFrame frame = new JFrame();
+				frame.setTitle("Convertion Log");
+				frame.setBounds(0, 0, 200, 300);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-			//Save file 
-			if(saveFile(filepath, textContent)){
-				//Compilar (chequear sintaxis)
+				JTextPane editorText = new JTextPane();
+				editorText.setEditable(false);
+				JScrollPane scrollPane = new JScrollPane(editorText);
+				frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-				if(!pi.compileAssembly(filepath)){
-					//Cancelar conversion y mostrar error.
-				}else{
-					//Generar el maq
-					pi.generateAbsoluteCodeFile(filepath);					
-					String maqFilePath = pi.generateOutputFilePath(filepath);					
-					String fileName= maqFilePath.substring(maqFilePath.lastIndexOf('\\') + 1);
-					FileType fileType;
-					try {
-						//Abrir el archivo creado
-						String fileContent = openFile(maqFilePath);					
-						fileType = FileType.MACHINE_CODE;
-						//Memory addresses removed from string of maq file.
-						fileContent = pi.removeMemoryAddresses(fileContent);
-						//Devolverlo a la pantalla
-						FileEditorPane editorPane = new FileEditorPane(fileName,
-								maqFilePath, fileContent, fileType, true);
-						editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(), editorPane.getFilePath());
-					} catch (IOException ex) {
-						JOptionPane.showMessageDialog(null,
-								"Error reading " + maqFilePath, "Error",
-								JOptionPane.ERROR_MESSAGE);
+				frame.setVisible(true);
+
+				MainLogger.init(new JTextPaneAppender(editorText),
+						org.apache.log4j.Level.TRACE);
+
+				ProgramInterpreter pi = new ProgramInterpreter();
+
+				// Save file
+				if (saveFile(filepath, textContent)) {
+					// Compilar (chequear sintaxis)
+
+					if (!pi.compileAssembly(filepath)) {
+						// Cancelar conversion y mostrar error.
+					} else {
+						// Generar el maq
+						pi.generateAbsoluteCodeFile(filepath);
+						String maqFilePath = pi
+								.generateOutputFilePath(filepath);
+						String fileName = maqFilePath.substring(maqFilePath
+								.lastIndexOf('\\') + 1);
+						FileType fileType;
+						try {
+							// Abrir el archivo creado
+							String fileContent = openFile(maqFilePath);
+							fileType = FileType.MACHINE_CODE;
+							// Memory addresses removed from string of maq file.
+							fileContent = pi.removeMemoryAddresses(fileContent);
+							// Devolverlo a la pantalla
+							FileEditorPane editorPane = new FileEditorPane(
+									fileName, maqFilePath, fileContent,
+									fileType, true);
+							editorUmsGui.getMultiTabPane().addTab(editorPane,
+									editorPane.getName(),
+									editorPane.getFilePath());
+						} catch (IOException ex) {
+							JOptionPane.showMessageDialog(null,
+									"Error reading " + maqFilePath, "Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
 					}
-				};
-			};
-
-		};
-
-
-
-
+				}
+			}
+		}
 	}
-
 
 	/**
 	 * The saveFile method saves the contents of the text area to a file. The
@@ -140,7 +138,6 @@ public class ConvertAction implements ActionListener {
 		// Return our status.
 		return success;
 	}
-
 
 	private String openFile(String fileName) throws IOException {
 		String inputLine = "";

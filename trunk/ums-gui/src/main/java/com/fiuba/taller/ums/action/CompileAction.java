@@ -30,51 +30,48 @@ public class CompileAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame frame = new JFrame();
-		frame.setTitle("Compilation Log");
-		frame.setBounds(0, 0,
-				200, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JTextPane editorText = new JTextPane();
-		editorText.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(editorText);
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-
-		frame.setVisible(true);
-
-		MainLogger.init(
-				new JTextPaneAppender(editorText),
-				org.apache.log4j.Level.TRACE);
-		
-		//guardar archivo
 		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
 				.getMultiTabPane().getSelectedTab();
-		String textContent = textEditor.getContent();
-		String tempfile="";
-		if (textEditor.getFileType() == FileType.ASSEMBLER)
-			tempfile=TEMPASMFILE;
-		else{
-			tempfile=TEMPMAQFILE;
-			//Memory addresses added to  string of maq file.
-			ProgramInterpreter pi = new ProgramInterpreter();	
-			textContent = pi.appendMemoryAddress(textContent);
-		}
-		
-		
-		if(saveFile(tempfile, textContent)){
-			//Compilar (chequear sintaxis)
-			ProgramInterpreter pi = new ProgramInterpreter();
+		if (textEditor != null) {
+			String textContent = textEditor.getContent();
+			String tempfile = "";
 			if (textEditor.getFileType() == FileType.ASSEMBLER)
-				pi.compileAssembly(tempfile);
-			else
-				pi.compileMachinecode(tempfile);
-		};
-		// TODO Auto-generated method stub
+				tempfile = TEMPASMFILE;
+			else {
+				tempfile = TEMPMAQFILE;
+				// Memory addresses added to string of maq file.
+				ProgramInterpreter pi = new ProgramInterpreter();
+				textContent = pi.appendMemoryAddress(textContent);
 			}
+			JFrame frame = new JFrame();
+			frame.setTitle("Compilation Log");
+			frame.setBounds(0, 0, 200, 300);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-	
-	
+			JTextPane logText = new JTextPane();
+			logText.setEditable(false);
+			JScrollPane scrollPane = new JScrollPane(logText);
+			frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+
+			frame.setVisible(true);
+
+			MainLogger.init(new JTextPaneAppender(logText),
+					org.apache.log4j.Level.TRACE);
+
+			// guardar archivo
+			if (saveFile(tempfile, textContent)) {
+				// Compilar (chequear sintaxis)
+				ProgramInterpreter pi = new ProgramInterpreter();
+				if (textEditor.getFileType() == FileType.ASSEMBLER)
+					pi.compileAssembly(tempfile);
+				else
+					pi.compileMachinecode(tempfile);
+			}
+			;
+		}
+	}
+
 	private boolean saveFile(String filename, String fileContent) {
 		boolean success;
 		FileWriter fwriter;
