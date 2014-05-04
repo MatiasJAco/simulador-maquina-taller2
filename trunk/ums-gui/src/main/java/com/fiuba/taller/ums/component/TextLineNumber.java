@@ -74,7 +74,7 @@ public class TextLineNumber extends JPanel implements CaretListener,
 	private int lastHeight;
 	private int lastLine;
 
-	private boolean doubleZero;
+	private boolean hexNumber;
 
 	private HashMap<String, FontMetrics> fonts;
 
@@ -85,8 +85,8 @@ public class TextLineNumber extends JPanel implements CaretListener,
 	 * @param component
 	 *            the related text component
 	 */
-	public TextLineNumber(JTextComponent component, boolean doubleZero) {
-		this(component, MINIMUM_DISPLAY_DIGITS, doubleZero);
+	public TextLineNumber(JTextComponent component, boolean hexNumber) {
+		this(component, MINIMUM_DISPLAY_DIGITS, hexNumber);
 	}
 
 	/**
@@ -99,9 +99,9 @@ public class TextLineNumber extends JPanel implements CaretListener,
 	 *            the component
 	 */
 	public TextLineNumber(JTextComponent component, int minimumDisplayDigits,
-			boolean doubleZero) {
+			boolean hexNumber) {
 		this.component = component;
-		this.doubleZero = doubleZero;
+		this.hexNumber = hexNumber;
 
 		setFont(component.getFont());
 
@@ -324,11 +324,11 @@ public class TextLineNumber extends JPanel implements CaretListener,
 		String result = "";
 		
 		if (line.getStartOffset() == rowStartOffset) {
-			if (doubleZero) {
-				if (index < 10)
-					result = '0' + String.valueOf(index);
+			if (hexNumber) {
+				if (index < 16)
+					result = '0' + Integer.toHexString(index).toUpperCase();
 				else
-					result = String.valueOf(index);
+					result = Integer.toHexString(index).toUpperCase();
 			} else {
 				result = String.valueOf(index + 1);
 			}
