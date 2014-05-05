@@ -1,6 +1,7 @@
 package com.fiuba.taller.ums;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,9 +10,14 @@ import org.apache.log4j.Logger;
 
 public class SyntaxChecker {
 
+	private static final int SECOND_PARAMETER = 1;
+
+	private static final char JUMP_OP_CODE = 'B';
+
 	private static final String COMMENTARY_SEPARATOR = "#";
 
 	private static final int MINIMUM_INST_LENGHT = 3;
+
 
 	private static Logger log;
 	//	private MainLogger mlogger;
@@ -36,6 +42,7 @@ public class SyntaxChecker {
 			new String[] {"ldm","ldi" ,"stm","cop" ,"add" ,"addf","or","and","xor","rotd","jpz","ret"}));                  
 
 	private static final String  HEXAVALUES= "0123456789ABCDEF";
+	private static final String  HEXASPECIALVALUES= "ABCDEF";
 
 	private static final String  MAQVALUES= "123456789ABC";
 
@@ -50,27 +57,83 @@ public class SyntaxChecker {
 		//Procesar posible comentario
 		inst=getInstructionFromLine(inst);
 
+		if (inst != null){
+			MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
 
-		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+			String[] instructionArray = inst.split(ASSEMBLYSEPARATOR);
+			String instName = instructionArray[0];
+			instName = instName.toLowerCase();
+			String instParam="";
+			if (instructionArray.length > 1)
+				instParam = instructionArray[1];
+			instParam=instParam.replaceAll("\\s","");
+			if(ASSEMBLYVALUES.contains(instName))
+				result=validateParametersAssembly(instParam,instName);
+			else{
+				MainLogger.logError("No se reconoce la instruccion: "+instName+" .");
+				result = false;
+			}
 
-		String[] instructionArray = inst.split(ASSEMBLYSEPARATOR);
-		String instName = instructionArray[0];
-		instName = instName.toLowerCase();
-		String instParam="";
-		if (instructionArray.length > 1)
-			instParam = instructionArray[1];
-		if(ASSEMBLYVALUES.contains(instName))
-			result=validateParametersAssembly(instParam,instName);
-		else{
-			MainLogger.logError("No se reconoce la instruccion: "+instName+" .");
-			result = false;
+			if (!result)
+				MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
+			else
+				MainLogger.logInfo("Sintaxis correcta");
 		}
+		return result;
+	}
 
-		if (!result)
-			MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
-		else
-			MainLogger.logInfo("Sintaxis correcta");
+	public static boolean checkMaq(String inst) {
 
+		boolean result=true;
+
+		inst=inst.substring(BEGIN_POSITION_MAQ_INSTR);
+		//Procesar posible comentario
+		inst=getInstructionFromLine(inst);
+		inst = inst.replaceAll("\\s","");
+		if (inst != null){
+
+			MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+
+
+			char opCode = inst.charAt(0);
+			String instParam=inst.substring(1);
+			if(MAQVALUES.contains(Character.toString(opCode)))
+				result=validateParametersMaq(instParam, opCode);
+			else{
+				MainLogger.logError("No se reconoce el codigo de operacion: "+opCode+" .");
+				result=false;
+			}
+
+			if (!result)
+				MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
+			else
+				MainLogger.logInfo("Sintaxis correcta");
+		}
+		return result;
+
+	}
+
+	public static String getMaqInstruction(String inst, HashMap<String, String> tags) {
+		String result= "";
+		String comment="";
+		//Procesar posible comentario
+		comment =getCommentaryFromLine(inst);
+		inst=getInstructionFromLine(inst);
+		if (inst != null){
+			MainLogger.logInfo("Traduciendo a lenguaje maquina: "+ inst);
+			String[] instructionArray = inst.split(" ");
+			String instName = instructionArray[0];
+			String instParam="";
+			if (instructionArray.length > 1)
+				instParam = instructionArray[1];
+			instParam = instParam.replaceAll("\\s","");
+			instName = instName.toLowerCase();
+			String opCode = getOpCode(instName);
+			String param = getParameters(instParam, opCode.charAt(0), tags);
+			result = opCode + param;
+			MainLogger.logInfo("Traduccion completada satisfactoriamente: "+ result);
+		}
+		result = result + comment;
 		return result;
 	}
 
@@ -91,43 +154,21 @@ public class SyntaxChecker {
 		return result;
 	}
 
-	public static boolean checkMaq(String inst) {
+	private static String getCommentaryFromLine(String inst) {
+		String result="";
+		//buscar #, si existe
+		if(inst.contains(COMMENTARY_SEPARATOR)){
+			//si esta entre los primeros caracteres solo hay 
+			//comentario en la linea 			
+			if(!(inst.indexOf(COMMENTARY_SEPARATOR) < MINIMUM_INST_LENGHT)){
+				String[] lineParts = inst.split(COMMENTARY_SEPARATOR);
+				result = "  " + COMMENTARY_SEPARATOR + lineParts[1]; 
+			}else{
+				result = inst;	
+			};
 
-		boolean result=true;
-		inst=inst.substring(BEGIN_POSITION_MAQ_INSTR);
-		MainLogger.logInfo("Verificando sintaxis de instruccion : "+ inst);
+		};	
 
-
-		char opCode = inst.charAt(0);
-		String instParam=inst.substring(1);
-		if(MAQVALUES.contains(Character.toString(opCode)))
-			result=validateParametersMaq(instParam, opCode);
-		else{
-			MainLogger.logError("No se reconoce el codigo de operacion: "+opCode+" .");
-			result=false;
-		}
-
-		if (!result)
-			MainLogger.logError("Error al interpretar la instruccion: "+inst+" .");
-		else
-			MainLogger.logInfo("Sintaxis correcta");
-
-		return result;
-
-	}
-
-	public static String getMaqInstruction(String inst) {
-		MainLogger.logInfo("Traduciendo a lenguaje maquina: "+ inst);
-		String[] instructionArray = inst.split(" ");
-		String instName = instructionArray[0];
-		String instParam="";
-		if (instructionArray.length > 1)
-			instParam = instructionArray[1];
-		instName = instName.toLowerCase();
-		String opCode = getOpCode(instName);
-		String param = getParameters(instParam, opCode.charAt(0));
-		String result = opCode + param;
-		MainLogger.logInfo("Traduccion completada satisfactoriamente: "+ result);
 		return result;
 	}
 
@@ -194,10 +235,12 @@ public class SyntaxChecker {
 
 		if (validarCantidadParametros(paramArray, instName)){
 
-			for (int i = 0; i < paramArray.length ; i++){			
-				if(!validarParameterSize(paramArray[i]) || !validarValorHexa(paramArray[i])){
-					result=false;
-				};
+			for (int i = 0; i < paramArray.length ; i++){
+				if (!instName.toLowerCase().equals("jpz")){
+					if(!validarParameterSize(paramArray[i]) || !validarValorHexa(paramArray[i])){
+						result=false;
+					};
+				}
 			}
 		}else{
 			result=false;
@@ -238,15 +281,45 @@ public class SyntaxChecker {
 
 
 
-	private static String getParameters(String instParam, char opCode) {
+	private static String getParameters(String instParam, char opCode, HashMap<String, String> tags) {
 		String[] paramArray = instParam.split(",");
 		String result = "";
+		//TODO traducir decimal a hexa
 		for (int i = 0; i < paramArray.length ; i++){
-			validarParameterSize(paramArray[i]);
-			result = result + paramArray[i];
+			String param=""; 
+			//			validarParameterSize(paramArray[i]);
+			if (opCode == JUMP_OP_CODE && i==SECOND_PARAMETER)
+				param = replacetag(paramArray[i],tags);
+			else{
+				//				todos menos c traducir el 0.
+				if (opCode != 'C' && i == 0)
+					param = getHexaValueOf(paramArray[i]);
+				else{
+					//				si esta en 4,5,6,7,8,9 traducir el 1
+					if ("456789".contains(""+opCode) && i == 1)
+						param = getHexaValueOf(paramArray[i]);	else{
+							//				si esta en 5,6,7,8,9 traducir el 2	
+							if ("56789".contains(""+opCode) && i == 2)
+								param = getHexaValueOf(paramArray[i]);
+							else
+								param = paramArray[i];
+						}
+				}
+			}
+
+			result = result + param;
 		};		
 		result=parseSpecialInstructions(result,opCode);
 		return result;
+	}
+
+	private static String getHexaValueOf(String param) {
+		int numReg = Integer.parseInt(param);
+		return HexaConverter.decimalToBase(numReg, 16, 4);
+	}
+
+	private static String replacetag(String tagName, HashMap<String, String> tags) {
+		return tags.get(tagName);		
 	}
 
 	private static boolean validarParameterSize(String string) throws InstructionParametersException {
@@ -255,6 +328,7 @@ public class SyntaxChecker {
 
 			String msg = "Tamanio de parametro excedido. Supera los 2 bytes. Tamanio: " + string.length() + ".";
 			MainLogger.logError(msg);
+			MainLogger.logWarn("Parametro: "+ string);
 			result = false;
 			//			throw new InstructionParametersException(msg);
 
@@ -354,6 +428,17 @@ public class SyntaxChecker {
 		return result;
 	}	
 
+	static boolean isTagLine(String line) {
+		boolean result = false;
+		if(line.contains(":") && !line.contains(COMMENTARY_SEPARATOR))
+			result=true;
+		return result;
+	}
 
+	public static boolean isCommentLine(String line) {
+
+		return getCommentaryFromLine(line).equals(line);
+
+	}
 
 }
