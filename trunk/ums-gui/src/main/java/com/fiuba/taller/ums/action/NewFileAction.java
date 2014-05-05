@@ -3,9 +3,6 @@ package com.fiuba.taller.ums.action;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.common.FileType;
 import com.fiuba.taller.ums.component.FileEditorPane;

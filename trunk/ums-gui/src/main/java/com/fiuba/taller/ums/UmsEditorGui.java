@@ -6,14 +6,6 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 
-import com.fiuba.taller.ums.action.CloseFileAction;
-import com.fiuba.taller.ums.action.CompileAction;
-import com.fiuba.taller.ums.action.ConvertAction;
-import com.fiuba.taller.ums.action.DecToHexCalculatorAction;
-import com.fiuba.taller.ums.action.ExitAction;
-import com.fiuba.taller.ums.action.NewFileAction;
-import com.fiuba.taller.ums.action.OpenFileAction;
-import com.fiuba.taller.ums.action.SaveFileAction;
 import com.fiuba.taller.ums.component.ExtraMenu;
 import com.fiuba.taller.ums.component.FileMenu;
 import com.fiuba.taller.ums.component.HelpMenu;
@@ -84,7 +76,7 @@ public class UmsEditorGui {
 		// File operations menu
 		fileMenu = new FileMenu(this);
 		menuBar.add(fileMenu);
-		
+
 		// Project menu
 		projectMenu = new ProjectMenu(this);
 		menuBar.add(projectMenu);
@@ -92,7 +84,7 @@ public class UmsEditorGui {
 		// Extra menu
 		extraMenu = new ExtraMenu();
 		menuBar.add(extraMenu);
-		
+
 		// Help menu
 		helpMenu = new HelpMenu();
 		menuBar.add(helpMenu);

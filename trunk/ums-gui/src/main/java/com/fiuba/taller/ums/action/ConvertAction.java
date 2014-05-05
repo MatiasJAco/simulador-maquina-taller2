@@ -16,7 +16,6 @@ import javax.swing.JTextPane;
 
 import com.fiuba.taller.ums.MainLogger;
 import com.fiuba.taller.ums.ProgramInterpreter;
-import com.fiuba.taller.ums.SyntaxChecker;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.common.FileType;
 import com.fiuba.taller.ums.component.FileEditorPane;

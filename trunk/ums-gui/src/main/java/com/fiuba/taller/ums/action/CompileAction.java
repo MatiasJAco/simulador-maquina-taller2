@@ -1,11 +1,6 @@
 package com.fiuba.taller.ums.action;
 
-import com.fiuba.taller.ums.common.FileType;
-import com.fiuba.taller.ums.component.JTextPaneAppender;
-import com.fiuba.taller.ums.MainLogger;
-
 import java.awt.BorderLayout;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileWriter;
@@ -16,9 +11,12 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import com.fiuba.taller.ums.MainLogger;
 import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.UmsEditorGui;
+import com.fiuba.taller.ums.common.FileType;
 import com.fiuba.taller.ums.component.FileEditorPane;
+import com.fiuba.taller.ums.component.JTextPaneAppender;
 
 public class CompileAction implements ActionListener {
 	private static final String TEMPASMFILE = "input.asm";

@@ -7,8 +7,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
@@ -54,7 +52,6 @@ public class OpenFileAction implements ActionListener {
 			filePath = selectedFile.getPath();
 			fileName = selectedFile.getName();
 
-
 			// Open the file.
 			try {
 				fileContent = openFile(filePath);
@@ -62,17 +59,18 @@ public class OpenFileAction implements ActionListener {
 				FileEditorPane editorPane;
 				if (fileName.endsWith(".asm")) {
 					fileType = FileType.ASSEMBLER;
-					editorPane = new FileEditorPane(fileName,
-							filePath, fileContent, fileType, false);
+					editorPane = new FileEditorPane(fileName, filePath,
+							fileContent, fileType, false);
 				} else {
 					fileType = FileType.MACHINE_CODE;
-					//Memory addresses removed from string of maq file.
+					// Memory addresses removed from string of maq file.
 					ProgramInterpreter pi = new ProgramInterpreter();
 					fileContent = pi.removeMemoryAddresses(fileContent);
-					editorPane = new FileEditorPane(fileName,
-							filePath, fileContent, fileType, true);
+					editorPane = new FileEditorPane(fileName, filePath,
+							fileContent, fileType, true);
 				}
-				editorUmsGui.getMultiTabPane().addTab(editorPane, editorPane.getName(), editorPane.getFilePath());
+				editorUmsGui.getMultiTabPane().addTab(editorPane,
+						editorPane.getName(), editorPane.getFilePath());
 			} catch (IOException ex) {
 				JOptionPane.showMessageDialog(null,
 						"Error reading " + filePath, "Error",
