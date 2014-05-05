@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextPane;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -82,9 +80,9 @@ public class SaveFileAction implements ActionListener {
 
 		if (saveFileApproved) {
 			// Save the file.
-			if(textEditor.getFileType() == FileType.MACHINE_CODE){
-				//Memory addresses added to  string of maq file.
-				ProgramInterpreter pi = new ProgramInterpreter();	
+			if (textEditor.getFileType() == FileType.MACHINE_CODE) {
+				// Memory addresses added to string of maq file.
+				ProgramInterpreter pi = new ProgramInterpreter();
 				textContent = pi.appendMemoryAddress(textContent);
 			}
 			if (!saveFile(filePath, textContent)) {
