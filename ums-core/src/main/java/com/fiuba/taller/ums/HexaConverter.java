@@ -128,4 +128,33 @@ public class HexaConverter {
 	}
 
 	
+	public static float baseToDecimalF(String aNum,int base ){
+		float result =0;
+		
+//		IndexOf"."(IO.) = 2
+		int indexOfPoint= aNum.indexOf(".");
+//		Remover .
+		aNum=aNum.replaceAll("\\.", "");
+//		L=6
+		int numLenght = aNum.length();
+//		L - IO. = 4
+//		ExponenteMenor= (L-IO.)*-1
+		int minorExp=( numLenght -indexOfPoint )*-1;		
+//				for i = 0 ....
+		for (int i = 0; i<numLenght;i++){
+//			exp = ExponenteMenor + i
+			int exp= minorExp + i; 
+			
+//			final = caratcter (L-1-i) ^ exp
+			int currentDigit=hexaCharToInt(aNum.charAt(numLenght-1-i));			
+			result += currentDigit* Math.pow(base,exp);
+			
+			
+		}
+
+		
+		return result;
+		
+	}
+	
 }
