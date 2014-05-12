@@ -4,16 +4,16 @@ public class HexaConverter {
 
 	private static int ipow(int base, int exp)
 	{
-	    int result = 1;
-	    while (exp != 0)
-	    {
-	        if ((exp & 1) == 1)
-	            result *= base;
-	        exp >>= 1;
-	        base *= base;
-	    }
+		int result = 1;
+		while (exp != 0)
+		{
+			if ((exp & 1) == 1)
+				result *= base;
+			exp >>= 1;
+			base *= base;
+		}
 
-	    return result;
+		return result;
 	}
 
 	private static int hexaCharToInt(char hexaNum) {
@@ -44,7 +44,7 @@ public class HexaConverter {
 		return result;
 	};
 
-	
+
 	public static int baseToDecimal(String aNum,int base ){
 		//Obtener longitud de la cadena
 		//Recorrer traduciendo cada caracter y sumando
@@ -64,7 +64,7 @@ public class HexaConverter {
 		if(cocienteEntero < base)
 			result = result +  hexaIntToChar(cocienteEntero);
 		while (cocienteEntero >= base) {
-//			int cocienteInicial = cocienteEntero;
+			//			int cocienteInicial = cocienteEntero;
 			float cociente= cocienteEntero / base;
 			int resto= cocienteEntero % base;
 			//Extrae parte entera
@@ -75,26 +75,26 @@ public class HexaConverter {
 			}else{
 				addToHexa = "" + hexaIntToChar(cocienteEntero) + hexaIntToChar(resto);	
 			}			
-			
+
 			result= addToHexa + result;
 		}
-		
+
 		//Chequear alcanzar cantidad de bits minimo
 		double bitAdjust = Math.log10(base)/Math.log10(2);
 		if (result.length()*bitAdjust < cantBits ){
-			
+
 			while (result.length()*bitAdjust < cantBits ){
 				result = "0" + result; 
 			}
 		}
-		
+
 		return result;
 	}
 
 	public static String decimalToBase(int decNum, int base) {
 		return decimalToBase(decNum, base, 8);		
 	}
-	
+
 	private static char hexaIntToChar(int decDigit) {
 		char result;
 		switch (decDigit) {
@@ -122,39 +122,67 @@ public class HexaConverter {
 		}  
 		return result;
 	}
-	
+
 	public static String hexaToBinary(String hexaNum){
 		return decimalToBase(baseToDecimal(hexaNum, 16), 2);		
 	}
 
-	
+
 	public static float baseToDecimalF(String aNum,int base ){
 		float result =0;
-		
-//		IndexOf"."(IO.) = 2
+
+		//		IndexOf"."(IO.) = 2
 		int indexOfPoint= aNum.indexOf(".");
-//		Remover .
+		//		Remover .
 		aNum=aNum.replaceAll("\\.", "");
-//		L=6
+		//		L=6
 		int numLenght = aNum.length();
-//		L - IO. = 4
-//		ExponenteMenor= (L-IO.)*-1
+		//		L - IO. = 4
+		//		ExponenteMenor= (L-IO.)*-1
 		int minorExp=( numLenght -indexOfPoint )*-1;		
-//				for i = 0 ....
+		//				for i = 0 ....
 		for (int i = 0; i<numLenght;i++){
-//			exp = ExponenteMenor + i
+			//			exp = ExponenteMenor + i
 			int exp= minorExp + i; 
-			
-//			final = caratcter (L-1-i) ^ exp
+
+			//			final = caratcter (L-1-i) ^ exp
 			int currentDigit=hexaCharToInt(aNum.charAt(numLenght-1-i));			
 			result += currentDigit* Math.pow(base,exp);
-			
-			
+
+
 		}
 
-		
+
 		return result;
-		
+
 	}
-	
+
+	public static String decimalToBaseF(float num, int base, int cantBits) {
+		//Funciona solo para base 2.
+
+		String result = "";
+		String fracAcum ="";
+		float parteFraccionaria=num - (int)num;
+		String parteEntera = decimalToBase((int)num, base,1);
+
+		//Multiplicar por la base
+		while(parteEntera.length() +1 + fracAcum.length() < cantBits && parteFraccionaria != 0){
+			parteFraccionaria= parteFraccionaria * base;
+			fracAcum += String.valueOf((int)parteFraccionaria);
+			if(parteFraccionaria - 1 >= 0)
+				parteFraccionaria = parteFraccionaria - 1;
+		}
+		result= parteEntera + "." + fracAcum;
+
+		//Chequear alcanzar cantidad de bits minimo
+		double bitAdjust = Math.log10(base)/Math.log10(2);
+		if (result.length()*bitAdjust < cantBits ){
+			while (result.length()*bitAdjust < cantBits ){
+				result = "0" + result; 
+			}
+		}
+
+		return result;
+	}
+
 }
