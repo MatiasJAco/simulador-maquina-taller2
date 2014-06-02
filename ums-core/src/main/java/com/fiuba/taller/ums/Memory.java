@@ -54,6 +54,15 @@ public class Memory {
 	public void incrementInstructionPointer() {
 		this.lastInstructionPointer++;
 		this.lastInstructionPointer++;		
+	}
+
+	public String readCell(String address) {
+		return this.getCell(HexaConverter.baseToDecimal(address, 16)).getData();
+	}
+
+	public void writeCell(String address, String data) {
+		this.getCell(HexaConverter.baseToDecimal(address, 16)).setData(data);
+		
 	};
 
 
