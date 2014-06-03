@@ -8,7 +8,7 @@ public class FPUnit {
 	//	static final int EXCESO = ((2^BITS_EXPONENTE)-1)/2;
 	static final int EXCESO = 4;
 
-	static float puntoFlotanteADecimal(String numeroHexa){
+	public static float puntoFlotanteADecimal(String numeroHexa){
 		//TODO Control de errores
 		float result = 0;
 		//Recibe numero en hexa y lo pasa a binario(punto flotante)
@@ -70,7 +70,7 @@ public class FPUnit {
 	}
 
 
-	static String decimalAPuntoFlotante(float num){
+	public static String decimalAPuntoFlotante(float num){
 		String result = "";
 		String sign= "0";
 		if (num < 0){
@@ -86,19 +86,43 @@ public class FPUnit {
 			exp=difPos-1;
 		else
 			exp=difPos;
-		
-		String expBin = HexaConverter.decimalToBase(exp + EXCESO, 2, BITS_EXPONENTE);
-		myBinNum = myBinNum.replaceAll("\\.", "");
-		int index =myBinNum.indexOf("1");
-		String mantisa = myBinNum.substring(index +1);
+		if(exp >= -4 && exp <= 3){
+			String expBin = HexaConverter.decimalToBase(exp + EXCESO, 2, BITS_EXPONENTE);
+			myBinNum = myBinNum.replaceAll("\\.", "");
+			int index =myBinNum.indexOf("1");
+			String mantisa = myBinNum.substring(index +1);
+			if(mantisa.length() > 4)
+				mantisa = mantisa.substring(0,4);
 
 
-		//		myBinNum = result.substring(0,myBinNum.indexOf("1")) + "." + result.substring(myBinNum.indexOf("1")+1);
-		result = sign + expBin + mantisa;
+			//		myBinNum = result.substring(0,myBinNum.indexOf("1")) + "." + result.substring(myBinNum.indexOf("1")+1);
+			result = sign + expBin + mantisa;
+		}else{
+			result = "00000000";			
+		}
+
 		return HexaConverter.decimalToBase(HexaConverter.baseToDecimal(result, 2),16);
 
-
 	}
+
+	public static boolean isOverflow(float num){
+		boolean result= false;
+		if (num < 0){		
+			num=num*-1;
+		}
+		String myBinNum =HexaConverter.decimalToBaseF(num, 2, 8);
+		//Normalizar
+		int difPos=myBinNum.indexOf(".")-myBinNum.indexOf("1");
+		int exp=0;
+		if(difPos >0)
+			exp=difPos-1;
+		else
+			exp=difPos;
+		if(exp < -4 || exp > 3){
+			result=true;			
+		}		
+		return result;		
+	};
 
 
 }

@@ -149,5 +149,21 @@ public class TestHexa {
 		int result = HexaConverter.baseToDecimal("11101001011101",2);
 		assertEquals(14941, result);		
 	}
+
+	//Hexa a decimal en c2
+	@Test
+	public void testHexaADecimalC2() {
+		int result = HexaConverter.hexaToDecimalC2("E2");
+		assertEquals(-30, result);		
+	}
+	
+	
+	//Decimal a base 16
+	@Test
+	public void testDecimalAHexaC2() {
+		String result = HexaConverter.decimalToBaseC2(-30, 16);
+		assertEquals("E2", result);		
+	}
+	
 	
 }

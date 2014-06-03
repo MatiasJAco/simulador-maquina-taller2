@@ -2,6 +2,8 @@ package com.fiuba.taller.ums;
 
 public class HexaConverter {
 
+	private static final int CANT_BITS = 8;
+
 	private static int ipow(int base, int exp)
 	{
 		int result = 1;
@@ -183,6 +185,52 @@ public class HexaConverter {
 		}
 
 		return result;
+	}
+
+	public static int hexaToDecimalC2(String aNum) {
+		//Obtener longitud de la cadena
+		//Recorrer traduciendo cada caracter y sumando
+		int base = 16;
+		int result = 0;
+		String aNumC2 = calculateC2(HexaConverter.hexaToBinary(aNum));
+		aNumC2 = binaryToHexa(aNumC2);
+		//Signo
+		int sign = -1; 
+		if(aNumC2.equals(aNum))
+			sign=sign*sign;
+
+		int longNum= aNumC2.length();
+		for (int i =longNum-1;i>=0;i--){
+			int currentDigit=hexaCharToInt(aNumC2.charAt(i));
+			int exponent = longNum - i - 1;
+			result += currentDigit* ipow(base,exponent);			
+		}
+		return result*sign;
+
+	}
+
+	private static String binaryToHexa(String aNumC2) {
+		return decimalToBase(baseToDecimal(aNumC2, 2),16);
+	}
+
+	private static String calculateC2(String aBinNum) {
+		String result = aBinNum;
+		if(aBinNum.charAt(0) == '1'){
+			//Complementar a 2
+			int comp2 = (int) (HexaConverter.baseToDecimal(aBinNum, 2) - Math.pow(2, CANT_BITS));
+			//Quitar signo
+			comp2 = comp2 * -1;
+			result= HexaConverter.decimalToBase(comp2,2); 
+		}
+
+		return result;
+	}
+
+	public static String decimalToBaseC2(int num, int base) {
+		int numC2=num;
+		if (num < 0)
+			numC2 = (int) ((Math.pow(2, CANT_BITS)) + num);		
+		return decimalToBase(numC2, base);
 	}
 
 }
