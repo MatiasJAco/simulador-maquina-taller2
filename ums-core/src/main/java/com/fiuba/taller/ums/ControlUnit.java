@@ -90,22 +90,22 @@ public class ControlUnit {
 			this.setCurrentInstruction(new CopyInstruction(params, this.regMem));
 			break;
 		case '5':
-			this.setCurrentInstruction(new SumInstruction(params));
+			this.setCurrentInstruction(new SumInstruction(params,this.regMem,this.alu));
 			break;
 		case '6':
-			this.setCurrentInstruction(new SumFInstruction(params));
+			this.setCurrentInstruction(new SumFInstruction(params,this.regMem,this.alu));
 			break;
 		case '7':
-			this.setCurrentInstruction(new OrInstruction(params));
+			this.setCurrentInstruction(new OrInstruction(params,this.regMem,this.alu));
 			break;
 		case '8':
-			this.setCurrentInstruction(new AndInstruction(params));
+			this.setCurrentInstruction(new AndInstruction(params,this.regMem,this.alu));
 			break;
 		case '9':
-			this.setCurrentInstruction(new XorInstruction(params));
+			this.setCurrentInstruction(new XorInstruction(params,this.regMem,this.alu));
 			break;
 		case 'A':
-			this.setCurrentInstruction(new RotateInstruction(params));
+			this.setCurrentInstruction(new RotateInstruction(params,this.regMem,this.alu));
 			break;
 		case 'B':
 			this.setCurrentInstruction(new JumpInstruction(params,this.alu,this,this.regMem));
