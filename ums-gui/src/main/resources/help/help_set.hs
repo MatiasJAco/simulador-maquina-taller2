@@ -37,7 +37,7 @@
 	<name>MainWin</name>  
 	
 	<!-- Dimensiones iniciales -->  
-	<size width="640" height="480" />  
+	<size width="820" height="480" />  
 	
 	<!-- Posicion inicial -->  
 	<location x="180" y="125" />  

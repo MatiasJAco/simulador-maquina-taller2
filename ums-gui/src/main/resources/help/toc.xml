@@ -3,7 +3,9 @@
 
 	
     <tocitem text="Introducción"    target="introduccion">
-    	<tocitem text="Lenguaje Máquina"    target="maquina"/>
-        <tocitem text="Lenguaje Assembler"    target="assembler"/>
+    	<tocitem text="Instrucciones en Ensamblador"    target="instrucciones"/>
+    	<tocitem text="Instrucciones en código Máquina"    target="instrMaquina"/>
+        
     </tocitem>
-</toc>
+    
+    </toc>
