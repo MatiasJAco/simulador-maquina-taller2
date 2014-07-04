@@ -91,8 +91,10 @@ public class FPUnit {
 			myBinNum = myBinNum.replaceAll("\\.", "");
 			int index =myBinNum.indexOf("1");
 			String mantisa = myBinNum.substring(index +1);
-			if(mantisa.length() > 4)
-				mantisa = mantisa.substring(0,4);
+			if(mantisa.length() > 4){
+				mantisa = roundMantisa(mantisa);
+				mantisa = mantisa.substring(0,4);			
+			}
 
 
 			//		myBinNum = result.substring(0,myBinNum.indexOf("1")) + "." + result.substring(myBinNum.indexOf("1")+1);
@@ -103,6 +105,29 @@ public class FPUnit {
 
 		return HexaConverter.decimalToBase(HexaConverter.baseToDecimal(result, 2),16);
 
+	}
+
+	private static String roundMantisa(String mantisa) {
+		//		recorrer todos los caracteres
+		//		si es 1 reemplazar por 0 y seguir
+		//		sino
+		//		reemplazar por 1 y parar
+		//
+		//		si llego al comienzo de la mantisa y es 1 
+		//		reemplazar por 0 y agregar un 1 al comienzo de la mantisa
+		if(mantisa.charAt(BITS_MANTISA) == '1'){
+			for (int i = BITS_MANTISA-1; i >=0; i--){
+				if (mantisa.charAt(i) == '1'){
+					mantisa = mantisa.substring(0,i)+'0'+mantisa.substring(i+1);
+					if(i == 0)
+						mantisa = '1' + mantisa;
+				}else{
+					mantisa = mantisa.substring(0,i)+'1'+mantisa.substring(i+1);
+					break;
+				}					
+			}
+		}
+		return mantisa;
 	}
 
 	public static boolean isOverflow(float num){
