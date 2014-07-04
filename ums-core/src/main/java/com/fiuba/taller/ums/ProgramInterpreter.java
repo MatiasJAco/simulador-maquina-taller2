@@ -133,6 +133,7 @@ public class ProgramInterpreter {
 
 	public boolean compileAssembly(String inputFile) {
 		boolean result = true;
+		int lineCount = 1;
 		// The name of the file to open.
 		File input = new File(inputFile);
 		// This will reference one line at a time
@@ -147,6 +148,18 @@ public class ProgramInterpreter {
 					if(!this.checkAssemblyLine(line))
 						result=false;		
 				};
+				if(emptyLine(line)){
+					result=false;
+					MainLogger.logError("Linea en blanco detectada. Numero de linea: " + lineCount );
+					break;
+				}
+				if(SyntaxChecker.isCommentLine(line)){
+					result=false;
+					MainLogger.logError("Linea de comentario detectada. Numero de linea: " + lineCount );
+					break;
+				}
+				lineCount++;
+					
 			}	
 
 			// Always close files.
@@ -170,6 +183,7 @@ public class ProgramInterpreter {
 
 	public boolean compileMachinecode(String inputFile) {
 		boolean result = true;
+		int lineCount = 0;
 		// The name of the file to open.
 		File input = new File(inputFile);
 		// This will reference one line at a time
@@ -184,6 +198,18 @@ public class ProgramInterpreter {
 					if(!this.checkMachineLine(line))
 						result=false;		
 				}
+				if(emptyLine(line)){
+					result=false;
+					MainLogger.logError("Linea en blanco detectada. Numero de posicion: " + HexaConverter.decimalToBase(lineCount, 16) );
+					break;
+				}
+				if(SyntaxChecker.isCommentLine(line)){
+					result=false;
+					MainLogger.logError("Linea de comentario detectada. Numero de posicion: " + HexaConverter.decimalToBase(lineCount, 16) );
+					break;
+				}
+				
+				lineCount++;
 			}	
 
 			// Always close files.
