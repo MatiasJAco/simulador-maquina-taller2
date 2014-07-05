@@ -1,5 +1,10 @@
 package com.fiuba.taller.ums;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
+
 import javax.swing.text.DefaultEditorKit.CutAction;
 
 public class ControlUnit {
@@ -10,8 +15,8 @@ public class ControlUnit {
 	private int nextInstructionAddress;
 	private Instruction currentInstruction;
 	private RegisterMemory regMem;
-	
-	
+
+
 	public String getInstructionRegister() {
 		return instructionRegister;
 	}
@@ -20,7 +25,7 @@ public class ControlUnit {
 		this.instructionRegister = instructionRegister;
 	}
 
-	
+
 	public ControlUnit() {
 		this.mem = new Memory();
 		this.alu = new ALU();
@@ -55,9 +60,9 @@ public class ControlUnit {
 		this.mem.writeCell(mem.getLastInstrucionAddress(), firstHalf);
 		this.mem.writeCell(mem.getLastInstrucionAddress()+1, secondHalf);
 		this.mem.incrementInstructionPointer();
-		
+
 	}
-	
+
 	public Instruction getCurrentInstruction(){		
 		return this.currentInstruction;		
 	}
@@ -116,13 +121,13 @@ public class ControlUnit {
 		default:
 			break;
 		}
-		
-		
-		
+
+
+
 		return this.currentInstruction;
-		
-		
-		
+
+
+
 	}
 
 	public int getNextInstructionAddress() {
@@ -137,15 +142,56 @@ public class ControlUnit {
 		this.currentInstruction = currentInstruction;
 	}
 
-	
-	
+
+
 	public void executeCurrentInstruction() {
 		this.currentInstruction.execute();
-		
+
 	}
 
 	public Instruction decode() {
 		return this.decode(this.instructionRegister);		
-	};
+	}
 
+	public void loadProgramToMemory(String tempfile) {
+		File input = new File(tempfile);
+		// This will reference one line at a time
+		String line = null;
+		try {
+			//Open  file reader
+			Scanner scanner = new Scanner(input);
+
+			while (scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				String address = line.substring(0,2);
+				String inst = line.substring(4,8);
+				this.loadInstructionToMemory(inst);
+//				this.loadInstructionToMemory(address,inst);				
+			}
+			MainLogger.logInfo("Programa cargado en memoria correctamente");
+			// Always close files.
+			scanner.close();
+		}
+		catch(FileNotFoundException ex) {
+			System.out.println(
+					"Unable to open file '" + 
+							input + "'");				
+		}
+		catch(IOException ex) {
+			System.out.println(
+					"Error reading file '" 
+							+ input + "'");					
+			// Or we could just do this: 
+			// ex.printStackTrace();
+		}
+	}
+
+	private void loadInstructionToMemory(String address, String inst) {
+		String firstHalf = inst.substring(0,2);
+		String secondHalf = inst.substring(2,4);
+		this.mem.writeCell(mem.getLastInstrucionAddress(), firstHalf);
+		this.mem.writeCell(mem.getLastInstrucionAddress()+1, secondHalf);
+//		this.mem.setInstructionPointer(address);
+		
+	};
 }

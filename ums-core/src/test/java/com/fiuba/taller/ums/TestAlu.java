@@ -56,8 +56,8 @@ public class TestAlu {
 	public void testSumFPositive() {
 		ALU myAlu = new ALU();
 		String result = myAlu.sumF("4D", "42");
-		assertEquals("57", result);
-		assertTrue(myAlu.isOverflow());
+		assertEquals("58", result);
+		assertFalse(myAlu.isOverflow());
 	}
 	
 
