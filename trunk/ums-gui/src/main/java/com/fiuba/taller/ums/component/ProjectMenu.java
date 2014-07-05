@@ -7,6 +7,7 @@ import javax.swing.JMenuItem;
 import com.fiuba.taller.ums.UmsEditorGui;
 import com.fiuba.taller.ums.action.CompileAction;
 import com.fiuba.taller.ums.action.ConvertAction;
+import com.fiuba.taller.ums.action.ExecuteAction;
 
 public class ProjectMenu extends JMenu {
 	
@@ -18,6 +19,7 @@ public class ProjectMenu extends JMenu {
 	JMenuItem compileMenuItem;
 	JMenu converterMenu;
 	JMenuItem assemToCodMachMenuItem;
+	JMenuItem executeCodMachMenuItem;
 
 	public ProjectMenu() {
 		super("Project");
@@ -27,6 +29,13 @@ public class ProjectMenu extends JMenu {
 		compileMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/CompileFile.png")));
 
+		// Execute machine code item @ Project menu
+		executeCodMachMenuItem = new JMenuItem("Execute");
+		this.add(executeCodMachMenuItem);
+		executeCodMachMenuItem.setIcon(new ImageIcon(getClass().getResource(
+				"/img/icon/ExecuteFile.png")));
+		
+		
 		// Convert code menu @ Project menu
 		converterMenu = new JMenu("Converter");
 		converterMenu.setIcon(new ImageIcon(getClass().getResource(
@@ -44,6 +53,7 @@ public class ProjectMenu extends JMenu {
 		this();
 		compileMenuItem.addActionListener(new CompileAction(umsEditorGui));
 		assemToCodMachMenuItem.addActionListener(new ConvertAction(umsEditorGui));
+		executeCodMachMenuItem.addActionListener(new ExecuteAction(umsEditorGui));
 	}
 
 	public JMenuItem getCompileMenuItem() {
