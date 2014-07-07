@@ -62,6 +62,7 @@ public class SyntaxChecker {
 
 			String[] instructionArray = inst.split(ASSEMBLYSEPARATOR);
 			String instName = instructionArray[0];
+			instName = instName.replaceAll("\\s","");
 			instName = instName.toLowerCase();
 			String instParam="";
 			if (instructionArray.length > 1)
@@ -314,8 +315,14 @@ public class SyntaxChecker {
 	}
 
 	private static String getHexaValueOf(String param) {
-		int numReg = Integer.parseInt(param);
-		return HexaConverter.decimalToBase(numReg, 16, 4);
+		String result = "";
+		if(!"ABCDEF".contains((param))){
+			int numReg = Integer.parseInt(param);
+			result = HexaConverter.decimalToBase(numReg, 16, 4);
+		}else{
+			result=param;
+		}
+		return result;
 	}
 
 	private static String replacetag(String tagName, HashMap<String, String> tags) {
@@ -430,8 +437,15 @@ public class SyntaxChecker {
 
 	static boolean isTagLine(String line) {
 		boolean result = false;
-		if(line.contains(":") && !line.contains(COMMENTARY_SEPARATOR))
-			result=true;
+		//		if(line.contains(":") && !line.contains(COMMENTARY_SEPARATOR))
+		if(line.contains(":")){
+			if(line.contains(COMMENTARY_SEPARATOR)){
+				if(line.indexOf(":") < line.indexOf(COMMENTARY_SEPARATOR))
+					result = true;
+			}else{
+				result = true;
+			}
+		}
 		return result;
 	}
 

@@ -15,6 +15,7 @@ public class ControlUnit {
 	private int nextInstructionAddress;
 	private Instruction currentInstruction;
 	private RegisterMemory regMem;
+	private boolean programEnded;
 
 
 	public String getInstructionRegister() {
@@ -33,6 +34,7 @@ public class ControlUnit {
 		this.instructionRegister="";
 		this.nextInstructionAddress=0;
 		currentInstruction=null;
+		programEnded = false;
 	}
 
 	public ControlUnit(Memory aMem) {
@@ -43,6 +45,7 @@ public class ControlUnit {
 		this.alu = new ALU();
 		this.nextInstructionAddress=0;
 		currentInstruction = null;
+		programEnded = false;
 	}
 
 	public ControlUnit(Memory myMemory, RegisterMemory myRegMem) {		
@@ -52,6 +55,7 @@ public class ControlUnit {
 		currentInstruction = null;
 		this.mem = myMemory;
 		this.regMem = myRegMem;
+		programEnded = false;
 	}
 
 	public void loadInstructionToMemory(String inst) {
@@ -116,7 +120,7 @@ public class ControlUnit {
 			this.setCurrentInstruction(new JumpInstruction(params,this.alu,this,this.regMem));
 			break;
 		case 'C':
-			this.setCurrentInstruction(new RetInstruction());
+			this.setCurrentInstruction(new RetInstruction(this));
 			break;
 		default:
 			break;
@@ -146,6 +150,9 @@ public class ControlUnit {
 
 	public void executeCurrentInstruction() {
 		this.currentInstruction.execute();
+		if(this.mem.readCell("FE").equals("01"))
+			System.out.print(this.mem.readCell("FF"));
+		this.mem.writeCell("FE", "00");
 
 	}
 
@@ -166,7 +173,7 @@ public class ControlUnit {
 				String address = line.substring(0,2);
 				String inst = line.substring(4,8);
 				this.loadInstructionToMemory(inst);
-//				this.loadInstructionToMemory(address,inst);				
+				//				this.loadInstructionToMemory(address,inst);				
 			}
 			MainLogger.logInfo("Programa cargado en memoria correctamente");
 			// Always close files.
@@ -191,7 +198,24 @@ public class ControlUnit {
 		String secondHalf = inst.substring(2,4);
 		this.mem.writeCell(mem.getLastInstrucionAddress(), firstHalf);
 		this.mem.writeCell(mem.getLastInstrucionAddress()+1, secondHalf);
-//		this.mem.setInstructionPointer(address);
-		
+		//		this.mem.setInstructionPointer(address);
+
 	};
+
+	public String dumpMemory(){
+		String dump = "" ;
+		for(int i = 0;i<this.mem.getSize();i++){
+			dump += "Celda :" + i + "  Contenido: " + this.mem.readCell(i) + ".\n" ;	
+		}
+		return dump;		
+	}
+
+	public boolean isProgramEnded() {
+		return this.programEnded;
+	}
+
+	public void setProgramEnded(boolean b) {
+		this.programEnded = b;		
+	}
+
 }
