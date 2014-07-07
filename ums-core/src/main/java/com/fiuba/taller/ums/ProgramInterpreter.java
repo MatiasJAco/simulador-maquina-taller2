@@ -66,7 +66,16 @@ public class ProgramInterpreter {
 			int counter = 0;
 			while (scanner.hasNextLine()) {
 				line = scanner.nextLine();
-				if (!emptyLine(line) && !SyntaxChecker.isTagLine(line) && !SyntaxChecker.isCommentLine(line)){
+				if (!emptyLine(line) &&  !SyntaxChecker.isCommentLine(line)){
+					if(SyntaxChecker.isTagLine(line)){
+						tagRead = true;
+						String[] lineParts = line.split(":");
+						newTag=lineParts[0];						
+						line = lineParts[1];
+						if(line.charAt(0) == ' ')
+							line = line.substring(1);
+						//MainLogger.logInfo("Instruccion :" + inst);
+					}
 					line= this.interpret(line,tags);
 					String hexaCounter="";
 					hexaCounter=HexaConverter.decimalToBase(counter, 16, 8);
@@ -82,17 +91,11 @@ public class ProgramInterpreter {
 					}
 
 					counter++;
+					counter++;
 				}else{
-					if(SyntaxChecker.isTagLine(line)){
-						tagRead = true;
-						String[] lineParts = line.split(":");
-						newTag=lineParts[0];
-
-					}else{
-						wr.write(line);
-						if(scanner.hasNextLine())
-							wr.write("\n");
-					}
+					wr.write(line);
+					if(scanner.hasNextLine())
+						wr.write("\n");
 				}
 			}	
 
@@ -134,6 +137,7 @@ public class ProgramInterpreter {
 	public boolean compileAssembly(String inputFile) {
 		boolean result = true;
 		int lineCount = 1;
+		int errorCount = 0;
 		// The name of the file to open.
 		File input = new File(inputFile);
 		// This will reference one line at a time
@@ -144,22 +148,34 @@ public class ProgramInterpreter {
 
 			while (scanner.hasNextLine()) {
 				line = scanner.nextLine();
-				if (!emptyLine(line) && !SyntaxChecker.isTagLine(line)){
-					if(!this.checkAssemblyLine(line))
-						result=false;		
+				if (!emptyLine(line) && !SyntaxChecker.isCommentLine(line)){
+					String inst = "";
+					if(SyntaxChecker.isTagLine(line)){
+						String[] splittedLine = line.split(":");
+						inst = splittedLine[1];
+						if(inst.charAt(0) == ' ')
+							inst = inst.substring(1);						
+					}else
+						inst = line;
+					if(!this.checkAssemblyLine(inst)){
+						result=false;
+						errorCount++;
+					}
 				};
 				if(emptyLine(line)){
 					result=false;
 					MainLogger.logError("Linea en blanco detectada. Numero de linea: " + lineCount );
+					errorCount++;
 					break;
 				}
 				if(SyntaxChecker.isCommentLine(line)){
 					result=false;
 					MainLogger.logError("Linea de comentario detectada. Numero de linea: " + lineCount );
+					errorCount++;
 					break;
 				}
 				lineCount++;
-					
+
 			}	
 
 			// Always close files.
@@ -177,7 +193,10 @@ public class ProgramInterpreter {
 			// Or we could just do this: 
 			// ex.printStackTrace();
 		}
-
+		if (errorCount > 0)
+			MainLogger.logError("Lineas procesadas: " + (lineCount-1) + "  Errores detectados: " + errorCount);
+		else
+			MainLogger.logInfo("Lineas procesadas: " + (lineCount-1) + "  Errores detectados: " + errorCount);
 		return result;
 	}
 
@@ -208,7 +227,7 @@ public class ProgramInterpreter {
 					MainLogger.logError("Linea de comentario detectada. Numero de posicion: " + HexaConverter.decimalToBase(lineCount, 16) );
 					break;
 				}
-				
+
 				lineCount++;
 			}	
 

@@ -29,6 +29,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.Utilities;
 
+
 /**
  * This class will display line numbers for a related text component. The text
  * component must use the same line height for each line. TextLineNumber
@@ -321,10 +322,11 @@ public class TextLineNumber extends JPanel implements CaretListener,
 		Element root = component.getDocument().getDefaultRootElement();
 		int index = root.getElementIndex(rowStartOffset);
 		Element line = root.getElement(index);
-		String result = "";
-		
+		String result = "";		
 		if (line.getStartOffset() == rowStartOffset) {
-			if (hexNumber) {
+			if (hexNumber) {				
+				if(index != 0)
+					index = index*2;				
 				if (index < 16)
 					result = '0' + Integer.toHexString(index).toUpperCase();
 				else

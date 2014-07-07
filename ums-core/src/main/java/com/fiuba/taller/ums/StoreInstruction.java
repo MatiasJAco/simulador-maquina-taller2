@@ -1,5 +1,7 @@
 package com.fiuba.taller.ums;
 
+import java.util.Scanner;
+
 public class StoreInstruction implements Instruction {
 
 	String memAddress;
@@ -18,7 +20,9 @@ public class StoreInstruction implements Instruction {
 	public void execute() {
 		String dataToStore = this.regMem.readReg(regNumber);
 		this.mem.writeCell(memAddress, dataToStore);
-
+		if(memAddress.equals("FF")){
+			this.mem.writeCell("FE", "01");				 
+		}
 	}
 
 }

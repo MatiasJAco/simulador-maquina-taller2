@@ -63,6 +63,10 @@ public class Memory {
 	public void writeCell(String address, String data) {
 		this.getCell(HexaConverter.baseToDecimal(address, 16)).setData(data);
 		
+	}
+
+	public int getSize() {
+		return CELL_AMOUNT;
 	};
 
 

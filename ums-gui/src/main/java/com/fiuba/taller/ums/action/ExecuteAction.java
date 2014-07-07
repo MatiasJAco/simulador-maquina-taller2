@@ -35,7 +35,7 @@ public class ExecuteAction implements ActionListener {
 		JFrame frame = new JFrame();
 		frame.setTitle("Compilation Log");
 		frame.setBounds(0, 0,
-				200, 300);
+				600, 700);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JTextPane editorText = new JTextPane();
@@ -75,6 +75,12 @@ public class ExecuteAction implements ActionListener {
 				Memory myMemory = new Memory() ;
 				ControlUnit myControlUnit = new ControlUnit(myMemory);
 				myControlUnit.loadProgramToMemory(tempfile);
+				while(!myControlUnit.isProgramEnded()){
+					myControlUnit.fetchInstruction();
+					myControlUnit.decode();
+					myControlUnit.executeCurrentInstruction();
+				}
+//				MainLogger.logTrace(myControlUnit.dumpMemory());
 			}
 		};
 		// TODO Auto-generated method stub
