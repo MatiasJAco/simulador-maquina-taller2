@@ -44,10 +44,7 @@ public class ProgramInterpreter {
 	}
 
 
-	public void generateAbsoluteCodeFile(String inputFile) {
-		boolean tagRead=false;
-		String newTag="";
-		String newTagAddress="";
+	public void generateAbsoluteCodeFile(String inputFile) {		
 		// The name of the file to open.
 		File input = new File(inputFile);
 
@@ -64,13 +61,12 @@ public class ProgramInterpreter {
 			BufferedWriter bw = new BufferedWriter(w);
 			PrintWriter wr = new PrintWriter(bw);  
 			int counter = 0;
+			collectTags(input);
 			while (scanner.hasNextLine()) {
 				line = scanner.nextLine();
 				if (!emptyLine(line) &&  !SyntaxChecker.isCommentLine(line)){
 					if(SyntaxChecker.isTagLine(line)){
-						tagRead = true;
-						String[] lineParts = line.split(":");
-						newTag=lineParts[0];						
+						String[] lineParts = line.split(":");												
 						line = lineParts[1];
 						if(line.charAt(0) == ' ')
 							line = line.substring(1);
@@ -84,12 +80,6 @@ public class ProgramInterpreter {
 					//If not the last line.
 					if(scanner.hasNextLine())
 						wr.write("\n");
-					if (tagRead){
-						newTagAddress = hexaCounter;
-						tags.put(newTag, newTagAddress);
-						tagRead =false;
-					}
-
 					counter++;
 					counter++;
 				}else{
@@ -123,6 +113,37 @@ public class ProgramInterpreter {
 	}
 
 
+
+	private void collectTags(File input) {
+		Scanner scanner;		
+		try {
+			boolean tagRead = false;
+			scanner = new Scanner(input);
+			int counter = 0;
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				String newTag = "";
+				if(SyntaxChecker.isTagLine(line)){
+					tagRead = true;
+					String[] lineParts = line.split(":");
+					newTag=lineParts[0];						
+				}
+				String hexaCounter="";
+				hexaCounter=HexaConverter.decimalToBase(counter, 16, 8);
+				if (tagRead){
+					String newTagAddress = hexaCounter;
+					tags.put(newTag, newTagAddress);
+					tagRead =false;
+				}
+				counter++;
+				counter++;				
+			}
+			scanner.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	public String generateOutputFilePath(String inputFile) {
 		String result = "";		
