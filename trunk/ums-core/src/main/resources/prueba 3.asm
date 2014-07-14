@@ -1,256 +1,163 @@
+# como maximo el vector puede almacenar 10 numeros
+# cuyas celdas de memoria son
+# E6 = 230		EB = 235
+# E7 = 231		EC = 236
+# E8 = 232		ED = 237
+# E9 = 233		EE = 238
+# EA = 234		EF = 239
+# pero ademas se requiere que la 11ava posicion de memoria posea un cero
+# que indique donde termina el vector
+#
+# Si el usuario ingresa un 0, se considera el fin de los datos ingresados y el proximo
+# valor determina la operacion
+# Si el usuario ingresa los 10 valores, el proximo valor a ingresar automaticamente
+#determina la operacion
+#
 
-# SUPOSICIONES
+# se inicializan los registros
+ldi 0,00		# r0 = contador = 0  se usa solo para la carga de datos
+ldi 1,01		# r1 = incremento =1 (*)
+ldi 5,00 	# r5 = 0 	util en algunas operaciones, ahorra lineas al no repetir esta operacion (*)
+# (*) esto indica los registros cuyos valores nuncan cambian
 
-# por defecto 0 es la direccion de memoria donde se empieza a almacenar los numeros,
-# COMO MAXIMO SE PUEDEN CARGAR 4 NUMEROS, podrian ser mas numeros lo que significa mas lineas
-# de codigo porque faltan instrucciones y se tienen que repetir bloques de codigos... 
-# -> despues del 4to numero cargado (tope),  el siguiente es considerado como el 2do patron que 
-# determina que buscar.
-# supongo que los numeros ingresados son enteros positivos
 
-ldi 15,00	# se inicializa el registo 15 que es el contador
-ldi 16,01	# se inicializa el registo 16, que se sumará al contador
+# inicializacion de algunos valores de la memoria
+# debido a que los numeros se almacenan por desplazamiento de izquierda a derecha,
+# es suficiente con inicializar el primer valor y el 11 avo valor (en caso se ingresen 10 numeros)
+# el 11 avo valor esta en la memoria cuya posicion es F0 = 240
+stm 0,E6
+stm 0,F0
 
-ldm 1,FD	# se guarda en el registro 1 el numero ingresado por el usuario
-jpz 1,tag_evaluar_condicion	# si el numero ingresado es 00h se evalua condic.
-stm 1,0		# se almacena el patron de bits del registro 1 en la direc de memoria 0
-add 15,15,16	# se incrementa el contador
+# **************
+# ingreso y control de datos
+tag_inicio:
+ldm 2,FD	# se guarda el valor ingresado en r2
 
-ldm 1,FD
-jpz 1,tag_evaluar_condicion
-stm 1,1
-add 15,15,16
+ldi 3,0A		# se guarda temporalmente en r3 un 10, A(hexa), para controlar la cant. de numeros ingresados
+xor 3,3,0 	# si el contador es 10, entonces r3 valdrá 0
+jpz 3,tag_controlDeOperando	# Salta si el valor ingresado supera el tope de 10 numeros
 
-ldm 1,FD
-jpz 1,tag_evaluar_condicion
-stm 1,2
-add 15,15,16
+jpz 2,tag_controlDeOperando
+add 0,0,1	# se incrementa el contador
+jpz 5,tag_almacenar
 
-ldm 1,FD
-jpz 1,tag_evaluar_condicion
-stm 1,3
-add 15,15,16
+# **************
+# almacena los datos en el vector de 10 posiciones
+tag_almacenar:
+# se realiza un desplazamiento de izq. a derecha del vector
+ldm 4,EE
+stm 4,EF
+ldm 4,ED
+stm 4,EE
+ldm 4,EC
+stm 4,ED
+ldm 4,E6
+stm 4,EC
+ldm 4,EA
+stm 4,E6
+ldm 4,E9
+stm 4,EA
+ldm 4,E8
+stm 4,E9
+ldm 4,E7
+stm 4,E8
+ldm 4,E6
+stm 4,E7
 
-tag_evaluar_condicion:
+stm 2,E6	# se almacena el valor ingresado por el usuario al inicio del vector
+jpz 5, tag_inicio
 
-ldm 1,FD	# se lee el 2do patron de bits y se guarda en el registro 1
-jpz 1,tag_minimo	# si el 2do valor ingresado es 00h se busca el minimo
 
+# **************
+tag_controlDeOperando:
+# el valor que determina la operacion ya esta almacenado en el registro 2
+# debe valer 0, para hallar el minimo, o debe valer 1, para hallar el maximo
+jpz 2,tag_evaluar_operacion		# salta si el valor de r2 es cero
+
+# si no salta, pudo haber sido 1 o basura, se determina si el valor ingresado fue 1
 # 1 en binario es 0000 0001  y  -1 en complemento a 2 es 1111 1111 = FF
-ldi 2,FF	# cargo el registro 2 con -1 en complento a 2
-add 3,2,1	
+ldi 3,FF
+add 4,3,2 	# r4 <-- r2 + r3;  r4 <-- r2 + (-1)
 
-# si la suma (resta) es 00h el 2do valor ingresado era 0000 0001 = 01h
-# por lo que se debe buscar el maximo
-jpz 3,tag_maximo
+# si r2 fue 1  entonces r4 valdrá 0, (se busca el maximo)
+jpz 4,tag_evaluar_operacion
 
-# si no se ingreso 00h o 01h se repite la evaluacion de condicion
-ldi 1,00
-jpz 1,tag_evaluar_condicion
+# si r2 no fue 1 ni 0, se pide un nuevo numero
+ldm 2,FD
+jpz 5,tag_controlDeOperando
 
+#**************
+tag_evaluar_operacion:
+# el registro 10 contendra el resultado del maximo o el minimo
 
-##########################################
+ldm 10,E6 	# se obtiene valor de la 1ra posicion del vector y se considera como el resultado
+jpz 10,fin	# si el primer valor vale 0, no se ingreso ningun valor y se va a fin
+jpz 5,tag_ciclo_evaluar_operacion
 
-# para determinar el maximo entre dos numeros a y b, se restan (a-b) 
-# si el resultado es negativo b es mayor que a, si es positivo o cero a es mayor que b
+#**************
+tag_ciclo_evaluar_operacion:
+# se realiza un desplazamiento de derecha a izq. de todo el vector incluyendo el 11 avo valor (0)
+ldm 4,E7
+stm 4,E6
+ldm 4,E8
+stm 4,E7
+ldm 4,E9
+stm 4,E8
+ldm 4,EA
+stm 4,E9
+ldm 4,EB
+stm 4,EA
+ldm 4,EC
+stm 4,EB
+ldm 4,ED
+stm 4,EC
+ldm 4,EE
+stm 4,ED
+ldm 4,EF
+stm 4,EE
+ldm 4,F0
+stm 4,EF
 
-tag_maximo:
-ldi 10,00	# en caso que no se ingrese ningun numero se muestra cero
-jpz 15,tag_imprimir	# si el contador (registro 15) vale 0 no hay mas que evaluar
+ldm 11,E6	# se lee el siguiente valor que ahora esta en la primera posicion del vector
+jpz 11,fin	# si el valor leido es 0 entonces no hay mas que leer y se considera el valor
+		# del registro 10 como el resultado
 
-ldi 14,00	# el registro 14 es un contador auxiliar que contiene la posicion de memoria
-ldi 13,01	# el registro 13  contiene 1 para sumar y aumentar en uno
-ldi 3,FF	# cargo el patron de bits FF en el registro 3
+ldi 13,FF 	# a
+xor 14,13,11 	# b
+add 13,14,1 	# c 	a, b y c permite obtener el valor negativo del registro 11, guardandolo en el registro 13
 
-########
-ldm 10,00	# cargo el registro 10 con el primer valor, asumiendo que es el maximo
-add 14,14,13	# aumento_0
+add 14,10,13 	# r14 contiene la diferencia: r14 <--- r10 - r11
 
-# se resta el contador y el contador auxiliar
-xor 9,14,3	# se guarda en el registro 9 el complemento a 1 del numero que esta en el registro 14
-add 8,9,13	# se suma 1 al registro 9 de modo que ahora el registro 8 contiene el negativo del registro 14
-add 7,15,8	# se resta el contador y el contador auxiliar
+# la diferencia r10 - r11 puede ser negativa o positiva, dandose dos casos:
+# caso I:  Si es positiva r10 es el maximo y r11 es el minimo
+# caso II: Si es negativa r10 es el minimo y r11 es el maximo
+# si fuera cero (son iguales) no se analiza, directamente se toma r10 como resultado
 
-jpz 7,tag_imprimir	# si la resta vale cero se imprime el maximo, solo habia un numero
+jpz 14,tag_ciclo_evaluar_operacion	# si r14 es cero, r10 y r11 son iguales
 
-########
-ldm 11,01	# cargo el 2do valor en el registro 11
+# se analizan los dos casos
+ldi 13,80	# r13 = 1000 0000 = 80h
+and 15,13,14 	# si r14 es negativo entonces r15 valdra 80h, si es positivo valdra 0
 
-xor 9,11,3	# el negativo del 2do valor se guarda en el registro 8
-add 8,9,13
-add 7,8,10	# la resta se guarda en el registro 7
+jpz 15,tag_primer_caso
 
-jpz 7,aumentar_1	# si la resta es cero son iguales, entonces no se hace nada porque 
-# el registro 10 ya contenia el maximo, se continua con la busqueda
-ldi 4,80	# cargo el registro 4 con el 80h = 1000 0000
-and 5,7,4	# si el valor que esta en el registro 7 es negativo el registro 5 contendra 80h
-# si es positivo contedra 00h
-jpz 5,aumentar_1	# si el valor fue cero entonces el primer numero era mayor, que corresponde
- # al numero que ya estaba almacenado en el registro 10, se continua con la busqueda...
+# aqui se ENCUENTRA en el 2do CASO, recordar que r2 no se modifico
+jpz 2,tag_ciclo_evaluar_operacion 	# si r2 vale 0, se busca el minimo y r10 ya es el minimo
+cop 11,10 	# si r2 = 1, se copia el maximo a r10, quien siempre tiene el resultado
+jpz 5,tag_ciclo_evaluar_operacion	#
 
-# la resta fue negativa
-cop 11,10	# se actualiza el mayor 
+#*************
+tag_primer_caso:
+jpz 2,tag_minimo_primer_caso
+jpz 5,tag_ciclo_evaluar_operacion
 
-aumentar_1:
-add 14,14,13
-
-# se resta el contador y el contador auxiliar
-xor 9,14,3	
-add 8,9,13	
-add 7,15,8	
-jpz 7,tag_imprimir
-
-########
-ldm 11,02
-
-xor 9,11,3	
-add 8,9,13
-add 7,8,10	
-jpz 7,aumentar_2
-ldi 4,80
-and 5,7,4
-jpz 5,aumentar_2
+#*************
+tag_minimo_primer_caso:
 cop 11,10
+jpz 5,tag_ciclo_evaluar_operacion
 
-aumentar_2:
-add 14,14,13
-
-# se resta el contador y el contador auxiliar
-xor 9,14,3	
-add 8,9,13	
-add 7,15,8	
-jpz 7,tag_imprimir
-
-########
-ldm 11,03
-
-xor 9,11,3	
-add 8,9,13
-add 7,8,10	
-jpz 7,fin_maximo
-ldi 4,80
-and 5,7,4
-jpz 5,fin_maximo
-cop 11,10
-
-fin_maximo:
-ldi 5,00
-jpz 5,tag_imprimir
-
-
-##########################################
-tag_minimo:
-ldi 10,00	# en caso que no se ingrese ningun numero se muestra cero
-jpz 15,tag_imprimir	# si el contador (registro 15) vale 0 no hay mas que evaluar
-
-ldi 14,00	# el registro 14 es un contador auxiliar que contiene la posicion de memoria
-ldi 13,01	# el registro 13  contiene 1 para sumar y aumentar en uno
-ldi 3,FF	# cargo el patron de bits FF en el registro 3
-
-########
-ldm 10,00	# cargo el registro 10 con el primer valor, asumiendo que es el minimo
-add 14,14,13	# aumento 0
-
-# se resta el contador y el contador auxiliar
-xor 9,14,3	# se guarda en el registro 9 el complemento a 1 del numero que esta en el registro 14
-add 8,9,13	# se suma 1 al registro 9 de modo que ahora el registro 8 contiene el negativo del registro 14
-add 7,15,8	# se resta el contador y el contador auxiliar
-
-jpz 7,tag_imprimir	# si la resta vale cero se imprime el minimo, solo habia un numero
-
-########
-ldm 11,01	# cargo el 2do valor en el registro 11
-
-xor 9,11,3	# el negativo del 2do valor se guarda en el registro 8
-add 8,9,13
-add 7,8,10	# la resta se guarda en el registro 7
-
-jpz 7,aumentar_1	# si la resta es cero son iguales, entonces no se hace nada porque 
-# el registro 10 ya contenia el minimo, se continua con la busqueda
-ldi 4,80	# cargo el registro 4 con el 80h = 1000 0000
-and 5,7,4	# si el valor que esta en el registro 7 es negativo el registro 5 contendra 80h
-# si es positivo contedra 00h
-jpz 5,swap_minimo_1	# si el valor fue cero entonces el primer numero era mayor, que corresponde
-# al numero que ya estaba almacenado en el registro 10
-# y el 2do numero (registro 11) es el menor, y se debe copiar al registro 10
-
-# si el valor que estaba en el registro 7 fue negativo, el 1er numero(registro 10) es menor y 
-# el 2do numero(registro 11) es mayor no se hace nada, se sigue con la busqueda
-
-ldi 4,00
-jpz 4,aumentar_1
-
-swap_minimo_1:
-cop 11,10	# se actualiza el mayor 
-
-aumentar_1:
-add 14,14,13
-
-# se resta el contador y el contador auxiliar
-xor 9,14,3	
-add 8,9,13	
-add 7,15,8	
-jpz 7,tag_imprimir
-
-########
-ldm 11,02
-
-xor 9,11,3	
-add 8,9,13
-add 7,8,10	
-jpz 7,aumentar_2
-ldi 4,80
-and 5,7,4
-jpz 5,swap_minimo_2
-ldi 4,00
-jpz 4,aumentar_2
-
-swap_minimo_2:
-cop 11,10
-
-aumentar_2:
-add 14,14,13
-
-xor 9,14,3	
-add 8,9,13	
-add 7,15,8	
-jpz 7,tag_imprimir
-
-########
-ldm 11,03
-
-xor 9,11,3	
-add 8,9,13
-add 7,8,10	
-jpz 7,fin_minimo
-ldi 4,80
-and 5,7,4
-jpz 5,swap_minimo_3
-ldi 4,00
-jpz 4,fin_minimo
-
-swap_minimo_3:
-cop 11,10
-
-fin_minimo:
-ldi 5,00
-jpz 5,tag_imprimir
-
-#########################################
-
-tag_imprimir:
+#*************
+fin:
+# si no se ingreso ningun valor se mostrara 0, de lo contrario se mostrara el resultado obtenido
 stm 10,FF
 ret
-
-
-
-
-
-
-
-
-
-
-
-
-
