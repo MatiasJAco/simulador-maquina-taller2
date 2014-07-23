@@ -19,7 +19,16 @@ ldi 14,18			#si en la posicion 4 y 3 hay bit -> overflow
 and 11,14,10
 xor 11,11,14
 jpz 11,fin_overflow
-jpz 0,extraer_exponente
+ldi 14,40  # si los dos exponentes son negativos y el resultado positivo hay underflow
+and 12,6,14 # signo de op 1
+and 13,7,14 # signo de op 2
+or 12,12,13
+jpz 12,chequear_underflow
+extraer: jpz 0,extraer_exponente
+chequear_underflow: ldi 14,04  # si los dos exponentes son negativos y el resultado positivo hay underflow
+and 11,10,14
+jpz 11,extraer
+jpz 0,fin_underflow
 restar_exceso_chico: ldi 14,04
 jpz 0,resta_de_exceso
 extraer_exponente: rotd 10,4
@@ -47,9 +56,21 @@ and 9,11,14
 jpz 9,fin_calculo_mantisa
 ldi 9,10
 add 10,10,9   #incrementa exponente
+ldi 1,80			#si en la posicion 7 hay bit -> overflow
+and 2,1,10
+xor 3,1,2
+jpz 3,fin_overflow
 rotd 14,1  # shift right de la mantisa final para ajustar
 fin_calculo_mantisa: and 14,14,5
 add 15,15,14  # se carga la mantisa final al registro del resultado
 add 15,15,10  # se carga el exponente final al registro del resultado
 stm 15,FF  #Se muestra resultado por pantalla.
-fin_overflow: ret
+fin: ret
+fin_overflow: ldi 15,FF
+stm 15,FF  #Se muestra  por pantalla FFFF por overflow.
+stm 15,FF
+jpz 0,fin
+fin_underflow: ldi 15,00
+stm 15,FF  #Se muestra resultado por pantalla 0000 por underflow.
+stm 15,FF  
+jpz 0,fin
