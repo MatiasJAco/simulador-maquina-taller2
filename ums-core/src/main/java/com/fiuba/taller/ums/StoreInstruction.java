@@ -21,7 +21,7 @@ public class StoreInstruction implements Instruction {
 		String dataToStore = this.regMem.readReg(regNumber);
 		this.mem.writeCell(memAddress, dataToStore);
 		if(memAddress.equals("FF")){
-			this.mem.writeCell("FE", "01");				 
+			this.mem.writeCell("FE", "01");			
 		}
 	}
 

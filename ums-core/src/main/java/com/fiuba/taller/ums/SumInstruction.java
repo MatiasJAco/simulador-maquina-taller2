@@ -23,6 +23,7 @@ public class SumInstruction implements Instruction {
 		String op1 = this.regMem.readReg(regNumSrc1);
 		String op2 = this.regMem.readReg(regNumSrc2);
 		this.regMem.writeReg(regNumDst, this.alu.sumC2(op1,op2));
+//		MainLogger.logWarn("Add opracion: " + op1 + " " + op2 + " " + this.regMem.readReg(regNumDst) );
 
 	}
 

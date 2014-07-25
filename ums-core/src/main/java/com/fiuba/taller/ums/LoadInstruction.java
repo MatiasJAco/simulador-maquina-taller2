@@ -23,7 +23,7 @@ public class LoadInstruction implements Instruction {
 			this.mem.writeCell("FC", "01");
 			Scanner sc = new Scanner(System.in);
 			while(dataToLoad.length() < 2){
-				System.out.print("Ingrese un patrón de 1 byte en formato hexadecimal: ");
+				System.out.print("Entra: ");
 				dataToLoad = sc.nextLine(); 
 			}
 			dataToLoad = dataToLoad.substring(0,2);

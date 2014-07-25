@@ -13,19 +13,15 @@ public class ControlUnit {
 	private ALU alu;
 	private String instructionRegister;
 	private int nextInstructionAddress;
-	private Instruction currentInstruction;
+	private Instruction currentDecodedInstruction;
+	private Instruction currentExecutingInstruction;
 	private RegisterMemory regMem;
 	private boolean programEnded;
-
-
-	public String getInstructionRegister() {
-		return instructionRegister;
-	}
-
-	public void setInstructionRegister(String instructionRegister) {
-		this.instructionRegister = instructionRegister;
-	}
-
+	private String  fetchInstructionRegister;
+	private String 	instructionToDecode;
+	private String  decodeInstructionRegister;
+	private String  executionInstructionRegister;
+	
 
 	public ControlUnit() {
 		this.mem = new Memory();
@@ -33,8 +29,15 @@ public class ControlUnit {
 		this.regMem = new RegisterMemory();
 		this.instructionRegister="";
 		this.nextInstructionAddress=0;
-		currentInstruction=null;
+		currentDecodedInstruction=new noOpInstruction();
+		currentExecutingInstruction = new noOpInstruction();
 		programEnded = false;
+		this.fetchInstructionRegister="0000";
+		this.decodeInstructionRegister="0000";
+		this.executionInstructionRegister="0000";
+		instructionToDecode = "0000";
+		
+		
 	}
 
 	public ControlUnit(Memory aMem) {
@@ -44,19 +47,38 @@ public class ControlUnit {
 		this.instructionRegister="";
 		this.alu = new ALU();
 		this.nextInstructionAddress=0;
-		currentInstruction = null;
+		currentDecodedInstruction=new noOpInstruction();
+		currentExecutingInstruction = new noOpInstruction();
 		programEnded = false;
+		this.fetchInstructionRegister="0000";
+		this.decodeInstructionRegister="0000";
+		this.executionInstructionRegister="0000";
+		instructionToDecode = "0000";
 	}
 
 	public ControlUnit(Memory myMemory, RegisterMemory myRegMem) {		
 		this.instructionRegister="";
 		this.alu = new ALU();
 		this.nextInstructionAddress=0;
-		currentInstruction = null;
+		currentDecodedInstruction=new noOpInstruction();
+		currentExecutingInstruction = new noOpInstruction();
 		this.mem = myMemory;
 		this.regMem = myRegMem;
 		programEnded = false;
+		this.fetchInstructionRegister="0000";
+		this.decodeInstructionRegister="0000";
+		this.executionInstructionRegister="0000";
+		instructionToDecode = "0000";
 	}
+
+	public String getInstructionRegister() {
+		return instructionRegister;
+	}
+
+	public void setInstructionRegister(String instructionRegister) {
+		this.instructionRegister = instructionRegister;
+	}
+
 
 	public void loadInstructionToMemory(String inst) {
 		String firstHalf = inst.substring(0,2);
@@ -68,14 +90,18 @@ public class ControlUnit {
 	}
 
 	public Instruction getCurrentInstruction(){		
-		return this.currentInstruction;		
+		return this.currentDecodedInstruction;		
 	}
 
 	public String fetchInstruction() {
 		String result= this.mem.readCell(nextInstructionAddress) + this.mem.readCell(nextInstructionAddress + 1);
 		this.instructionRegister=result;
+		this.instructionToDecode = this.fetchInstructionRegister;
+		this.fetchInstructionRegister = result;
 		this.nextInstructionAddress++;
 		this.nextInstructionAddress++;
+//		MainLogger.logError("Fetch instruction: " + getInstructionRegister() );
+//		MainLogger.logError("Fetch instruction: " + getFetchInstructionRegister() );
 		return getInstructionRegister();
 	}
 
@@ -86,49 +112,50 @@ public class ControlUnit {
 		String params = inst.substring(1);
 		switch (codOp) {
 		case '1':
-			this.setCurrentInstruction(new LoadInstruction(params,this.mem,this.regMem));
+			this.setCurrentDecodedInstruction(new LoadInstruction(params,this.mem,this.regMem));
 			//Setear componentes				
 			break;
 		case '2':
-			this.setCurrentInstruction(new LoadImmInstruction(params, this.regMem));
+			this.setCurrentDecodedInstruction(new LoadImmInstruction(params, this.regMem));
 			break;
 		case '3':
-			this.setCurrentInstruction(new StoreInstruction(params,this.mem,this.regMem));
+			this.setCurrentDecodedInstruction(new StoreInstruction(params,this.mem,this.regMem));
 			break;
 		case '4':
-			this.setCurrentInstruction(new CopyInstruction(params, this.regMem));
+			this.setCurrentDecodedInstruction(new CopyInstruction(params, this.regMem));
 			break;
 		case '5':
-			this.setCurrentInstruction(new SumInstruction(params,this.regMem,this.alu));
+			this.setCurrentDecodedInstruction(new SumInstruction(params,this.regMem,this.alu));
 			break;
 		case '6':
-			this.setCurrentInstruction(new SumFInstruction(params,this.regMem,this.alu));
+			this.setCurrentDecodedInstruction(new SumFInstruction(params,this.regMem,this.alu));
 			break;
 		case '7':
-			this.setCurrentInstruction(new OrInstruction(params,this.regMem,this.alu));
+			this.setCurrentDecodedInstruction(new OrInstruction(params,this.regMem,this.alu));
 			break;
 		case '8':
-			this.setCurrentInstruction(new AndInstruction(params,this.regMem,this.alu));
+			this.setCurrentDecodedInstruction(new AndInstruction(params,this.regMem,this.alu));
 			break;
 		case '9':
-			this.setCurrentInstruction(new XorInstruction(params,this.regMem,this.alu));
+			this.setCurrentDecodedInstruction(new XorInstruction(params,this.regMem,this.alu));
 			break;
 		case 'A':
-			this.setCurrentInstruction(new RotateInstruction(params,this.regMem,this.alu));
+			this.setCurrentDecodedInstruction(new RotateInstruction(params,this.regMem,this.alu));
 			break;
 		case 'B':
-			this.setCurrentInstruction(new JumpInstruction(params,this.alu,this,this.regMem));
+			this.setCurrentDecodedInstruction(new JumpInstruction(params,this.alu,this,this.regMem));
 			break;
 		case 'C':
-			this.setCurrentInstruction(new RetInstruction(this));
+			this.setCurrentDecodedInstruction(new RetInstruction(this));
 			break;
 		default:
+			this.setCurrentDecodedInstruction(new noOpInstruction());
 			break;
 		}
 
 
 
-		return this.currentInstruction;
+		return this.currentDecodedInstruction;
 
 
 
@@ -142,22 +169,28 @@ public class ControlUnit {
 		this.nextInstructionAddress = nextInstructionAddress;
 	}
 
-	public void setCurrentInstruction(Instruction currentInstruction) {
-		this.currentInstruction = currentInstruction;
+	public void setCurrentDecodedInstruction(Instruction currentInstruction) {
+		this.currentDecodedInstruction = currentInstruction;
 	}
 
 
 
 	public void executeCurrentInstruction() {
-		this.currentInstruction.execute();
+		this.currentExecutingInstruction.execute();
+//		MainLogger.logError("Executing instruction: " + this.getExecutionInstructionRegister() );
 		if(this.mem.readCell("FE").equals("01"))
-			System.out.print(this.mem.readCell("FF"));
+			System.out.print("Sale: " + this.mem.readCell("FF"));
 		this.mem.writeCell("FE", "00");
 
 	}
 
 	public Instruction decode() {
-		return this.decode(this.instructionRegister);		
+		this.executionInstructionRegister = this.decodeInstructionRegister;
+		this.decodeInstructionRegister = this.instructionToDecode;
+		this.currentExecutingInstruction = this.currentDecodedInstruction;
+//		MainLogger.logError("Decoded instruction: " + this.getDecodeInstructionRegister() );
+		return this.decode(this.decodeInstructionRegister);		
+		
 	}
 
 	public void loadProgramToMemory(String tempfile) {
@@ -216,6 +249,36 @@ public class ControlUnit {
 
 	public void setProgramEnded(boolean b) {
 		this.programEnded = b;		
+	}
+
+	public String getFetchInstructionRegister() {
+		return fetchInstructionRegister;
+	}
+
+	public void setFetchInstructionRegister(String fetchInstructionRegister) {
+		this.fetchInstructionRegister = fetchInstructionRegister;
+	}
+
+	public String getDecodeInstructionRegister() {
+		return decodeInstructionRegister;
+	}
+
+	public void setDecodeInstructionRegister(String decodeInstructionRegister) {
+		this.decodeInstructionRegister = decodeInstructionRegister;
+	}
+
+	public String getExecutionInstructionRegister() {
+		return executionInstructionRegister;
+	}
+
+	public void setExecutionInstructionRegister(
+			String executionInstructionRegister) {
+		this.executionInstructionRegister = executionInstructionRegister;
+	}
+
+	public void setInstructionToDecode(String string) {
+		this.instructionToDecode = string;
+		
 	}
 
 }
