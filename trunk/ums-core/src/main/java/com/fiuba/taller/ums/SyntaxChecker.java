@@ -1,6 +1,7 @@
 package com.fiuba.taller.ums;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,8 +42,32 @@ public class SyntaxChecker {
 	private static final Set<String> ASSEMBLYVALUES = new HashSet<String>(Arrays.asList(
 			new String[] {"ldm","ldi" ,"stm","cop" ,"add" ,"addf","or","and","xor","rotd","jpz","ret"}));                  
 
+
+	private static final Set<String> REGVALUES;
+	static {
+		Set<String> tmpSet = new HashSet<String>();
+		tmpSet.add("0");
+		tmpSet.add("1");
+		tmpSet.add("2");
+		tmpSet.add("3");
+		tmpSet.add("4");
+		tmpSet.add("5");
+		tmpSet.add("6");
+		tmpSet.add("7");
+		tmpSet.add("8");
+		tmpSet.add("9");
+		tmpSet.add("10");
+		tmpSet.add("11");
+		tmpSet.add("12");
+		tmpSet.add("13");
+		tmpSet.add("14");
+		tmpSet.add("15");	   
+		REGVALUES = Collections.unmodifiableSet(tmpSet);
+	}
+
 	private static final String  HEXAVALUES= "0123456789ABCDEF";
 	private static final String  HEXASPECIALVALUES= "ABCDEF";
+	//	private static final String  RegValues= "0123456789ABCDEF";
 
 	private static final String  MAQVALUES= "123456789ABC";
 
@@ -163,7 +188,12 @@ public class SyntaxChecker {
 			//comentario en la linea 			
 			if(!(inst.indexOf(COMMENTARY_SEPARATOR) < MINIMUM_INST_LENGHT)){
 				String[] lineParts = inst.split(COMMENTARY_SEPARATOR);
-				result = "  " + COMMENTARY_SEPARATOR + lineParts[1]; 
+				if(lineParts.length > 1){
+					result = "  " + COMMENTARY_SEPARATOR + lineParts[1];
+				}else{
+					result = "";
+				}
+					
 			}else{
 				result = inst;	
 			};
@@ -238,11 +268,16 @@ public class SyntaxChecker {
 
 			for (int i = 0; i < paramArray.length ; i++){
 				if (!instName.toLowerCase().equals("jpz")){
-					if(!validarParameterSize(paramArray[i]) || !validarValorHexa(paramArray[i])){
+					if(!validarParameterSize(paramArray[i]) ){
 						result=false;
 					};
 				}
 			}
+
+			if(!validarTipoParametro(instName,paramArray)){
+				result = false;
+			}
+
 		}else{
 			result=false;
 		}
@@ -250,6 +285,57 @@ public class SyntaxChecker {
 	}
 
 
+
+	private static boolean validarTipoParametro(String instName, String[] paramArray) {
+		boolean result = true;
+		switch(MustUseSwitch.valueOf(instName.toUpperCase())){
+		case LDM:
+		case LDI:			
+		case STM:
+			if(!REGVALUES.contains(paramArray[0]) || !validarValorHexa(paramArray[1]) ){
+				result=false;
+				String msg = "Valor incorrecto de parametro.";
+				MainLogger.logError(msg);				
+			}
+			break;
+		case COP:
+			if(!REGVALUES.contains(paramArray[0]) || !REGVALUES.contains(paramArray[1]) ){
+				result=false;
+				String msg = "Valor incorrecto de parametro.";
+				MainLogger.logError(msg);				
+			}
+			break;
+		case ADD:
+		case ADDF:
+		case OR:
+		case AND:
+		case XOR:
+			if(!REGVALUES.contains(paramArray[0]) || !REGVALUES.contains(paramArray[1]) || !REGVALUES.contains(paramArray[2])){
+				result=false;
+				String msg = "Valor incorrecto de parametro.";
+				MainLogger.logError(msg);				
+			}
+			break;
+		case ROTD:
+			if(!REGVALUES.contains(paramArray[0]) || !validarValorHexa(paramArray[1])){
+				result=false;
+				String msg = "Valor incorrecto de parametro.";
+				MainLogger.logError(msg);				
+			}
+			break;
+		case JPZ:
+			if(!REGVALUES.contains(paramArray[0])){
+				result=false;
+				String msg = "Valor incorrecto de parametro.";
+				MainLogger.logError(msg);				
+			}
+			break;
+		case RET:
+			break;
+		default:			
+		}
+		return result;		
+	}
 
 	private static boolean validarValorHexa(String s) {
 		boolean result = true;

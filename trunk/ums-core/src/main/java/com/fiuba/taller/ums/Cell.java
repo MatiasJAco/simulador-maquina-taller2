@@ -5,7 +5,7 @@ public class Cell {
 	private String data;
 
 	public Cell() {
-		this.data="";
+		this.data="00";
 		
 	}
 
