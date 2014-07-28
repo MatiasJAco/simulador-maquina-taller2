@@ -56,9 +56,41 @@ public class TestAlu {
 	public void testSumFPositive() {
 		ALU myAlu = new ALU();
 		String result = myAlu.sumF("4D", "42");
+//		String result = myAlu.sumF("30", "50");
 		assertEquals("58", result);
 		assertFalse(myAlu.isOverflow());
 	}
 	
+	@Test
+	//1.5 - 2 = -0.5
+	public void testSumFNegative() {
+		ALU myAlu = new ALU();
+		String result = myAlu.sumF("48", "D0");
+//		String result = myAlu.sumF("50", "D0");
+//		String result = myAlu.sumF("78", "CB");
+		assertEquals("B0", result);
+		assertFalse(myAlu.isOverflow());
+	}
+	
+	
+	@Test
+	//1.8125 + 1.125 = 2.9375
+	public void testSumFPrecisionPositivo() {
+		ALU myAlu = new ALU();
+		String result = myAlu.sumFPrecisionCheck("30", "50");
+//		String result = myAlu.sumF("4D", "42");
+		assertEquals("54", result);
+		assertFalse(myAlu.isOverflow());
+	}
+	@Test
+	//-2 + 2 = 0.0
+		public void testSumFPrecisionNegativo() {
+			ALU myAlu = new ALU();
+//			String result = myAlu.sumFPrecisionCheck("48", "D0");
+			String result = myAlu.sumFPrecisionCheck("D0", "50");
+//			String result = myAlu.sumFPrecisionCheck("78", "CB");
+			assertEquals("00", result);
+			assertFalse(myAlu.isOverflow());
+		}
 
 }

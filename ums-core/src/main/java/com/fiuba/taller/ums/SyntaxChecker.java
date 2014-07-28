@@ -20,7 +20,7 @@ public class SyntaxChecker {
 	private static final int MINIMUM_INST_LENGHT = 3;
 
 
-	private static Logger log;
+//	private static Logger log;
 	//	private MainLogger mlogger;
 
 	private enum MustUseSwitch{
