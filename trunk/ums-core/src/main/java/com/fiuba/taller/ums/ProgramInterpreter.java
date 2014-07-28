@@ -13,7 +13,7 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 public class ProgramInterpreter {
-	private Logger log;
+//	private Logger log;
 	private static final String FILESYSTEM_SEPARATOR = "\\\\";
 	private static final String ASM_EXT = ".asm";
 	private static final String CODABS_EXT = ".maq";
@@ -23,8 +23,8 @@ public class ProgramInterpreter {
 
 
 	public ProgramInterpreter() {
-		BasicConfigurator.configure();
-		log = Logger.getLogger("UMS Log");
+//		BasicConfigurator.configure();
+//		log = Logger.getLogger("UMS Log");
 		tags = new HashMap<String, String>();
 	}
 

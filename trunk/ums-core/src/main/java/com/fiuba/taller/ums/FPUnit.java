@@ -87,17 +87,26 @@ public class FPUnit {
 		else
 			exp=difPos;
 		if(exp >= -4 && exp <= 3){
+			System.out.println("MybinBum: " + myBinNum);
 			String expBin = HexaConverter.decimalToBase(exp + EXCESO, 2, BITS_EXPONENTE);
 			myBinNum = myBinNum.replaceAll("\\.", "");
 			int index =myBinNum.indexOf("1");
 			String mantisa = myBinNum.substring(index +1);
-			if(mantisa.length() > 4){
+			if(mantisa.length() > BITS_MANTISA){
 				mantisa = roundMantisa(mantisa);
 				mantisa = mantisa.substring(0,4);			
+			}else{
+				if(mantisa.length() < BITS_MANTISA){
+					int bitsRelleno = BITS_MANTISA - mantisa.length();
+					for (int i=0; i < bitsRelleno; i++){
+						mantisa = mantisa + "0";
+					}
+				}
 			}
 
 
 			//		myBinNum = result.substring(0,myBinNum.indexOf("1")) + "." + result.substring(myBinNum.indexOf("1")+1);
+			System.out.println("sign: " + sign + " exp :" + expBin + " man : "+mantisa);
 			result = sign + expBin + mantisa;
 		}else{
 			result = "00000000";			
@@ -139,10 +148,12 @@ public class FPUnit {
 		//Normalizar
 		int difPos=myBinNum.indexOf(".")-myBinNum.indexOf("1");
 		int exp=0;
-		if(difPos >0)
-			exp=difPos-1;
-		else
-			exp=difPos;
+		if(myBinNum.contains("1")){
+			if(difPos >0)
+				exp=difPos-1;
+			else
+				exp=difPos;
+		}
 		if(exp < -4 || exp > 3){
 			result=true;			
 		}		

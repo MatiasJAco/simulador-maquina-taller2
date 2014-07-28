@@ -22,7 +22,7 @@ public class LoadInstruction implements Instruction {
 		if(memAddress.equals("FD")){
 			this.mem.writeCell("FC", "01");
 			Scanner sc = new Scanner(System.in);
-			while(dataToLoad.length() < 2){
+			while(dataToLoad.length() < 2){				
 				System.out.print("Entra: ");
 				dataToLoad = sc.nextLine(); 
 			}
