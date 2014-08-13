@@ -20,7 +20,7 @@ public class ExtraMenu extends JMenu {
 		super("Extra");
 
 		// Decimal to Hexadecimal calculator
-		decToHexCalcMenuItem = new JMenuItem("DEC to HEX calculator");
+		decToHexCalcMenuItem = new JMenuItem("Calculator");
 		decToHexCalcMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/DecToHexCalculator.png")));
 		this.add(decToHexCalcMenuItem);
