@@ -27,12 +27,15 @@ public class ConvertCalculatorAction implements KeyListener {
 		if(e.getKeyChar() == KeyEvent.VK_ENTER) {
 			String numero = myCalculator.getNumberInput();
 			
-			if(entradaValida(numero)) {
-				myCalculator.setResult(getResult(numero));
-			}
-			else {
-				myCalculator.informarError();
-			}
+			if(numero.length() == 0) {
+				myCalculator.setResult("");
+				return;
+			} else if(entradaValida(numero)) {
+					myCalculator.setResult(getResult(numero));
+					}
+					else {
+							myCalculator.informarError();
+					}
 		}		
 	}
 
