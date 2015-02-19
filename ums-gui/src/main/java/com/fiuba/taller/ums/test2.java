@@ -6,7 +6,9 @@ package com.fiuba.taller.ums;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
@@ -119,10 +122,11 @@ public class test2 {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 676, 617);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+
+		// --- <REGISTRY> ---
 
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 660, 127);
 		panel.setBorder(new TitledBorder(null, "Regristry",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel);
@@ -408,8 +412,11 @@ public class test2 {
 		gbc_textField_15.gridy = 3;
 		panel.add(textField_15, gbc_textField_15);
 
+		// --- </REGISTRY> ---
+
+		// --- <MEMORY> ---
+
 		panel_2 = new JPanel();
-		panel_2.setBounds(0, 127, 660, 132);
 		panel_2.setBorder(new TitledBorder(null, "Memory",
 				TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		frame.getContentPane().add(panel_2);
@@ -729,6 +736,13 @@ public class test2 {
 		gbc_btnNewButton_1.gridx = 2;
 		gbc_btnNewButton_1.gridy = 0;
 		panel_2.add(btnNewButton_1, gbc_btnNewButton_1);
-	}
 
+		Panel panel_1 = new Panel();
+		frame.getContentPane().add(panel_1);
+
+		JTextArea textArea = new JTextArea();
+		panel_1.add(textArea);
+
+		// --- </MEMORY> ---
+	}
 }
