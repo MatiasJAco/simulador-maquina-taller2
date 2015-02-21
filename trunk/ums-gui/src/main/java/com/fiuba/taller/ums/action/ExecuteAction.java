@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import com.fiuba.taller.ums.CicloFetchThread;
 import com.fiuba.taller.ums.ControlUnit;
 import com.fiuba.taller.ums.Memory;
 import com.fiuba.taller.ums.ProgramInterpreter;
@@ -71,16 +72,18 @@ public class ExecuteAction implements ActionListener {
 			if (textEditor.getFileType() == FileType.MACHINE_CODE)
 				compileSuccesfull=pi.compileMachinecode(tempfile);
 			if(compileSuccesfull){
-				//Cargar en memoria
-				Memory myMemory = new Memory() ;
-				ControlUnit myControlUnit = new ControlUnit(myMemory);
-				myControlUnit.loadProgramToMemory(tempfile);
-				while(!myControlUnit.isProgramEnded()){
-					myControlUnit.fetchInstruction();
-					myControlUnit.decode();
-					myControlUnit.executeCurrentInstruction();
-				}
+//				//Cargar en memoria
+//				Memory myMemory = new Memory() ;
+//				ControlUnit myControlUnit = new ControlUnit(myMemory);
+//				myControlUnit.loadProgramToMemory(tempfile);
+//				while(!myControlUnit.isProgramEnded()){
+//					myControlUnit.fetchInstruction();
+//					myControlUnit.decode();
+//					myControlUnit.executeCurrentInstruction();
+//				}
 //				MainLogger.logTrace(myControlUnit.dumpMemory());
+				CicloFetchThread hiloFetch = new CicloFetchThread(tempfile);
+				hiloFetch.start();
 			}
 		};
 		// TODO Auto-generated method stub

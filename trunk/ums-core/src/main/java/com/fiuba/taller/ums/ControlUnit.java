@@ -16,6 +16,18 @@ public class ControlUnit {
 	private Instruction currentDecodedInstruction;
 	private Instruction currentExecutingInstruction;
 	private RegisterMemory regMem;
+	public Memory getMem() {
+		return mem;
+	}
+
+	public ALU getAlu() {
+		return alu;
+	}
+
+	public RegisterMemory getRegMem() {
+		return regMem;
+	}
+
 	private boolean programEnded;
 	private String  fetchInstructionRegister;
 	private String 	instructionToDecode;
@@ -179,7 +191,7 @@ public class ControlUnit {
 		this.currentExecutingInstruction.execute();
 //		MainLogger.logError("Executing instruction: " + this.getExecutionInstructionRegister() );
 		if(this.mem.readCell("FE").equals("01"))
-			System.out.print("Sale: " + this.mem.readCell("FF"));
+			System.out.print("Sale: " + this.mem.readCell("FF") + "\n");
 		this.mem.writeCell("FE", "00");
 
 	}
