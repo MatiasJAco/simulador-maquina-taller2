@@ -13,13 +13,11 @@ import com.fiuba.taller.ums.component.LanguageCodeMenu;
 import com.fiuba.taller.ums.component.MultiTabPane;
 import com.fiuba.taller.ums.component.ProjectMenu;
 import com.fiuba.taller.ums.component.StatusBar;
+import com.fiuba.taller.ums.properties.ConfigurationProperties;
 
 public class UmsEditorGui {
 
-	private final static int WINDOW_POSITION_X = 100;
-	private final static int WINDOW_POSITION_Y = 100;
-	private final static int WINDOW_HEIGH_SIZE = 600;
-	private final static int WINDOW_WIDTH_SIZE = 800;
+	ConfigurationProperties properties = ConfigurationProperties.getInstance();
 
 	private JFrame frame;
 
@@ -61,9 +59,12 @@ public class UmsEditorGui {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setTitle("UMS Code Editor");
-		frame.setBounds(WINDOW_POSITION_X, WINDOW_POSITION_Y,
-				WINDOW_WIDTH_SIZE, WINDOW_HEIGH_SIZE);
+		frame.setTitle(properties.getProperty("MAIN_WINDOW_TITLE"));
+		frame.setBounds(
+				Integer.parseInt(properties.getProperty("MAIN_WINDOW_POSITION_X")),
+				Integer.parseInt(properties.getProperty("MAIN_WINDOW_POSITION_Y")),
+				Integer.parseInt(properties.getProperty("MAIN_WINDOW_WIDTH_SIZE")),
+				Integer.parseInt(properties.getProperty("MAIN_WINDOW_HEIGH_SIZE")));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		multiTabPane = new MultiTabPane();
