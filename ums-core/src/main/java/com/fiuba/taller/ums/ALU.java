@@ -6,11 +6,48 @@ public class ALU {
 
 	private static final int MANTISA_LENGHT = 4;
 	private boolean overflow;
+	public int getBitsPrecisionPerdidos() {
+		return bitsPrecisionPerdidos;
+	}
+
 	private int bitsPrecisionPerdidos;
+	private String regSrc1;
+	private String regSrc2;
+	private String regNumResult;
+	private String result;
+
+	
+	public String getRegNumSrc1() {
+		return regSrc1;
+	}
+
+	public void setRegNumSrc1(String regNumSrc1) {
+		this.regSrc1 = regNumSrc1;
+	}
+
+	public String getRegNumSrc2() {
+		return regSrc2;
+	}
+
+	public void setRegNumSrc2(String regNumSrc2) {
+		this.regSrc2 = regNumSrc2;
+	}
+
+	
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
 
 	public ALU() {
 		this.overflow = false;
 		this.bitsPrecisionPerdidos = 0;
+		this.setResult("");
+		this.setRegNumSrc1("");
+		this.setRegNumSrc2("");
 	}
 
 	public boolean isOverflow() {
@@ -32,6 +69,8 @@ public class ALU {
 	public String sumC2(String regNumSrc1, String regNumSrc2) {
 		//4 casos, ++, -- , +- de resultado positivo, +- de resultado negativo.
 		//++
+		this.setRegNumSrc1(regNumSrc1);
+		this.setRegNumSrc2(regNumSrc2);
 		this.setOverflow(false);
 		this.bitsPrecisionPerdidos = 0;
 		int result =0;
@@ -40,10 +79,13 @@ public class ALU {
 		result = op1 + op2;			
 		if((result > 0 && result > 127) || (result < 0 && result < -128) )
 			this.setOverflow(true);
-		return HexaConverter.decimalToBaseC2(result, 16);
+		this.setResult(HexaConverter.decimalToBaseC2(result, 16));
+		return this.result;
 	}
 
 	public String sumF(String regNumSrc1, String regNumSrc2) {
+		this.setRegNumSrc1(regNumSrc1);
+		this.setRegNumSrc2(regNumSrc2);
 		this.setOverflow(false);
 		this.bitsPrecisionPerdidos = 0;
 		float result =0;
@@ -52,10 +94,13 @@ public class ALU {
 		result = op1 + op2;			
 		this.setOverflow(FPUnit.isOverflow(result));
 		System.out.println("Res: " + result);
-		return FPUnit.decimalAPuntoFlotante(result);
+		this.setResult(FPUnit.decimalAPuntoFlotante(result));
+		return this.result;
 	}
 
 	public String sumFPrecisionCheck(String regNumSrc1, String regNumSrc2) {
+		this.setRegNumSrc1(regNumSrc1);
+		this.setRegNumSrc2(regNumSrc2);
 		this.setOverflow(false);
 		this.bitsPrecisionPerdidos = 0;
 		//		float result =0;
@@ -142,7 +187,8 @@ public class ALU {
 		//		result = op1 + op2;			
 		//		this.setOverflow(FPUnit.isOverflow(result));
 		//		return FPUnit.decimalAPuntoFlotante(result);
-		return HexaConverter.decimalToBase(HexaConverter.baseToDecimal(result, 2),16);
+		this.setResult(HexaConverter.decimalToBase(HexaConverter.baseToDecimal(result, 2),16));
+		return this.result;
 	}
 
 
@@ -258,33 +304,44 @@ public class ALU {
 
 
 	public String logicOR(String op1, String op2) {
+		this.setRegNumSrc1(op1);
+		this.setRegNumSrc2(op2);
 		this.bitsPrecisionPerdidos = 0;
 		this.setOverflow(false);
 		int intOp1 = HexaConverter.baseToDecimal(op1, 16);
 		int intOp2 = HexaConverter.baseToDecimal(op2, 16);
 		int result = intOp1 | intOp2; 		
-		return HexaConverter.decimalToBase(result, 16);
+		this.setResult( HexaConverter.decimalToBase(result, 16));
+		return this.result;
 	}
 
 	public String logicAND(String op1, String op2) {
+		this.setRegNumSrc1(op1);
+		this.setRegNumSrc2(op2);
 		this.bitsPrecisionPerdidos = 0;
 		this.setOverflow(false);
 		int intOp1 = HexaConverter.baseToDecimal(op1, 16);
 		int intOp2 = HexaConverter.baseToDecimal(op2, 16);
 		int result = intOp1 & intOp2; 		
-		return HexaConverter.decimalToBase(result, 16);
+		this.setResult(HexaConverter.decimalToBase(result, 16));
+		return this.result;
 	}
 
 	public String logicXOR(String op1, String op2) {
+		this.setRegNumSrc1(op1);
+		this.setRegNumSrc2(op2);
 		this.bitsPrecisionPerdidos = 0;
 		this.setOverflow(false);
 		int intOp1 = HexaConverter.baseToDecimal(op1, 16);
 		int intOp2 = HexaConverter.baseToDecimal(op2, 16);
-		int result = intOp1 ^ intOp2; 		
-		return HexaConverter.decimalToBase(result, 16);
+		int result = intOp1 ^ intOp2;
+		this.setResult(HexaConverter.decimalToBase(result, 16));
+		return this.result;
 	}
 
 	public String rotateR(String data, String repetitions) {
+		this.setRegNumSrc1(data);
+		this.setRegNumSrc2(repetitions);
 		this.bitsPrecisionPerdidos = 0;
 		this.setOverflow(false);
 		String binData = HexaConverter.hexaToBinary(data);
@@ -296,7 +353,8 @@ public class ALU {
 			binData = lastBit + binData;			
 		};
 		int result = HexaConverter.baseToDecimal(binData, 2);
-		return HexaConverter.decimalToBase(result, 16);		
+		this.setResult(HexaConverter.decimalToBase(result, 16));
+		return this.result;		
 	}
 
 }
