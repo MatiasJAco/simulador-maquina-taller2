@@ -24,7 +24,7 @@ public class ProjectMenu extends JMenu {
 	public ProjectMenu() {
 		super("Project");
 		// Compile code item @ Project menu
-		compileMenuItem = new JMenuItem("Compile");
+		compileMenuItem = new JMenuItem("Check Syntax");
 		this.add(compileMenuItem);
 		compileMenuItem.setIcon(new ImageIcon(getClass().getResource(
 				"/img/icon/CompileFile.png")));
