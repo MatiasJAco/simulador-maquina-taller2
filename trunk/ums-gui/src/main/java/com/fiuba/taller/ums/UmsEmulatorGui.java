@@ -9,28 +9,20 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.TitledBorder;
-import javax.swing.JTextPane;
 import javax.swing.JToolBar;
-import javax.swing.JComboBox;
-import javax.swing.JMenuItem;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
-import javax.swing.JCheckBox;
+import javax.swing.border.TitledBorder;
 
 public class UmsEmulatorGui {
 
@@ -38,7 +30,7 @@ public class UmsEmulatorGui {
 	private JPanel panel_2;
 	private JButton btnNewButton;
 	private JButton btnNewButton_1;
-	private JPanel panel;
+	private JPanel registryPanel;
 	private JLabel label_1;
 	private JTextField textField;
 	private JLabel label_2;
@@ -71,7 +63,7 @@ public class UmsEmulatorGui {
 	private JTextField textField_14;
 	private JLabel label_16;
 	private JTextField textField_15;
-	private JPanel panel_3;
+	private JPanel registryMatrixPanel;
 	private JPanel panel_4;
 	private JLabel label;
 	private JTextField textField_16;
@@ -105,7 +97,7 @@ public class UmsEmulatorGui {
 	private JTextField textField_30;
 	private JLabel label_31;
 	private JTextField textField_31;
-	private JPanel panel_1;
+	private JPanel cpuPanel;
 	private JToolBar toolBar;
 	private JButton btnRun;
 	private JButton btnNext;
@@ -192,39 +184,39 @@ public class UmsEmulatorGui {
 				
 						// --- <REGISTRY> ---
 				
-						panel = new JPanel();
-						panel.setBorder(new TitledBorder(null, "Regristry",
+						registryPanel = new JPanel();
+						registryPanel.setBorder(new TitledBorder(null, "Regristry",
 								TitledBorder.LEADING, TitledBorder.TOP, null, null));
-						GridBagConstraints gbc_panel = new GridBagConstraints();
-						gbc_panel.fill = GridBagConstraints.BOTH;
-						gbc_panel.insets = new Insets(0, 0, 5, 0);
-						gbc_panel.gridx = 0;
-						gbc_panel.gridy = 1;
-						frame.getContentPane().add(panel, gbc_panel);
-						GridBagLayout gbl_panel = new GridBagLayout();
-						gbl_panel.columnWeights = new double[] { 0.0 };
-						gbl_panel.rowWeights = new double[] { 0.0 };
-						panel.setLayout(gbl_panel);
+						GridBagConstraints gbc_registryPanel = new GridBagConstraints();
+						gbc_registryPanel.fill = GridBagConstraints.BOTH;
+						gbc_registryPanel.insets = new Insets(0, 0, 5, 0);
+						gbc_registryPanel.gridx = 0;
+						gbc_registryPanel.gridy = 1;
+						frame.getContentPane().add(registryPanel, gbc_registryPanel);
+						GridBagLayout gbl_registryPanel = new GridBagLayout();
+						gbl_registryPanel.columnWeights = new double[] { 0.0 };
+						gbl_registryPanel.rowWeights = new double[] { 0.0 };
+						registryPanel.setLayout(gbl_registryPanel);
 						
-								panel_3 = new JPanel();
-								panel_3.setPreferredSize(new Dimension(480, 120));
-								panel_3.setAlignmentX(Component.LEFT_ALIGNMENT);
-								panel_3.setAlignmentY(Component.TOP_ALIGNMENT);
-								panel_3.setBorder(null);
-								GridBagConstraints gbc_panel_3 = new GridBagConstraints();
-								gbc_panel_3.ipady = 1;
-								gbc_panel_3.ipadx = 1;
-								gbc_panel_3.anchor = GridBagConstraints.NORTHWEST;
-								gbc_panel_3.gridx = 0;
-								gbc_panel_3.gridy = 0;
-								panel.add(panel_3, gbc_panel_3);
-								GridBagLayout gbl_panel_3 = new GridBagLayout();
-								gbl_panel_3.columnWidths = new int[] { 30, 60, 30, 60, 30, 60, 30, 60 };
-								gbl_panel_3.rowHeights = new int[] { 30, 30, 30, 30 };
-								gbl_panel_3.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0,
+								registryMatrixPanel = new JPanel();
+								registryMatrixPanel.setPreferredSize(new Dimension(480, 120));
+								registryMatrixPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+								registryMatrixPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+								registryMatrixPanel.setBorder(null);
+								GridBagConstraints gbc_registryMatrixPanel = new GridBagConstraints();
+								gbc_registryMatrixPanel.ipady = 1;
+								gbc_registryMatrixPanel.ipadx = 1;
+								gbc_registryMatrixPanel.anchor = GridBagConstraints.NORTHWEST;
+								gbc_registryMatrixPanel.gridx = 0;
+								gbc_registryMatrixPanel.gridy = 0;
+								registryPanel.add(registryMatrixPanel, gbc_registryMatrixPanel);
+								GridBagLayout gbl_registryMatrixPanel = new GridBagLayout();
+								gbl_registryMatrixPanel.columnWidths = new int[] { 30, 60, 30, 60, 30, 60, 30, 60 };
+								gbl_registryMatrixPanel.rowHeights = new int[] { 30, 30, 30, 30 };
+								gbl_registryMatrixPanel.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0,
 										1.0, 0.0, 1.0 };
-								gbl_panel_3.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
-								panel_3.setLayout(gbl_panel_3);
+								gbl_registryMatrixPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
+								registryMatrixPanel.setLayout(gbl_registryMatrixPanel);
 								
 										label_1 = new JLabel("R00");
 										GridBagConstraints gbc_label_1 = new GridBagConstraints();
@@ -232,7 +224,7 @@ public class UmsEmulatorGui {
 										gbc_label_1.insets = new Insets(0, 0, 5, 5);
 										gbc_label_1.gridx = 0;
 										gbc_label_1.gridy = 0;
-										panel_3.add(label_1, gbc_label_1);
+										registryMatrixPanel.add(label_1, gbc_label_1);
 										
 												textField = new JTextField();
 												textField.setDisabledTextColor(new Color(0, 0, 0));
@@ -244,7 +236,7 @@ public class UmsEmulatorGui {
 												gbc_textField.insets = new Insets(0, 0, 5, 5);
 												gbc_textField.gridx = 1;
 												gbc_textField.gridy = 0;
-												panel_3.add(textField, gbc_textField);
+												registryMatrixPanel.add(textField, gbc_textField);
 												
 														label_2 = new JLabel("R01");
 														GridBagConstraints gbc_label_2 = new GridBagConstraints();
@@ -252,7 +244,7 @@ public class UmsEmulatorGui {
 														gbc_label_2.insets = new Insets(0, 0, 5, 5);
 														gbc_label_2.gridx = 2;
 														gbc_label_2.gridy = 0;
-														panel_3.add(label_2, gbc_label_2);
+														registryMatrixPanel.add(label_2, gbc_label_2);
 														
 																textField_1 = new JTextField();
 																textField_1.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -263,7 +255,7 @@ public class UmsEmulatorGui {
 																gbc_textField_1.insets = new Insets(0, 0, 5, 5);
 																gbc_textField_1.gridx = 3;
 																gbc_textField_1.gridy = 0;
-																panel_3.add(textField_1, gbc_textField_1);
+																registryMatrixPanel.add(textField_1, gbc_textField_1);
 																
 																		label_3 = new JLabel("R02");
 																		GridBagConstraints gbc_label_3 = new GridBagConstraints();
@@ -271,7 +263,7 @@ public class UmsEmulatorGui {
 																		gbc_label_3.insets = new Insets(0, 0, 5, 5);
 																		gbc_label_3.gridx = 4;
 																		gbc_label_3.gridy = 0;
-																		panel_3.add(label_3, gbc_label_3);
+																		registryMatrixPanel.add(label_3, gbc_label_3);
 																		
 																				textField_2 = new JTextField();
 																				textField_2.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -282,7 +274,7 @@ public class UmsEmulatorGui {
 																				gbc_textField_2.insets = new Insets(0, 0, 5, 5);
 																				gbc_textField_2.gridx = 5;
 																				gbc_textField_2.gridy = 0;
-																				panel_3.add(textField_2, gbc_textField_2);
+																				registryMatrixPanel.add(textField_2, gbc_textField_2);
 																				
 																						label_4 = new JLabel("R03");
 																						GridBagConstraints gbc_label_4 = new GridBagConstraints();
@@ -290,7 +282,7 @@ public class UmsEmulatorGui {
 																						gbc_label_4.insets = new Insets(0, 0, 5, 5);
 																						gbc_label_4.gridx = 6;
 																						gbc_label_4.gridy = 0;
-																						panel_3.add(label_4, gbc_label_4);
+																						registryMatrixPanel.add(label_4, gbc_label_4);
 																						
 																								textField_3 = new JTextField();
 																								textField_3.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -301,7 +293,7 @@ public class UmsEmulatorGui {
 																								gbc_textField_3.insets = new Insets(0, 0, 5, 0);
 																								gbc_textField_3.gridx = 7;
 																								gbc_textField_3.gridy = 0;
-																								panel_3.add(textField_3, gbc_textField_3);
+																								registryMatrixPanel.add(textField_3, gbc_textField_3);
 																								
 																										label_5 = new JLabel("R04");
 																										GridBagConstraints gbc_label_5 = new GridBagConstraints();
@@ -309,7 +301,7 @@ public class UmsEmulatorGui {
 																										gbc_label_5.insets = new Insets(0, 0, 5, 5);
 																										gbc_label_5.gridx = 0;
 																										gbc_label_5.gridy = 1;
-																										panel_3.add(label_5, gbc_label_5);
+																										registryMatrixPanel.add(label_5, gbc_label_5);
 																										
 																												textField_4 = new JTextField();
 																												textField_4.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -320,7 +312,7 @@ public class UmsEmulatorGui {
 																												gbc_textField_4.insets = new Insets(0, 0, 5, 5);
 																												gbc_textField_4.gridx = 1;
 																												gbc_textField_4.gridy = 1;
-																												panel_3.add(textField_4, gbc_textField_4);
+																												registryMatrixPanel.add(textField_4, gbc_textField_4);
 																												
 																														label_6 = new JLabel("R05");
 																														GridBagConstraints gbc_label_6 = new GridBagConstraints();
@@ -328,7 +320,7 @@ public class UmsEmulatorGui {
 																														gbc_label_6.insets = new Insets(0, 0, 5, 5);
 																														gbc_label_6.gridx = 2;
 																														gbc_label_6.gridy = 1;
-																														panel_3.add(label_6, gbc_label_6);
+																														registryMatrixPanel.add(label_6, gbc_label_6);
 																														
 																																textField_5 = new JTextField();
 																																textField_5.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -339,7 +331,7 @@ public class UmsEmulatorGui {
 																																gbc_textField_5.insets = new Insets(0, 0, 5, 5);
 																																gbc_textField_5.gridx = 3;
 																																gbc_textField_5.gridy = 1;
-																																panel_3.add(textField_5, gbc_textField_5);
+																																registryMatrixPanel.add(textField_5, gbc_textField_5);
 																																
 																																		label_7 = new JLabel("R06");
 																																		GridBagConstraints gbc_label_7 = new GridBagConstraints();
@@ -347,7 +339,7 @@ public class UmsEmulatorGui {
 																																		gbc_label_7.insets = new Insets(0, 0, 5, 5);
 																																		gbc_label_7.gridx = 4;
 																																		gbc_label_7.gridy = 1;
-																																		panel_3.add(label_7, gbc_label_7);
+																																		registryMatrixPanel.add(label_7, gbc_label_7);
 																																		
 																																				textField_6 = new JTextField();
 																																				textField_6.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -358,7 +350,7 @@ public class UmsEmulatorGui {
 																																				gbc_textField_6.insets = new Insets(0, 0, 5, 5);
 																																				gbc_textField_6.gridx = 5;
 																																				gbc_textField_6.gridy = 1;
-																																				panel_3.add(textField_6, gbc_textField_6);
+																																				registryMatrixPanel.add(textField_6, gbc_textField_6);
 																																				
 																																						label_8 = new JLabel("R07");
 																																						GridBagConstraints gbc_label_8 = new GridBagConstraints();
@@ -366,7 +358,7 @@ public class UmsEmulatorGui {
 																																						gbc_label_8.insets = new Insets(0, 0, 5, 5);
 																																						gbc_label_8.gridx = 6;
 																																						gbc_label_8.gridy = 1;
-																																						panel_3.add(label_8, gbc_label_8);
+																																						registryMatrixPanel.add(label_8, gbc_label_8);
 																																						
 																																								textField_7 = new JTextField();
 																																								textField_7.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -377,7 +369,7 @@ public class UmsEmulatorGui {
 																																								gbc_textField_7.insets = new Insets(0, 0, 5, 0);
 																																								gbc_textField_7.gridx = 7;
 																																								gbc_textField_7.gridy = 1;
-																																								panel_3.add(textField_7, gbc_textField_7);
+																																								registryMatrixPanel.add(textField_7, gbc_textField_7);
 																																								
 																																										label_9 = new JLabel("R08");
 																																										GridBagConstraints gbc_label_9 = new GridBagConstraints();
@@ -385,7 +377,7 @@ public class UmsEmulatorGui {
 																																										gbc_label_9.insets = new Insets(0, 0, 5, 5);
 																																										gbc_label_9.gridx = 0;
 																																										gbc_label_9.gridy = 2;
-																																										panel_3.add(label_9, gbc_label_9);
+																																										registryMatrixPanel.add(label_9, gbc_label_9);
 																																										
 																																												textField_8 = new JTextField();
 																																												textField_8.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -396,7 +388,7 @@ public class UmsEmulatorGui {
 																																												gbc_textField_8.insets = new Insets(0, 0, 5, 5);
 																																												gbc_textField_8.gridx = 1;
 																																												gbc_textField_8.gridy = 2;
-																																												panel_3.add(textField_8, gbc_textField_8);
+																																												registryMatrixPanel.add(textField_8, gbc_textField_8);
 																																												
 																																														label_10 = new JLabel("R09");
 																																														GridBagConstraints gbc_label_10 = new GridBagConstraints();
@@ -404,7 +396,7 @@ public class UmsEmulatorGui {
 																																														gbc_label_10.insets = new Insets(0, 0, 5, 5);
 																																														gbc_label_10.gridx = 2;
 																																														gbc_label_10.gridy = 2;
-																																														panel_3.add(label_10, gbc_label_10);
+																																														registryMatrixPanel.add(label_10, gbc_label_10);
 																																														
 																																																textField_9 = new JTextField();
 																																																textField_9.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -415,7 +407,7 @@ public class UmsEmulatorGui {
 																																																gbc_textField_9.insets = new Insets(0, 0, 5, 5);
 																																																gbc_textField_9.gridx = 3;
 																																																gbc_textField_9.gridy = 2;
-																																																panel_3.add(textField_9, gbc_textField_9);
+																																																registryMatrixPanel.add(textField_9, gbc_textField_9);
 																																																
 																																																		label_11 = new JLabel("R0A");
 																																																		GridBagConstraints gbc_label_11 = new GridBagConstraints();
@@ -423,7 +415,7 @@ public class UmsEmulatorGui {
 																																																		gbc_label_11.insets = new Insets(0, 0, 5, 5);
 																																																		gbc_label_11.gridx = 4;
 																																																		gbc_label_11.gridy = 2;
-																																																		panel_3.add(label_11, gbc_label_11);
+																																																		registryMatrixPanel.add(label_11, gbc_label_11);
 																																																		
 																																																				textField_10 = new JTextField();
 																																																				textField_10.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -434,7 +426,7 @@ public class UmsEmulatorGui {
 																																																				gbc_textField_10.insets = new Insets(0, 0, 5, 5);
 																																																				gbc_textField_10.gridx = 5;
 																																																				gbc_textField_10.gridy = 2;
-																																																				panel_3.add(textField_10, gbc_textField_10);
+																																																				registryMatrixPanel.add(textField_10, gbc_textField_10);
 																																																				
 																																																						label_12 = new JLabel("R0B");
 																																																						GridBagConstraints gbc_label_12 = new GridBagConstraints();
@@ -442,7 +434,7 @@ public class UmsEmulatorGui {
 																																																						gbc_label_12.insets = new Insets(0, 0, 5, 5);
 																																																						gbc_label_12.gridx = 6;
 																																																						gbc_label_12.gridy = 2;
-																																																						panel_3.add(label_12, gbc_label_12);
+																																																						registryMatrixPanel.add(label_12, gbc_label_12);
 																																																						
 																																																								textField_11 = new JTextField();
 																																																								textField_11.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -453,7 +445,7 @@ public class UmsEmulatorGui {
 																																																								gbc_textField_11.insets = new Insets(0, 0, 5, 0);
 																																																								gbc_textField_11.gridx = 7;
 																																																								gbc_textField_11.gridy = 2;
-																																																								panel_3.add(textField_11, gbc_textField_11);
+																																																								registryMatrixPanel.add(textField_11, gbc_textField_11);
 																																																								
 																																																										label_13 = new JLabel("R0C");
 																																																										GridBagConstraints gbc_label_13 = new GridBagConstraints();
@@ -461,7 +453,7 @@ public class UmsEmulatorGui {
 																																																										gbc_label_13.insets = new Insets(0, 0, 0, 5);
 																																																										gbc_label_13.gridx = 0;
 																																																										gbc_label_13.gridy = 3;
-																																																										panel_3.add(label_13, gbc_label_13);
+																																																										registryMatrixPanel.add(label_13, gbc_label_13);
 																																																										
 																																																												textField_12 = new JTextField();
 																																																												textField_12.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -472,7 +464,7 @@ public class UmsEmulatorGui {
 																																																												gbc_textField_12.insets = new Insets(0, 0, 0, 5);
 																																																												gbc_textField_12.gridx = 1;
 																																																												gbc_textField_12.gridy = 3;
-																																																												panel_3.add(textField_12, gbc_textField_12);
+																																																												registryMatrixPanel.add(textField_12, gbc_textField_12);
 																																																												
 																																																														label_14 = new JLabel("R0D");
 																																																														GridBagConstraints gbc_label_14 = new GridBagConstraints();
@@ -480,7 +472,7 @@ public class UmsEmulatorGui {
 																																																														gbc_label_14.insets = new Insets(0, 0, 0, 5);
 																																																														gbc_label_14.gridx = 2;
 																																																														gbc_label_14.gridy = 3;
-																																																														panel_3.add(label_14, gbc_label_14);
+																																																														registryMatrixPanel.add(label_14, gbc_label_14);
 																																																														
 																																																																textField_13 = new JTextField();
 																																																																textField_13.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -491,7 +483,7 @@ public class UmsEmulatorGui {
 																																																																gbc_textField_13.insets = new Insets(0, 0, 0, 5);
 																																																																gbc_textField_13.gridx = 3;
 																																																																gbc_textField_13.gridy = 3;
-																																																																panel_3.add(textField_13, gbc_textField_13);
+																																																																registryMatrixPanel.add(textField_13, gbc_textField_13);
 																																																																
 																																																																		label_15 = new JLabel("R0E");
 																																																																		GridBagConstraints gbc_label_15 = new GridBagConstraints();
@@ -499,7 +491,7 @@ public class UmsEmulatorGui {
 																																																																		gbc_label_15.insets = new Insets(0, 0, 0, 5);
 																																																																		gbc_label_15.gridx = 4;
 																																																																		gbc_label_15.gridy = 3;
-																																																																		panel_3.add(label_15, gbc_label_15);
+																																																																		registryMatrixPanel.add(label_15, gbc_label_15);
 																																																																		
 																																																																				textField_14 = new JTextField();
 																																																																				textField_14.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -510,7 +502,7 @@ public class UmsEmulatorGui {
 																																																																				gbc_textField_14.insets = new Insets(0, 0, 0, 5);
 																																																																				gbc_textField_14.gridx = 5;
 																																																																				gbc_textField_14.gridy = 3;
-																																																																				panel_3.add(textField_14, gbc_textField_14);
+																																																																				registryMatrixPanel.add(textField_14, gbc_textField_14);
 																																																																				
 																																																																						label_16 = new JLabel("R0F");
 																																																																						GridBagConstraints gbc_label_16 = new GridBagConstraints();
@@ -518,7 +510,7 @@ public class UmsEmulatorGui {
 																																																																						gbc_label_16.insets = new Insets(0, 0, 0, 5);
 																																																																						gbc_label_16.gridx = 6;
 																																																																						gbc_label_16.gridy = 3;
-																																																																						panel_3.add(label_16, gbc_label_16);
+																																																																						registryMatrixPanel.add(label_16, gbc_label_16);
 																																																																						
 																																																																								textField_15 = new JTextField();
 																																																																								textField_15.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -529,22 +521,22 @@ public class UmsEmulatorGui {
 																																																																								gbc_textField_15.fill = GridBagConstraints.HORIZONTAL;
 																																																																								gbc_textField_15.gridx = 7;
 																																																																								gbc_textField_15.gridy = 3;
-																																																																								panel_3.add(textField_15, gbc_textField_15);
+																																																																								registryMatrixPanel.add(textField_15, gbc_textField_15);
 						
-						panel_1 = new JPanel();
-						panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-						GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-						gbc_panel_1.fill = GridBagConstraints.BOTH;
-						gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-						gbc_panel_1.gridx = 0;
-						gbc_panel_1.gridy = 2;
-						frame.getContentPane().add(panel_1, gbc_panel_1);
-						GridBagLayout gbl_panel_1 = new GridBagLayout();
-						gbl_panel_1.columnWidths = new int[] {200, 200};
-						gbl_panel_1.rowHeights = new int[] {25, 200};
-						gbl_panel_1.columnWeights = new double[]{1.0, 1.0};
-						gbl_panel_1.rowWeights = new double[]{1.0, 1.0};
-						panel_1.setLayout(gbl_panel_1);
+						cpuPanel = new JPanel();
+						cpuPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "CPU", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+						GridBagConstraints gbc_cpuPanel = new GridBagConstraints();
+						gbc_cpuPanel.fill = GridBagConstraints.BOTH;
+						gbc_cpuPanel.insets = new Insets(0, 0, 5, 0);
+						gbc_cpuPanel.gridx = 0;
+						gbc_cpuPanel.gridy = 2;
+						frame.getContentPane().add(cpuPanel, gbc_cpuPanel);
+						GridBagLayout gbl_cpuPanel = new GridBagLayout();
+						gbl_cpuPanel.columnWidths = new int[] {200, 200};
+						gbl_cpuPanel.rowHeights = new int[] {25, 200};
+						gbl_cpuPanel.columnWeights = new double[]{1.0, 1.0};
+						gbl_cpuPanel.rowWeights = new double[]{1.0, 1.0};
+						cpuPanel.setLayout(gbl_cpuPanel);
 						
 						panel_7 = new JPanel();
 						GridBagConstraints gbc_panel_7 = new GridBagConstraints();
@@ -553,7 +545,7 @@ public class UmsEmulatorGui {
 						gbc_panel_7.fill = GridBagConstraints.BOTH;
 						gbc_panel_7.gridx = 0;
 						gbc_panel_7.gridy = 0;
-						panel_1.add(panel_7, gbc_panel_7);
+						cpuPanel.add(panel_7, gbc_panel_7);
 						
 						lblPc = new JLabel("PC");
 						panel_7.add(lblPc);
@@ -569,7 +561,7 @@ public class UmsEmulatorGui {
 						gbc_panel_5.fill = GridBagConstraints.BOTH;
 						gbc_panel_5.gridx = 0;
 						gbc_panel_5.gridy = 1;
-						panel_1.add(panel_5, gbc_panel_5);
+						cpuPanel.add(panel_5, gbc_panel_5);
 						GridBagLayout gbl_panel_5 = new GridBagLayout();
 						gbl_panel_5.columnWidths = new int[] {0, 0};
 						gbl_panel_5.rowHeights = new int[] {0, 0, 0};
@@ -633,7 +625,7 @@ public class UmsEmulatorGui {
 						gbc_panel_6.fill = GridBagConstraints.BOTH;
 						gbc_panel_6.gridx = 1;
 						gbc_panel_6.gridy = 1;
-						panel_1.add(panel_6, gbc_panel_6);
+						cpuPanel.add(panel_6, gbc_panel_6);
 						GridBagLayout gbl_panel_6 = new GridBagLayout();
 						gbl_panel_6.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 						gbl_panel_6.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
