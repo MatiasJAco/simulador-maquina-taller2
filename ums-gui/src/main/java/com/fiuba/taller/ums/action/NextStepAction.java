@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.fiuba.taller.ums.ControlUnit;
-import com.fiuba.taller.ums.EmulatorComponent;
+import com.fiuba.taller.ums.component.EmulatorComponent;
 
 public class NextStepAction implements ActionListener {
 
