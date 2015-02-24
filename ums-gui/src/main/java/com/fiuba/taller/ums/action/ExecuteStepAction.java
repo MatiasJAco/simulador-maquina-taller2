@@ -17,8 +17,10 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import com.fiuba.taller.ums.CicloFetchPasoAPasoThread;
 import com.fiuba.taller.ums.CicloFetchThread;
 import com.fiuba.taller.ums.ControlUnit;
+import com.fiuba.taller.ums.CycleController;
 import com.fiuba.taller.ums.Memory;
 import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.UmsEditorGui;
@@ -68,7 +70,7 @@ public class ExecuteStepAction implements ActionListener {
 		//Cargar en memoria
 		Memory myMemory = new Memory() ;
 		ControlUnit myControlUnit = new ControlUnit(myMemory);
-		
+		CycleController usin = new CycleController();
 		if(saveFile(tempfile, textContent)){
 			//Compilar (chequear sintaxis)
 			ProgramInterpreter pi = new ProgramInterpreter();
@@ -83,13 +85,14 @@ public class ExecuteStepAction implements ActionListener {
 //					myControlUnit.executeCurrentInstruction();
 //				}
 //				MainLogger.logTrace(myControlUnit.dumpMemory());
-				CicloFetchThread hiloFetch = new CicloFetchThread(tempfile);
+				
+				CicloFetchPasoAPasoThread hiloFetch = new CicloFetchPasoAPasoThread(tempfile,usin,myControlUnit);
 				hiloFetch.start();
 			}
 		};
 		
 		//Execution window of the emulator
-		JFrame emulatorFrame = new EmulatorComponent(myControlUnit);
+		JFrame emulatorFrame = new EmulatorComponent(myControlUnit,usin);
 		emulatorFrame.setTitle("Emulator");
 		emulatorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		emulatorFrame.setVisible(true);
