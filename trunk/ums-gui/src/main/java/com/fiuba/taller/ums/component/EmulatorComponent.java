@@ -9,8 +9,11 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.lang.model.element.NestingKind;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -23,9 +26,10 @@ import javax.swing.border.TitledBorder;
 
 import com.fiuba.taller.ums.Cell;
 import com.fiuba.taller.ums.ControlUnit;
+import com.fiuba.taller.ums.CycleController;
 import com.fiuba.taller.ums.action.NextStepAction;
 
-public class EmulatorComponent extends JFrame {
+public class EmulatorComponent extends JFrame implements  ActionListener{
 
 	/**
 	 * 
@@ -68,12 +72,14 @@ public class EmulatorComponent extends JFrame {
 	private GridPanel memoryPanel;
 
 	private ControlUnit controlUnit;
+	private CycleController cicleControl;
 
 	/**
 	 * Create the application.
 	 */
-	public EmulatorComponent(ControlUnit controlUnit) {
+	public EmulatorComponent(ControlUnit controlUnit, CycleController cicleControl) {
 		this.controlUnit = controlUnit;
+		this.cicleControl=cicleControl;
 		initialize();
 	}
 
@@ -734,5 +740,15 @@ public class EmulatorComponent extends JFrame {
 
 	public void setBitsLostLabel(JLabel bitsLostLabel) {
 		this.bitsLostLabel = bitsLostLabel;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if( arg0.getSource().equals(btnNext) ){
+			synchronized(this.cicleControl){
+				this.cicleControl.setInputData(true);			
+				this.cicleControl.notify();			
+			}
+		}
 	}
 }

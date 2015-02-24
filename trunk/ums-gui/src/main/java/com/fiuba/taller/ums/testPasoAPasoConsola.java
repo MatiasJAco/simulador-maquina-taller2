@@ -11,9 +11,9 @@ public class testPasoAPasoConsola {
 	public static void main(String[] args) {
 
 		CycleController usin = new CycleController();
-		MockNextStepButton nextB = new MockNextStepButton(usin);
-		CicloFetchPasoAPasoThread hiloFetch = new CicloFetchPasoAPasoThread("C:\\pruebaASM\\prueba 1TEST.maq",usin);
-		hiloFetch.start();
+//		MockNextStepButton nextB = new MockNextStepButton(usin);
+//		CicloFetchPasoAPasoThread hiloFetch = new CicloFetchPasoAPasoThread("C:\\pruebaASM\\prueba 1TEST.maq",usin);
+//		hiloFetch.start();
 		
 		
 		
