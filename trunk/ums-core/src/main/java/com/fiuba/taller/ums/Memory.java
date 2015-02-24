@@ -1,6 +1,7 @@
 package com.fiuba.taller.ums;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -13,7 +14,7 @@ public class Memory {
 	public Memory() {
 		this.cells = new ArrayList<Cell>(CELL_AMOUNT);		
 		for (int index = 0; index < CELL_AMOUNT; index++) {
-			cells.add(new Cell());					
+			cells.add(new Cell("00"));					
 		}
 		this.lastInstructionPointer=0;
 	}
@@ -68,6 +69,10 @@ public class Memory {
 	public int getSize() {
 		return CELL_AMOUNT;
 	};
+	
+	public List<Cell> getCells(){
+		return cells;
+	}
 
 
 }

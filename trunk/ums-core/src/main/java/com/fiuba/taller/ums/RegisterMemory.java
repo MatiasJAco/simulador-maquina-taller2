@@ -1,6 +1,7 @@
 package com.fiuba.taller.ums;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RegisterMemory {
 
@@ -12,7 +13,7 @@ public class RegisterMemory {
 	private String dataReadFromR1;
 	private String dataReadFromR2;
 	private static final int REG_AMOUNT = 16;
-	private ArrayList<Register> registers ;
+	private List<Cell> registers ;
 	
 	public RegisterMemory() {
 		this.readFromReg1 = 0;
@@ -21,9 +22,9 @@ public class RegisterMemory {
 	 	this.dataReadFromR1 = "";
 	 	this.dataReadFromR2 = "";
 	 	this.dataToWrite = "";
-	 	this.registers = new ArrayList<Register>(REG_AMOUNT);		
+	 	this.registers = new ArrayList<Cell>(REG_AMOUNT);		
 		for (int index = 0; index < REG_AMOUNT; index++) {
-			registers.add(new Register());					
+			registers.add(new Cell(""));					
 		}
 	}
 
@@ -31,9 +32,12 @@ public class RegisterMemory {
 		return this.getReg(HexaConverter.baseToDecimal(address, 16)).getData();
 	}
 	
-	private Register getReg(int addr){
+	private Cell getReg(int addr){
 		return this.registers.get(addr);
-		
+	}
+	
+	public List<Cell> getRegisters(){
+		return registers;
 	}
 
 	public void writeReg(String regNumber, String dataToLoad) {
