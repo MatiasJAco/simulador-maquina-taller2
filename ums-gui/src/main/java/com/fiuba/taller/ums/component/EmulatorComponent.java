@@ -29,7 +29,7 @@ import com.fiuba.taller.ums.ControlUnit;
 import com.fiuba.taller.ums.CycleController;
 import com.fiuba.taller.ums.action.NextStepAction;
 
-public class EmulatorComponent extends JFrame implements  ActionListener{
+public class EmulatorComponent extends JFrame {
 
 	/**
 	 * 
@@ -73,6 +73,10 @@ public class EmulatorComponent extends JFrame implements  ActionListener{
 
 	private ControlUnit controlUnit;
 	private CycleController cicleControl;
+
+	public CycleController getCicleControl() {
+		return cicleControl;
+	}
 
 	/**
 	 * Create the application.
@@ -742,13 +746,5 @@ public class EmulatorComponent extends JFrame implements  ActionListener{
 		this.bitsLostLabel = bitsLostLabel;
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		if( arg0.getSource().equals(btnNext) ){
-			synchronized(this.cicleControl){
-				this.cicleControl.setInputData(true);			
-				this.cicleControl.notify();			
-			}
-		}
-	}
+	
 }
