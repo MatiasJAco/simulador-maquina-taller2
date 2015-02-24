@@ -1,14 +1,13 @@
 package com.fiuba.taller.ums;
 
-import java.util.Observer;
+import java.util.Observable;
 
-public class Cell {
+public class Cell extends Observable {
 
 	private String data;
-	private MessageObservable observable = new MessageObservable();
 	
-	public Cell() {
-		setData("00");		
+	public Cell(String data) {
+		setData(data);		
 	}
 
 	public String getData() {
@@ -17,15 +16,17 @@ public class Cell {
 
 	public void setData(String data) {
 		this.data = data;
-		observable.changeData(data);
+		changeData(data);
 	}
 	
-	public void eraseCell(){
+	public void erase(){
 		this.setData("");
 	};
-	
-	public void addOberver(Observer observer){
-		observable.addObserver(observer);
-	}
+		
+    void changeData(Object data) {
+        setChanged(); // the two methods of Observable class
+        notifyObservers(data);
+    }
+
 
 }
