@@ -5,6 +5,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -22,39 +23,34 @@ public class GridPanel extends JScrollPane{
 	 * 
 	 */
 	private static final long serialVersionUID = 3195171533787130559L;
-	
-	private int columnsToShow, rowsToShow;
-	private boolean hexaRegistryNames = false;
-	private List<JTextField> jTextFieldList = new ArrayList<JTextField>();
-//	private List<JLabel> jLabelList = new ArrayList<JLabel>();
-	private List<Cell> registryList = new ArrayList<Cell>();
-	private int counter = 0;
-	private int actualPage = 1;
-	private int totalPages;
-	private JPanel panel;
-
-	public GridPanel(String title, List<Cell> registryList, int columnsToShow, int rowsToShow, boolean hexaRegistryNames){
-		panel = new JPanel();
-		//panel.setPreferredSize(new Dimension(480, 120));
-		panel.setBorder(null);
-		panel.setAlignmentY(0.0f);
-		panel.setAlignmentX(0.0f);
-		this.setViewportView(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		panel.setLayout(gbl_panel);
 		
-		this.registryList = registryList;
+	private int columnsToShow;
+	private boolean hexaRegistryNames;
+	private List<Cell> cellList;
+	private List<JTextField> textFieldList = new ArrayList<JTextField>();
+	private JPanel viewPanel;
+
+	public GridPanel(String title, List<Cell> cellList, int columnsToShow, boolean hexaRegistryNames){
+		viewPanel = new JPanel();
+		viewPanel.setBorder(null);
+		viewPanel.setAlignmentY(0.0f);
+		viewPanel.setAlignmentX(0.0f);
+		this.setViewportView(viewPanel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		viewPanel.setLayout(gbl_panel);
+		
+		this.cellList = cellList;
 		this.columnsToShow = columnsToShow;
-		this.rowsToShow = rowsToShow;
 		this.hexaRegistryNames = hexaRegistryNames;
 		
 		createGrid();
 	}
 
 	private void createGrid() {
-				
-		for (int i = 0 ; i < rowsToShow && counter < registryList.size() ; i++){
-			for (int j = 0 ; j < columnsToShow * 2 && counter < registryList.size() ; j++){
+		int counter = 0;
+		int rowsToShow = (int) Math.ceil((double) cellList.size() / columnsToShow);
+		for (int i = 0 ; i < rowsToShow && counter < cellList.size() ; i++){
+			for (int j = 0 ; j < columnsToShow * 2 && counter < cellList.size() ; j++){
 				String label = Integer.toString(counter);
 				if(hexaRegistryNames){
 					label = HexaConverter.decimalToBase(counter, 16, 8);
@@ -65,11 +61,11 @@ public class GridPanel extends JScrollPane{
 				gbc_label.insets = new Insets(0, 0, 5, 5);
 				gbc_label.gridx = j;
 				gbc_label.gridy = i;
-				panel.add(regLabel, gbc_label);
-				//jLabelList.add(regLabel);
+				viewPanel.add(regLabel, gbc_label);
 
 				j++;
-				JTextField regTextField = new JTextField(registryList.get(counter).getData());
+				Cell cell = cellList.get(counter);
+				JTextField regTextField = new JTextField(cell.getData());
 				regTextField.setHorizontalAlignment(SwingConstants.RIGHT);
 				regTextField.setDisabledTextColor(Color.BLACK);
 				regTextField.setColumns(10);
@@ -78,11 +74,21 @@ public class GridPanel extends JScrollPane{
 				gbc_textField.insets = new Insets(0, 0, 5, 5);
 				gbc_textField.gridx = j;
 				gbc_textField.gridy = i;
-				panel.add(regTextField, gbc_textField);
-				//jTextFieldList.add(regField);
+				viewPanel.add(regTextField, gbc_textField);
+				textFieldList.add(regTextField);
+
+				cell.addObserver(new CellObserver(regTextField));
 				
 				counter++;
 			}
+		}
+	}
+	
+	public void applyBackgroundColor(Color color){
+		Iterator<JTextField> it = textFieldList.iterator();
+		while(it.hasNext()){
+			JTextField textField = it.next();
+			textField.setBackground(color);
 		}
 	}
 	
