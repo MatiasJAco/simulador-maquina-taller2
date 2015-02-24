@@ -2,19 +2,29 @@ package com.fiuba.taller.ums;
 
 public class CycleController {
 
-	private boolean inputData;
+	private boolean goNextInst;
+	private boolean run;
+
+	public boolean isRun() {
+		return run;
+	}
+
+	public void setRun(boolean run) {
+		this.run = run;
+	}
 
 	public CycleController() {
 		super();
-		this.inputData = true;
+		this.goNextInst = true;
+		this.run = false;
 	}
 	
-	public void setInputData(boolean ctrl){
-		this.inputData = ctrl;		
+	public void setGoNextInst(boolean ctrl){
+		this.goNextInst = ctrl;		
 	}
 	
-	public boolean getInputData(){
-		return this.inputData;
+	public boolean getGoNextInst(){
+		return this.goNextInst;
 	}
 	
 }

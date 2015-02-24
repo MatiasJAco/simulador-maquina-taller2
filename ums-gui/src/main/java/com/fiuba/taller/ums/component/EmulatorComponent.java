@@ -28,6 +28,7 @@ import com.fiuba.taller.ums.Cell;
 import com.fiuba.taller.ums.ControlUnit;
 import com.fiuba.taller.ums.CycleController;
 import com.fiuba.taller.ums.action.NextStepAction;
+import com.fiuba.taller.ums.action.RunAction;
 
 public class EmulatorComponent extends JFrame {
 
@@ -147,6 +148,7 @@ public class EmulatorComponent extends JFrame {
 		this.getContentPane().add(toolBar, gbc_toolBar);
 
 		btnRun = new JButton("Run");
+		btnRun.addActionListener(new RunAction(this));
 		toolBar.add(btnRun);
 
 		btnPause = new JButton("Pause");
