@@ -4,14 +4,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import com.fiuba.taller.ums.ControlUnit;
+import com.fiuba.taller.ums.CycleController;
 import com.fiuba.taller.ums.component.EmulatorComponent;
 
 public class NextStepAction implements ActionListener {
 
 	private EmulatorComponent emulatorComponent;
+	private CycleController cicleControl;
 	
 	public NextStepAction(EmulatorComponent emulatorComponent){
 		this.emulatorComponent = emulatorComponent;
+		this.cicleControl = emulatorComponent.getCicleControl();
 	}
 	
 	@Override
@@ -21,12 +24,13 @@ public class NextStepAction implements ActionListener {
 		emulatorComponent.cleanGridsColor();
 		
 		ControlUnit myControlUnit = emulatorComponent.getControlUnit();
-		myControlUnit.fetchInstruction();
-		myControlUnit.decode();
-		myControlUnit.executeCurrentInstruction();
-		
+//		myControlUnit.fetchInstruction();
+//		myControlUnit.decode();
+//		myControlUnit.executeCurrentInstruction();
+//		
 		emulatorComponent.getFetchTextField().setText(myControlUnit.getFetchInstructionRegister());
 		emulatorComponent.getDecodeTextField().setText(myControlUnit.getDecodeInstructionRegister());
+		emulatorComponent.getExcecutionTextField().setText(myControlUnit.getExecutionInstructionRegister());
 		emulatorComponent.getPcTextField().setText(Integer.toString(myControlUnit.getNextInstructionAddress()));
 		
 		//TODO: esto no se como ponerlo..
@@ -39,6 +43,16 @@ public class NextStepAction implements ActionListener {
 		
 		emulatorComponent.getBitsLostTextField().setText(Integer.toString(myControlUnit.getAlu().getBitsPrecisionPerdidos()));
 		emulatorComponent.getOverflowCheckbox().setEnabled(myControlUnit.getAlu().isOverflow());
+		
+		
+		
+			
+		synchronized(this.cicleControl){
+					this.cicleControl.setInputData(true);			
+					this.cicleControl.notify();			
+		}
+			
+		
 		
 	}
 
