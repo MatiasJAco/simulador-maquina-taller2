@@ -48,7 +48,7 @@ public class NextStepAction implements ActionListener {
 		
 			
 		synchronized(this.cicleControl){
-					this.cicleControl.setInputData(true);			
+					this.cicleControl.setGoNextInst(true);			
 					this.cicleControl.notify();			
 		}
 			

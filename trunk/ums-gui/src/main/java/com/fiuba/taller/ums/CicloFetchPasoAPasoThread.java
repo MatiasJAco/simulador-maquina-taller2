@@ -22,7 +22,7 @@ public class CicloFetchPasoAPasoThread extends Thread {
 //		ControlUnit myControlUnit = new ControlUnit(myMemory);
 		myControlUnit.loadProgramToMemory(tempfile);
 		while(!myControlUnit.isProgramEnded()){
-			if(this.cycleC.getInputData()){
+			if(this.cycleC.getGoNextInst()){
 				myControlUnit.fetchInstruction();
 				myControlUnit.decode();
 				myControlUnit.executeCurrentInstruction();
@@ -30,7 +30,7 @@ public class CicloFetchPasoAPasoThread extends Thread {
 				
 //				System.out.print("Fetch register :" + myControlUnit.getFetchInstructionRegister() + "\n");
 //				System.out.print("Decode register:" + myControlUnit.getDecodeInstructionRegister() + "\n");
-				System.out.print("Execution register:" + myControlUnit.getExecutionInstructionRegister() + "\n");
+//				System.out.print("Execution register:" + myControlUnit.getExecutionInstructionRegister() + "\n");
 //				System.out.print("Program counter:" + myControlUnit.getNextInstructionAddress() + "\n");
 //				System.out.print("Instruction register:" + myControlUnit.getInstructionRegister() + "\n");
 //				
@@ -47,21 +47,13 @@ public class CicloFetchPasoAPasoThread extends Thread {
 //				
 //				System.out.print("Bits de precision perdidos:" + myControlUnit.getAlu().getBitsPrecisionPerdidos() + "\n");
 //				System.out.print("Overflow:" + myControlUnit.getAlu().isOverflow() + "\n");
-//				
-				
-				
-				
-				
-				
-				
-				
-				
-				
+//			
 				/***********************************************************************/
-				this.cycleC.setInputData(false);
+				if(!this.cycleC.isRun())
+					this.cycleC.setGoNextInst(false);
 			}else{
 				synchronized(cycleC){
-					if (cycleC.getInputData() == false){
+					if (cycleC.getGoNextInst() == false){
 						try {
 							cycleC.wait();
 						} catch (InterruptedException e) {								
