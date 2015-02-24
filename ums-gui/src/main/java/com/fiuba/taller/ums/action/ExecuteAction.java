@@ -18,6 +18,7 @@ import javax.swing.JTextPane;
 
 import com.fiuba.taller.ums.CicloFetchThread;
 import com.fiuba.taller.ums.ControlUnit;
+import com.fiuba.taller.ums.EmulatorComponent;
 import com.fiuba.taller.ums.Memory;
 import com.fiuba.taller.ums.ProgramInterpreter;
 import com.fiuba.taller.ums.UmsEditorGui;
@@ -33,18 +34,18 @@ public class ExecuteAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame frame = new JFrame();
-		frame.setTitle("Compilation Log");
-		frame.setBounds(0, 0,
+		JFrame compilationLogFrame = new JFrame();
+		compilationLogFrame.setTitle("Compilation Log");
+		compilationLogFrame.setBounds(0, 0,
 				600, 700);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		compilationLogFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JTextPane editorText = new JTextPane();
 		editorText.setEditable(false);
 		JScrollPane scrollPane = new JScrollPane(editorText);
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		compilationLogFrame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		frame.setVisible(true);
+		compilationLogFrame.setVisible(true);
 
 		MainLogger.init(
 				new JTextPaneAppender(editorText),
@@ -64,7 +65,10 @@ public class ExecuteAction implements ActionListener {
 			textContent = pi.appendMemoryAddress(textContent);
 		}
 
-
+		//Cargar en memoria
+		Memory myMemory = new Memory() ;
+		ControlUnit myControlUnit = new ControlUnit(myMemory);
+		
 		if(saveFile(tempfile, textContent)){
 			//Compilar (chequear sintaxis)
 			ProgramInterpreter pi = new ProgramInterpreter();
@@ -72,9 +76,6 @@ public class ExecuteAction implements ActionListener {
 			if (textEditor.getFileType() == FileType.MACHINE_CODE)
 				compileSuccesfull=pi.compileMachinecode(tempfile);
 			if(compileSuccesfull){
-//				//Cargar en memoria
-//				Memory myMemory = new Memory() ;
-//				ControlUnit myControlUnit = new ControlUnit(myMemory);
 //				myControlUnit.loadProgramToMemory(tempfile);
 //				while(!myControlUnit.isProgramEnded()){
 //					myControlUnit.fetchInstruction();
@@ -86,7 +87,13 @@ public class ExecuteAction implements ActionListener {
 				hiloFetch.start();
 			}
 		};
-		// TODO Auto-generated method stub
+		
+		//Execution window of the emulator
+		JFrame emulatorFrame = new EmulatorComponent(myControlUnit);
+		emulatorFrame.setTitle("Emulator");
+		emulatorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		emulatorFrame.setVisible(true);
+		
 	}
 
 
