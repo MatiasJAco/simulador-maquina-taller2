@@ -223,7 +223,8 @@ public class ProgramInterpreter {
 
 	public boolean compileMachinecode(String inputFile) {
 		boolean result = true;
-		int lineCount = 0;
+		int lineCount = 1;
+		int errorCount = 0;
 		// The name of the file to open.
 		File input = new File(inputFile);
 		// This will reference one line at a time
@@ -235,16 +236,20 @@ public class ProgramInterpreter {
 			while (scanner.hasNextLine()) {
 				line = scanner.nextLine();
 				if (!emptyLine(line) && !SyntaxChecker.isCommentLine(line)){
-					if(!this.checkMachineLine(line))
-						result=false;		
+					if(!this.checkMachineLine(line)){
+						result=false;
+						errorCount++;
+						};
 				}
 				if(emptyLine(line)){
 					result=false;
+					errorCount++;
 					MainLogger.logError("Linea en blanco detectada. Numero de posicion: " + HexaConverter.decimalToBase(lineCount, 16) );
 					break;
 				}
 				if(SyntaxChecker.isCommentLine(line)){
 					result=false;
+					errorCount++;
 					MainLogger.logError("Linea de comentario detectada. Numero de posicion: " + HexaConverter.decimalToBase(lineCount, 16) );
 					break;
 				}
@@ -268,6 +273,10 @@ public class ProgramInterpreter {
 			// ex.printStackTrace();
 		}
 
+		if (errorCount > 0)
+			MainLogger.logError("Lineas procesadas: " + (lineCount-1) + "  Errores detectados: " + errorCount);
+		else
+			MainLogger.logInfo("Lineas procesadas: " + (lineCount-1) + "  Errores detectados: " + errorCount);
 		return result;
 	}
 
