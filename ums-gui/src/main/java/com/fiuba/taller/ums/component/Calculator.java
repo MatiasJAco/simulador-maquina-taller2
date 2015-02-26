@@ -1,5 +1,6 @@
 package com.fiuba.taller.ums.component;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import com.fiuba.taller.ums.action.ConvertCalculatorAction;
+import com.fiuba.taller.ums.action.ConvertCalculatorButtonAction;
 
 
 public class Calculator extends JFrame {
@@ -26,6 +28,7 @@ public class Calculator extends JFrame {
 	private JRadioButton rdbtnHexaDecimal;
 	private JRadioButton rdbtnComplement ;
 	private JRadioButton rdbtnPuntoFlotante;
+	private JButton  jbnButton2;	
 	private JTextField jTextEntrada;
 	private JTextField jTextResult;
 	private JLabel lblEntrada;
@@ -85,16 +88,22 @@ public class Calculator extends JFrame {
 		rdbtnPuntoFlotante.setBounds(5, 50, 128, 23);
 		rdbtnPuntoFlotante.setFont(new Font("Dialog", Font.PLAIN, 11));
 		
+		jbnButton2 = new JButton("Convert");
+		jbnButton2.setBounds(220,5,128,23);
+		
+		
 		// se agregan los componentes al panel de convertir
 		panelConvertir.add(rdbtnHexaDecimal);
 		panelConvertir.add(rdbtnDecimalAHexa);
 		// se agregan los componentes al panel de opcion
 		panelOptions.add(rdbtnComplement);
 		panelOptions.add(rdbtnPuntoFlotante);
+		
 		// se agregan los paneles al panel principal
 		contentPane.add(panelConvertir);
 		contentPane.add(panelOptions);
 		
+		contentPane.add(jbnButton2);
 		jTextEntrada = new JTextField();		
 		jTextEntrada.setBounds(15, 30, 190, 25);
 		contentPane.add(jTextEntrada);
@@ -105,7 +114,7 @@ public class Calculator extends JFrame {
 		contentPane.add(jTextResult);
 		jTextResult.setColumns(10);
 		
-		lblEntrada = new JLabel("Ingresar NÃºmero");
+		lblEntrada = new JLabel("Ingresar Número");
 		lblEntrada.setFont(new Font("Dialog", Font.PLAIN, 12));
 		lblEntrada.setForeground(Color.GRAY);
 		lblEntrada.setBounds(15, 7, 175, 15);
@@ -158,6 +167,8 @@ public class Calculator extends JFrame {
 		});
 		
 		jTextEntrada.addKeyListener(new ConvertCalculatorAction(this));
+		jbnButton2.addActionListener(new ConvertCalculatorButtonAction(this));
+		
 	}
 	
 	public boolean esConvertirDecimalAHexadecimal() {
@@ -183,7 +194,7 @@ public class Calculator extends JFrame {
 
 	public void informarError() {
 		jTextResult.setForeground(Color.RED);		
-		jTextResult.setText("NÃºmero mal formado");		
+		jTextResult.setText("Número mal formado");		
 	}
 }
 
