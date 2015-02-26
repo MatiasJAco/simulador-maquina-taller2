@@ -15,7 +15,7 @@ public class CycleController {
 
 	public CycleController() {
 		super();
-		this.goNextInst = true;
+		this.goNextInst = false;
 		this.run = false;
 	}
 	
