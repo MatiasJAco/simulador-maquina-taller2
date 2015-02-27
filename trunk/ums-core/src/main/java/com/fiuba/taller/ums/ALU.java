@@ -122,6 +122,10 @@ public class ALU {
 		result = op1 + op2;			
 		if((result > 0 && result > 127) || (result < 0 && result < -128) )
 			this.setOverflow(true);
+//		System.out.println("o1: " + op1);
+//		System.out.println("o2: " + op2);
+		if (overflow)
+			System.out.println("Over");
 		this.setResult(HexaConverter.decimalToBaseC2(result, 16));
 		this.obsRegRes.setData(this.result);
 		return this.result;
