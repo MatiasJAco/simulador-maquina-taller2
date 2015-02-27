@@ -28,13 +28,13 @@ public class NextStepAction implements ActionListener {
 			this.cicleControl.notify();			
 		}
 	
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
+//		try {
+//			Thread.sleep(100);
+//		} catch (InterruptedException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
+//		
 		
 		
 		// Clean registry and memory background colors to white
@@ -46,9 +46,9 @@ public class NextStepAction implements ActionListener {
 		//		myControlUnit.decode();
 		//		myControlUnit.executeCurrentInstruction();
 		//		
-		emulatorComponent.getFetchTextField().setText(myControlUnit.getFetchInstructionRegister());
-		emulatorComponent.getDecodeTextField().setText(myControlUnit.getDecodeInstructionRegister());
-		emulatorComponent.getExcecutionTextField().setText(myControlUnit.getExecutionInstructionRegister());
+//		emulatorComponent.getFetchTextField().setText(myControlUnit.getFetchInstructionRegister());
+//		emulatorComponent.getDecodeTextField().setText(myControlUnit.getDecodeInstructionRegister());
+//		emulatorComponent.getExcecutionTextField().setText(myControlUnit.getExecutionInstructionRegister());
 		emulatorComponent.getPcTextField().setText(Integer.toString(myControlUnit.getNextInstructionAddress()));
 
 		//TODO: esto no se como ponerlo..
@@ -56,19 +56,19 @@ public class NextStepAction implements ActionListener {
 
 		//ALU
 
-		if(emulatorComponent.getExcecutionTextField().getText().length()>0){
-			String typeOfInst = ""+emulatorComponent.getExcecutionTextField().getText().charAt(0);
-			if(typeOfInst.contains("5") || typeOfInst.contains("6") || typeOfInst.contains("7") || typeOfInst.contains("8") || typeOfInst.contains("9")|| typeOfInst.contains("A")){
-				//Pintar casillas de ALU				
-				emulatorComponent.getRegAaluTextField().setBackground(GREEN_COLOR);
-				emulatorComponent.getRegBaluTextField().setBackground(GREEN_COLOR);
-				emulatorComponent.getRegRaluTextField().setBackground(GREEN_COLOR);
-				
-			}
-		}
-		emulatorComponent.getRegAaluTextField().setText(myControlUnit.getAlu().getRegNumSrc1());
-		emulatorComponent.getRegBaluTextField().setText(myControlUnit.getAlu().getRegNumSrc2());
-		emulatorComponent.getRegRaluTextField().setText(myControlUnit.getAlu().getResult());
+//		if(emulatorComponent.getExcecutionTextField().getText().length()>0){
+//			String typeOfInst = ""+emulatorComponent.getExcecutionTextField().getText().charAt(0);
+//			if(typeOfInst.contains("5") || typeOfInst.contains("6") || typeOfInst.contains("7") || typeOfInst.contains("8") || typeOfInst.contains("9")|| typeOfInst.contains("A")){
+//				//Pintar casillas de ALU				
+//				emulatorComponent.getRegAaluTextField().setBackground(GREEN_COLOR);
+//				emulatorComponent.getRegBaluTextField().setBackground(GREEN_COLOR);
+//				emulatorComponent.getRegRaluTextField().setBackground(GREEN_COLOR);
+//				
+//			}
+//		}
+//		emulatorComponent.getRegAaluTextField().setText(myControlUnit.getAlu().getRegNumSrc1());
+//		emulatorComponent.getRegBaluTextField().setText(myControlUnit.getAlu().getRegNumSrc2());
+//		emulatorComponent.getRegRaluTextField().setText(myControlUnit.getAlu().getResult());
 
 		emulatorComponent.getBitsLostTextField().setText(Integer.toString(myControlUnit.getAlu().getBitsPrecisionPerdidos()));
 		emulatorComponent.getOverflowCheckbox().setEnabled(myControlUnit.getAlu().isOverflow());
