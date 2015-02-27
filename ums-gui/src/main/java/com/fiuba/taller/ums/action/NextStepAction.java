@@ -27,6 +27,14 @@ public class NextStepAction implements ActionListener {
 			this.cicleControl.setGoNextInst(true);			
 			this.cicleControl.notify();			
 		}
+	
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		
 		
 		// Clean registry and memory background colors to white
