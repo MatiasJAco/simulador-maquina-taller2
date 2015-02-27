@@ -21,9 +21,11 @@ public class MultiTabPane extends JTabbedPane {
 
 	public void closeTab() {
 		JScrollPane componentPane = (JScrollPane) this.getSelectedComponent();
-		componentPane.removeAll();
-		;
-		this.remove(componentPane);
+		if(componentPane!= null){
+			componentPane.removeAll();
+
+			this.remove(componentPane);
+		}
 	}
 
 	public JScrollPane getSelectedTab() {

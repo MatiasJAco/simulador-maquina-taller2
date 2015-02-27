@@ -36,6 +36,7 @@ public class ExecuteStepAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
+		if((FileEditorPane) editorUmsGui.getMultiTabPane().getSelectedTab()!= null){
 		JFrame compilationLogFrame = new JFrame();
 		compilationLogFrame.setTitle("Compilation Log");
 		compilationLogFrame.setBounds(0, 0,
@@ -58,8 +59,10 @@ public class ExecuteStepAction implements ActionListener {
 				.getMultiTabPane().getSelectedTab();
 		String textContent = textEditor.getContent();
 		String tempfile="";
-		if (textEditor.getFileType() == FileType.ASSEMBLER)
+		if (textEditor.getFileType() == FileType.ASSEMBLER){
 			tempfile=TEMPASMFILE;
+			MainLogger.logError("Convierta el programa a lenguaje maquina para ejecutar. ");
+			}
 		else{
 			tempfile=TEMPMAQFILE;
 			//Memory addresses added to  string of maq file.
@@ -68,16 +71,18 @@ public class ExecuteStepAction implements ActionListener {
 		}
 
 		//Cargar en memoria
-		Memory myMemory = new Memory() ;
-		ControlUnit myControlUnit = new ControlUnit(myMemory);
-		CycleController usin = new CycleController();
-		if(saveFile(tempfile, textContent)){
+		
+		if(saveFile(tempfile, textContent) && textEditor.getFileType() == FileType.MACHINE_CODE){
 			//Compilar (chequear sintaxis)
 			ProgramInterpreter pi = new ProgramInterpreter();
-			boolean compileSuccesfull=true;
+			boolean compileSuccesfull=false;
+			Memory myMemory = new Memory() ;
+			ControlUnit myControlUnit = new ControlUnit(myMemory);
+			CycleController usin = new CycleController();
 			if (textEditor.getFileType() == FileType.MACHINE_CODE)
 				compileSuccesfull=pi.compileMachinecode(tempfile);
 			if(compileSuccesfull){
+				
 //				myControlUnit.loadProgramToMemory(tempfile);
 //				while(!myControlUnit.isProgramEnded()){
 //					myControlUnit.fetchInstruction();
@@ -88,15 +93,20 @@ public class ExecuteStepAction implements ActionListener {
 				
 				CicloFetchPasoAPasoThread hiloFetch = new CicloFetchPasoAPasoThread(tempfile,usin,myControlUnit);
 				hiloFetch.start();
+				
+				
 			}
+			
+			//Execution window of the emulator
+			JFrame emulatorFrame = new EmulatorComponent(myControlUnit,usin);
+			emulatorFrame.setTitle("Emulator");
+			emulatorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			emulatorFrame.setVisible(true);
 		};
 		
-		//Execution window of the emulator
-		JFrame emulatorFrame = new EmulatorComponent(myControlUnit,usin);
-		emulatorFrame.setTitle("Emulator");
-		emulatorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		emulatorFrame.setVisible(true);
 		
+		
+		}
 	}
 
 

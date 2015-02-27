@@ -33,60 +33,63 @@ public class ExecuteAction implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent arg0) {
-		JFrame frame = new JFrame();
-		frame.setTitle("Compilation Log");
-		frame.setBounds(0, 0,
-				600, 700);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		if((FileEditorPane) editorUmsGui.getMultiTabPane().getSelectedTab()!= null){
+			JFrame frame = new JFrame();
+			frame.setTitle("Compilation Log");
+			frame.setBounds(0, 0,
+					600, 700);
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-		JTextPane editorText = new JTextPane();
-		editorText.setEditable(false);
-		JScrollPane scrollPane = new JScrollPane(editorText);
-		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+			JTextPane editorText = new JTextPane();
+			editorText.setEditable(false);
+			JScrollPane scrollPane = new JScrollPane(editorText);
+			frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		frame.setVisible(true);
+			frame.setVisible(true);
 
-		MainLogger.init(
-				new JTextPaneAppender(editorText),
-				org.apache.log4j.Level.TRACE);
+			MainLogger.init(
+					new JTextPaneAppender(editorText),
+					org.apache.log4j.Level.TRACE);
 
-		//guardar archivo
-		FileEditorPane textEditor = (FileEditorPane) editorUmsGui
-				.getMultiTabPane().getSelectedTab();
-		String textContent = textEditor.getContent();
-		String tempfile="";
-		if (textEditor.getFileType() == FileType.ASSEMBLER)
-			tempfile=TEMPASMFILE;
-		else{
-			tempfile=TEMPMAQFILE;
-			//Memory addresses added to  string of maq file.
-			ProgramInterpreter pi = new ProgramInterpreter();	
-			textContent = pi.appendMemoryAddress(textContent);
-		}
-
-
-		if(saveFile(tempfile, textContent)){
-			//Compilar (chequear sintaxis)
-			ProgramInterpreter pi = new ProgramInterpreter();
-			boolean compileSuccesfull=true;
-			if (textEditor.getFileType() == FileType.MACHINE_CODE)
-				compileSuccesfull=pi.compileMachinecode(tempfile);
-			if(compileSuccesfull){
-//				//Cargar en memoria
-//				Memory myMemory = new Memory() ;
-//				ControlUnit myControlUnit = new ControlUnit(myMemory);
-//				myControlUnit.loadProgramToMemory(tempfile);
-//				while(!myControlUnit.isProgramEnded()){
-//					myControlUnit.fetchInstruction();
-//					myControlUnit.decode();
-//					myControlUnit.executeCurrentInstruction();
-//				}
-//				MainLogger.logTrace(myControlUnit.dumpMemory());
-				CicloFetchThread hiloFetch = new CicloFetchThread(tempfile);
-				hiloFetch.start();
+			//guardar archivo
+			FileEditorPane textEditor = (FileEditorPane) editorUmsGui
+					.getMultiTabPane().getSelectedTab();
+			String textContent = textEditor.getContent();
+			String tempfile="";
+			if (textEditor.getFileType() == FileType.ASSEMBLER){
+				tempfile=TEMPASMFILE;
+				MainLogger.logError("Convierta el programa a lenguaje maquina para ejecutar. ");
+			}else{
+				tempfile=TEMPMAQFILE;
+				//Memory addresses added to  string of maq file.
+				ProgramInterpreter pi = new ProgramInterpreter();	
+				textContent = pi.appendMemoryAddress(textContent);
 			}
-		};
-		// TODO Auto-generated method stub
+
+
+			if(saveFile(tempfile, textContent)){
+				//Compilar (chequear sintaxis)
+				ProgramInterpreter pi = new ProgramInterpreter();
+				boolean compileSuccesfull=false;
+				if (textEditor.getFileType() == FileType.MACHINE_CODE)
+					compileSuccesfull=pi.compileMachinecode(tempfile);
+				if(compileSuccesfull){
+					//				//Cargar en memoria
+					//				Memory myMemory = new Memory() ;
+					//				ControlUnit myControlUnit = new ControlUnit(myMemory);
+					//				myControlUnit.loadProgramToMemory(tempfile);
+					//				while(!myControlUnit.isProgramEnded()){
+					//					myControlUnit.fetchInstruction();
+					//					myControlUnit.decode();
+					//					myControlUnit.executeCurrentInstruction();
+					//				}
+					//				MainLogger.logTrace(myControlUnit.dumpMemory());
+					CicloFetchThread hiloFetch = new CicloFetchThread(tempfile);
+					hiloFetch.start();
+				}
+			};
+			// TODO Auto-generated method stub
+		}
 	}
 
 

@@ -214,6 +214,13 @@ public class ProgramInterpreter {
 			// Or we could just do this: 
 			// ex.printStackTrace();
 		}
+		if (lineCount == 1){
+			MainLogger.logError("Programa sin instrucciones.");
+			errorCount++;
+			result=false;
+		}
+		
+		
 		if (errorCount > 0)
 			MainLogger.logError("Lineas procesadas: " + (lineCount-1) + "  Errores detectados: " + errorCount);
 		else
@@ -273,6 +280,11 @@ public class ProgramInterpreter {
 			// ex.printStackTrace();
 		}
 
+		if (lineCount == 1){
+			MainLogger.logError("Programa sin instrucciones.");
+			errorCount++;
+			result=false;
+		}
 		if (errorCount > 0)
 			MainLogger.logError("Lineas procesadas: " + (lineCount-1) + "  Errores detectados: " + errorCount);
 		else
