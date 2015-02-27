@@ -87,7 +87,7 @@ public class FPUnit {
 		else
 			exp=difPos;
 		if(exp >= -4 && exp <= 3){
-			System.out.println("MybinBum: " + myBinNum);
+//			System.out.println("MybinBum: " + myBinNum);
 			String expBin = HexaConverter.decimalToBase(exp + EXCESO, 2, BITS_EXPONENTE);
 			myBinNum = myBinNum.replaceAll("\\.", "");
 			int index =myBinNum.indexOf("1");
@@ -106,7 +106,7 @@ public class FPUnit {
 
 
 			//		myBinNum = result.substring(0,myBinNum.indexOf("1")) + "." + result.substring(myBinNum.indexOf("1")+1);
-			System.out.println("sign: " + sign + " exp :" + expBin + " man : "+mantisa);
+//			System.out.println("sign: " + sign + " exp :" + expBin + " man : "+mantisa);
 			result = sign + expBin + mantisa;
 		}else{
 			result = "00000000";			
