@@ -140,7 +140,7 @@ public class ALU {
 		float op2=FPUnit.puntoFlotanteADecimal(regNumSrc2);
 		result = op1 + op2;			
 		this.setOverflow(FPUnit.isOverflow(result));
-		System.out.println("Res: " + result);
+//		System.out.println("Res: " + result);
 		this.setResult(FPUnit.decimalAPuntoFlotante(result));
 		this.obsRegRes.setData(this.result);
 		return this.result;
@@ -189,7 +189,7 @@ public class ALU {
 			}
 		}
 
-		System.out.println("Mantisa1:  " + mantisa1 +"\n" + "Mantisa2: " + mantisa2);
+//		System.out.println("Mantisa1:  " + mantisa1 +"\n" + "Mantisa2: " + mantisa2);
 
 
 		//Determinar signo de la operacion
@@ -255,7 +255,7 @@ public class ALU {
 		String result = Integer.toBinaryString(tempInt);
 		if(result.length() > longNum)
 			result = result.substring(result.length() - longNum);
-		System.out.println("TempInt:  " + tempInt + " MantisaInicial: " + numBinario + " Resultado: " + result);
+//		System.out.println("TempInt:  " + tempInt + " MantisaInicial: " + numBinario + " Resultado: " + result);
 		return result;
 	}
 
@@ -270,7 +270,7 @@ public class ALU {
 			}else					
 				result = complementarA2(result);
 		}
-		System.out.println("Resultados suma binaria: " + result);
+//		System.out.println("Resultados suma binaria: " + result);
 		//Remover el primer 1
 		//		String bitsNormalizacion = result.substring(0,result.indexOf('1')+1);
 		int posPrimerUno = result.indexOf('1');
@@ -285,18 +285,18 @@ public class ALU {
 
 		if (expAdjust != 0)
 			result = normalizar(result, expAdjust);
-		System.out.println("Resultados suma normalizado: " + result);
+//		System.out.println("Resultados suma normalizado: " + result);
 		exp2Ent += expAdjust;
 
 		if (exp2Ent > 7 || exp2Ent < 0)
 			setOverflow(true);
 		else{
 			String binExp=HexaConverter.decimalToBase(exp2Ent, 2);
-			System.out.println("binExpo: " + binExp);
+//			System.out.println("binExpo: " + binExp);
 			result=signo +binExp.substring(5,8) + result;
 		}
 
-		System.out.println("Resultados suma binaria final: " + result + " Exponente: " + exp2Ent);
+//		System.out.println("Resultados suma binaria final: " + result + " Exponente: " + exp2Ent);
 		return result;
 
 	}
@@ -306,7 +306,7 @@ public class ALU {
 		//		mantisa = "1" + mantisa;
 
 		int tempInt = Integer.parseInt(mantisa, 2);
-		System.out.println("TempInt:  " + tempInt + " Mantisa: " + mantisa + " numero de shifts: " + cantShifts);
+//		System.out.println("TempInt:  " + tempInt + " Mantisa: " + mantisa + " numero de shifts: " + cantShifts);
 		//		for (int j = 0; j < i; j++){			 
 		if(cantShifts > 0)
 			shiftedi = Integer.toBinaryString(tempInt>>cantShifts);
@@ -324,7 +324,7 @@ public class ALU {
 		}else{
 			shiftedi ="0000";	
 		}
-		System.out.println("Resultado de shift:  " + shiftedi);
+//		System.out.println("Resultado de shift:  " + shiftedi);
 		return shiftedi;
 	}
 
