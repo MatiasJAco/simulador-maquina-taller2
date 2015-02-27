@@ -227,6 +227,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_fetchTextField.gridx = 1;
 		gbc_fetchTextField.gridy = 0;
 		pipeLinePanel.add(fetchTextField, gbc_fetchTextField);
+		controlUnit.getObsFetch().addObserver(new CPURegisterObserver(fetchTextField));
 		fetchTextField.setColumns(10);
 
 		decodeLabel = new JLabel("Decode");
@@ -244,6 +245,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_decodeTextField.gridx = 1;
 		gbc_decodeTextField.gridy = 1;
 		pipeLinePanel.add(decodeTextField, gbc_decodeTextField);
+		controlUnit.getObsDecode().addObserver(new CPURegisterObserver(decodeTextField));
 		decodeTextField.setColumns(10);
 
 		excecutionLabel = new JLabel("Excecution");
@@ -258,8 +260,9 @@ public class EmulatorComponent extends JFrame {
 		GridBagConstraints gbc_excecutionTextField = new GridBagConstraints();
 		gbc_excecutionTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_excecutionTextField.gridx = 1;
-		gbc_excecutionTextField.gridy = 2;
+		gbc_excecutionTextField.gridy = 2;		
 		pipeLinePanel.add(excecutionTextField, gbc_excecutionTextField);
+		controlUnit.getObsExec().addObserver(new CPURegisterObserver(excecutionTextField));
 		excecutionTextField.setColumns(10);
 
 //		aluPanel = new JPanel();
@@ -399,6 +402,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_regAaluLabel.gridy = 1;
 		aluPanel.add(regAaluLabel, gbc_regAaluLabel);
 		
+		
 		regAaluTextField = new JTextField();
 		GridBagConstraints gbc_regAaluTextField = new GridBagConstraints();
 		gbc_regAaluTextField.gridwidth = 2;
@@ -407,6 +411,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_regAaluTextField.gridx = 1;
 		gbc_regAaluTextField.gridy = 1;
 		aluPanel.add(regAaluTextField, gbc_regAaluTextField);
+		controlUnit.getAlu().getObsReg1().addObserver(new CPURegisterObserver(regAaluTextField));
 		regAaluTextField.setColumns(10);
 		
 		arrowLabel = new JLabel("->");
@@ -433,6 +438,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_regRaluTextField.gridx = 6;
 		gbc_regRaluTextField.gridy = 2;
 		aluPanel.add(regRaluTextField, gbc_regRaluTextField);
+		controlUnit.getAlu().getObsRegRes().addObserver(new CPURegisterObserver(regRaluTextField));
 		regRaluTextField.setColumns(10);
 		
 		regBaluLabel = new JLabel("B");
@@ -451,6 +457,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_regBaluTextField.gridx = 1;
 		gbc_regBaluTextField.gridy = 3;
 		aluPanel.add(regBaluTextField, gbc_regBaluTextField);
+		controlUnit.getAlu().getObsReg2().addObserver(new CPURegisterObserver(regBaluTextField));
 		regBaluTextField.setColumns(10);
 		
 		flagsLabel = new JLabel("Flags:");

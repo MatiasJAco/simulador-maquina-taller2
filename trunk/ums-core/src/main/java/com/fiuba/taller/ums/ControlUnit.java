@@ -3,6 +3,7 @@ package com.fiuba.taller.ums;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Observable;
 import java.util.Scanner;
 
 import javax.swing.text.DefaultEditorKit.CutAction;
@@ -33,6 +34,9 @@ public class ControlUnit {
 	private String 	instructionToDecode;
 	private String  decodeInstructionRegister;
 	private String  executionInstructionRegister;
+	private ObservableRegister obsFetch;
+	private ObservableRegister obsDecode;
+	private ObservableRegister obsExecution;
 	private UserOutputWindow win;
 
 
@@ -48,6 +52,9 @@ public class ControlUnit {
 		this.fetchInstructionRegister="0000";
 		this.decodeInstructionRegister="0000";
 		this.executionInstructionRegister="0000";
+		this.obsFetch.setData(fetchInstructionRegister);
+		this.obsDecode.setData(decodeInstructionRegister);
+		this.obsExecution.setData(executionInstructionRegister);
 		instructionToDecode = "0000";
 		this.win= new UserOutputWindow();
 
@@ -67,6 +74,9 @@ public class ControlUnit {
 		this.fetchInstructionRegister="0000";
 		this.decodeInstructionRegister="0000";
 		this.executionInstructionRegister="0000";
+		this.obsFetch = new ObservableRegister(fetchInstructionRegister);
+		this.obsDecode=new ObservableRegister(decodeInstructionRegister);
+		this.obsExecution=new ObservableRegister(executionInstructionRegister);
 		instructionToDecode = "0000";
 		this.win= new UserOutputWindow();
 	}
@@ -83,6 +93,9 @@ public class ControlUnit {
 		this.fetchInstructionRegister="0000";
 		this.decodeInstructionRegister="0000";
 		this.executionInstructionRegister="0000";
+		this.obsFetch = new ObservableRegister(fetchInstructionRegister);
+		this.obsDecode=new ObservableRegister(decodeInstructionRegister);
+		this.obsExecution=new ObservableRegister(executionInstructionRegister);
 		instructionToDecode = "0000";
 		this.win= new UserOutputWindow();
 	}
@@ -114,6 +127,7 @@ public class ControlUnit {
 		this.instructionRegister=result;
 		this.instructionToDecode = this.fetchInstructionRegister;
 		this.fetchInstructionRegister = result;
+		this.obsFetch.setData(this.fetchInstructionRegister);
 		this.nextInstructionAddress++;
 		this.nextInstructionAddress++;
 		//		MainLogger.logError("Fetch instruction: " + getInstructionRegister() );
@@ -207,7 +221,9 @@ public class ControlUnit {
 
 	public Instruction decode() {
 		this.executionInstructionRegister = this.decodeInstructionRegister;
+		this.obsExecution.setData(this.executionInstructionRegister);
 		this.decodeInstructionRegister = this.instructionToDecode;
+		this.obsDecode.setData(this.decodeInstructionRegister);
 		this.currentExecutingInstruction = this.currentDecodedInstruction;
 		//		MainLogger.logError("Decoded instruction: " + this.getDecodeInstructionRegister() );
 		return this.decode(this.decodeInstructionRegister);		
@@ -299,6 +315,19 @@ public class ControlUnit {
 	public void setInstructionToDecode(String string) {
 		this.instructionToDecode = string;
 
+	}
+
+	public Observable getObsExec() {
+		return this.obsExecution;
+	}
+
+	public Observable getObsFetch() {
+		
+		return this.obsFetch;
+	}
+
+	public Observable getObsDecode() {
+		return this.obsDecode;
 	}
 
 }
