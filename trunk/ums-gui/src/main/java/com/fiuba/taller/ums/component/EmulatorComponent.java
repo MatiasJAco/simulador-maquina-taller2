@@ -151,11 +151,11 @@ public class EmulatorComponent extends JFrame {
 		btnRun.addActionListener(new RunAction(this));
 		toolBar.add(btnRun);
 
-		btnPause = new JButton("Pause");
-		toolBar.add(btnPause);
-
-		btnStop = new JButton("Stop");
-		toolBar.add(btnStop);
+//		btnPause = new JButton("Pause");
+//		toolBar.add(btnPause);
+//
+//		btnStop = new JButton("Stop");
+//		toolBar.add(btnStop);
 
 		btnNext = new JButton("NextStep");
 		btnNext.addActionListener(new NextStepAction(this));
@@ -475,6 +475,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_overflowCheckbox.gridx = 6;
 		gbc_overflowCheckbox.gridy = 5;
 		aluPanel.add(overflowCheckbox, gbc_overflowCheckbox);
+		controlUnit.getAlu().getObsOverflow().addObserver(new OverflowObserver(overflowCheckbox));
 		
 		bitsLostLabel = new JLabel("BitsLost");
 		GridBagConstraints gbc_bitsLostLabel = new GridBagConstraints();
@@ -484,6 +485,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_bitsLostLabel.gridy = 6;
 		aluPanel.add(bitsLostLabel, gbc_bitsLostLabel);
 		
+		
 		bitsLostTextField = new JTextField();
 		GridBagConstraints gbc_bitsLostTextField = new GridBagConstraints();
 		gbc_bitsLostTextField.gridwidth = 2;
@@ -491,6 +493,7 @@ public class EmulatorComponent extends JFrame {
 		gbc_bitsLostTextField.gridx = 5;
 		gbc_bitsLostTextField.gridy = 6;
 		aluPanel.add(bitsLostTextField, gbc_bitsLostTextField);
+		controlUnit.getAlu().getObsPrec().addObserver(new PrecisionObserver(bitsLostTextField));
 		bitsLostTextField.setColumns(10);
 	}
 
