@@ -37,33 +37,33 @@
   <b> Instrucci&oacute;n LDM </b><br>
  <br>
       <b>Propósito:</b> Carga un registro
-        con un patrón de bits almacenado en una celda de memoria.<br>
-      <b>Sintaxis:</b> <i><strong> Registro, dirección de la celda de memoria</strong></i>
+        con un patrón de bits almacenado en una celda de memoria. El nombre de la instrucci&oacute;n se refiere a "Load from Memory", es decir, cargar desde la memoria en ingl&eacute;s.<br>
+      <b>Sintaxis:</b> <i><strong> Registro,dirección de la celda de memoria (en hexadecimal)</strong></i>
  
    <div class="2" align="center" id="i2">   <br>
   <p><img src="img/ldm.png" width="379" height="102" alt=""></p>
   <p><b>Ejemplo: </b>Cargar el registro 5 con 
-  el contenido de la celda   de memoria cuya dirección es 128.</p>
+  el contenido de la celda   de memoria cuya dirección es 80.</p>
   <br>
   </div>
  
  <br>
  <b>Instrucci&oacute;n LDI </b><br><br>
-   <b>Propósito:</b> Carga un registro con un patrón de bits. <br>
-   <b>Sintaxis:</b> <strong><i>Registro, patr&oacute;n de bits </i></strong>
+   <b>Propósito:</b> Carga un registro con un patrón de bits. El nombre de la instrucci&oacute;n se refiere a "Load Immediate", es decir, cargar un registro con un valor que está disponible en forma inmediata, sin ir a memoria.<br>
+   <b>Sintaxis:</b> <strong><i>Registro,patr&oacute;n de bits (en hexadecimal) </i></strong>
 
   <div class="2" align="center" id="i2">
   <p><img src="img/ldi.png" width="379" height="102" alt=""></p>
 
-  <p><b>Ejemplo: </b>Cargar el registro 8 con el patrón de bits  123.</p>
+  <p><b>Ejemplo: </b>Cargar el registro 8 con el patrón de bits  7B.</p>
 
   <p> </p>
   </div>
    
   <b>Instrucci&oacute;n STM </b><br><br>
      <b>Propósito:</b> Almacena un patrón de bits contenido en un registro en una celda de memoria a través de su
-        dirección.
-      <b><br>Sintaxis:</b> <strong><i>stm Registro, dirección de memoria</i></strong>
+        dirección. El nombre de la instrucci&oacute;n se refiere a "Store to Memory", es decir, almacenar en memoria, en ingl&eacute;s.
+      <b><br>Sintaxis:</b> <strong><i>stm Registro,dirección de memoria (en hexadecimal)</i></strong>
       
   <div class="2" align="center" id="id2">
   <br>
@@ -71,13 +71,13 @@
   <p><img src="img/stm.png" width="379" height="102" alt=""></p>
 
   <p><b>Ejemplo: </b><strong><i>Cargar el contenido del registro 12 a la celda de
-  memoria cuya direccion es 9.</i></strong></p>
+  memoria cuya direccion es 09.</i></strong></p>
        <br>
   </div>
 <br>
   <b>Instrucción COP </b><br><br>
   <b>Propósito:</b> Copia el patrón de bits de un registro a otro.<br>
-  <b>Sintaxis:</b> <strong><i>cop Registro origen, registro destino</i></strong>
+  <b>Sintaxis:</b> <strong><i>cop Registro origen,registro destino</i></strong>
   
   <div class="2" align="center" id="i2">  
   <br>
@@ -96,8 +96,8 @@
   
   <b>Instrucción ADD </b><br><br>
    <b>Propósito:</b> Suma los patrones de bits de dos registros fuentes en complemento a 2 y guarda el
-        resultado en un registro destino.<br>
-      <b>Sintaxis:</b><strong><i> add Registro destino, Registro fuente 1, Registro fuente 2</i></strong>
+        resultado en un registro destino. El nombre de la instrucci&oacute;n se refiere a "Add", es decir, sumar en ingl&eacute;s.<br>
+      <b>Sintaxis:</b><strong><i> add Registro destino,Registro fuente 1,Registro fuente 2</i></strong>
 
   <div class="2" align="center" id="i2">
   <p> </p>
@@ -112,7 +112,7 @@
 <b>Instrucción ADDF </b><br><br>
    <b>Propósito:</b> Suma los patrones de bits de dos registros fuentes en punto flotante y guarda el
         resultado en un registro destino.<br>
-      <b>Sintaxis:</b><strong><i> addf Registro destino, Registro fuente 1, Registro fuente 2</i></strong>
+      <b>Sintaxis:</b><strong><i> addf Registro destino,Registro fuente 1,Registro fuente 2</i></strong>
 <div class="2" align="center" id="i2">
   <p> </p>
 
@@ -133,7 +133,7 @@
         disyuncion lógica OR sobre los patrones de bits contenidos en dos
         registros fuentes y guarda el resultado en un registro destino.<br>
       <b>Sintaxis:</b><strong><i> or Registro
-        destino, Registro fuente 1, Registro fuente 2</i></strong>
+        destino,Registro fuente 1,Registro fuente 2</i></strong>
 <div class="2" align="center" id="i2">
   <p> </p>
 
@@ -150,7 +150,7 @@
         conjunción lógica AND sobre los patrones de bits contenidos en dos
         registros fuentes y guarda el resultado en un registro destino.<br>
       <b>Sintaxis:</b><strong><i> and Registro
-        destino, Registro fuente 1, Registro fuente 2</i></strong>
+        destino,Registro fuente 1,Registro fuente 2</i></strong>
 <div class="2" align="center" id="i2">
   <p> </p>
 
@@ -168,7 +168,7 @@
         en dos registros fuentes y guarda el resultado en un registro
       destino.<br>
       <b>Sintaxis:</b><strong><i> xor Registro
-        destino, Registro fuente 1, Registro fuente 2</i></strong>
+        destino,Registro fuente 1,Registro fuente 2</i></strong>
 <div class="2" align="center" id="i2">
   <p> </p>
 
@@ -188,7 +188,7 @@
   href="http://www.rinconsolidario.org/eps/asm8086/CAP6.html">ROTD</a> </b><br><br>
    <b>Propósito:</b> Rota el patrón de
         bits de un registro determinado una cantidad de veces a la derecha.<br>
-      <b>Sintaxis:</b><strong><i> rotd Registro, cantidad de veces a la derecha</i></strong>
+      <b>Sintaxis:</b><strong><i> rotd Registro,cantidad de veces a la derecha</i></strong>
 <div class="2" align="center" id="i2">
   <p> </p>
 
@@ -204,8 +204,8 @@
      <b>Instrucción JPZ </b><br><br>
    <b>Propósito:</b>  Salta a una
         dirección indicada cuando el patrón de bits contenido en un registro
-        determinado vale 0.<br>
-      <b>Sintaxis:</b><strong><i> jpz Registro, tag_de_salto</i></strong>
+        determinado vale 0. El nombre de la instrucci&oacute;n se refiere a "Jump when zero", es decir, saltar cuando es cero, en ingl&eacute;s.<br>
+      <b>Sintaxis:</b><strong><i> jpz Registro,tag_de_salto</i></strong>
 	<br>
 
 <blockquote>
@@ -219,7 +219,7 @@
    <b><a name="fin"><h2>Instrucción de fin</h2></a></b>
    <b>Instrucción RET </b><br><br>
     <b>Propósito:</b>  Finaliza la
-        ejecución del programa.<br>
+        ejecución del programa. El nombre de la instrucci&oacute;n se refiere a "Return", es decir, retornar en ingl&eacute;s.<br>
       <b>Sintaxis:</b><strong><i> ret</i></strong>
 
   <p> </p>
