@@ -87,6 +87,7 @@ public class NextStepAction implements ActionListener {
 		emulatorComponent.getRegBaluTextField().setBackground(WHITE_COLOR);
 		emulatorComponent.getRegRaluTextField().setBackground(WHITE_COLOR);
 		emulatorComponent.getBitsLostTextField().setBackground(WHITE_COLOR);
+		emulatorComponent.getOverflowCheckbox().setSelected(false);
 		
 	}
 

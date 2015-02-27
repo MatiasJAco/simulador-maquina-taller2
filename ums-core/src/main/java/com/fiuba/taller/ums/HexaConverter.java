@@ -196,9 +196,9 @@ public class HexaConverter {
 		aNumC2 = binaryToHexa(aNumC2);
 		//Signo
 		int sign = -1; 
-		if(aNumC2.equals(aNum))
+		if(aNumC2.equals(aNum) && !aNum.equals("80"))
 			sign=sign*sign;
-
+		
 		int longNum= aNumC2.length();
 		for (int i =longNum-1;i>=0;i--){
 			int currentDigit=hexaCharToInt(aNumC2.charAt(i));
@@ -220,7 +220,8 @@ public class HexaConverter {
 			int comp2 = (int) (HexaConverter.baseToDecimal(aBinNum, 2) - Math.pow(2, CANT_BITS));
 			//Quitar signo
 			comp2 = comp2 * -1;
-			result= HexaConverter.decimalToBase(comp2,2); 
+			result= HexaConverter.decimalToBase(comp2,2);
+			System.out.println(result);
 		}
 
 		return result;

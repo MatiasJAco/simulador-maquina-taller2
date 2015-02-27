@@ -21,7 +21,7 @@ public class OverflowObserver implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		this.textField.setEnabled((Boolean) arg);
+		this.textField.setSelected(((Boolean) arg).booleanValue());
 		
 //		textField.setBackground(GREEN_COLOR);
 	}
