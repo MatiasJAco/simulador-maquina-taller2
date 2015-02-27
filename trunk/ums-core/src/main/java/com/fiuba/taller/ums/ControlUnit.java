@@ -33,7 +33,8 @@ public class ControlUnit {
 	private String 	instructionToDecode;
 	private String  decodeInstructionRegister;
 	private String  executionInstructionRegister;
-	
+	private UserOutputWindow win;
+
 
 	public ControlUnit() {
 		this.mem = new Memory();
@@ -48,8 +49,9 @@ public class ControlUnit {
 		this.decodeInstructionRegister="0000";
 		this.executionInstructionRegister="0000";
 		instructionToDecode = "0000";
-		
-		
+		this.win= new UserOutputWindow();
+
+
 	}
 
 	public ControlUnit(Memory aMem) {
@@ -66,6 +68,7 @@ public class ControlUnit {
 		this.decodeInstructionRegister="0000";
 		this.executionInstructionRegister="0000";
 		instructionToDecode = "0000";
+		this.win= new UserOutputWindow();
 	}
 
 	public ControlUnit(Memory myMemory, RegisterMemory myRegMem) {		
@@ -81,6 +84,7 @@ public class ControlUnit {
 		this.decodeInstructionRegister="0000";
 		this.executionInstructionRegister="0000";
 		instructionToDecode = "0000";
+		this.win= new UserOutputWindow();
 	}
 
 	public String getInstructionRegister() {
@@ -112,8 +116,8 @@ public class ControlUnit {
 		this.fetchInstructionRegister = result;
 		this.nextInstructionAddress++;
 		this.nextInstructionAddress++;
-//		MainLogger.logError("Fetch instruction: " + getInstructionRegister() );
-//		MainLogger.logError("Fetch instruction: " + getFetchInstructionRegister() );
+		//		MainLogger.logError("Fetch instruction: " + getInstructionRegister() );
+		//		MainLogger.logError("Fetch instruction: " + getFetchInstructionRegister() );
 		return getInstructionRegister();
 	}
 
@@ -189,10 +193,15 @@ public class ControlUnit {
 
 	public void executeCurrentInstruction() {
 		this.currentExecutingInstruction.execute();
-//		MainLogger.logError("Executing instruction: " + this.getExecutionInstructionRegister() );
-		if(this.mem.readCell("FE").equals("01"))
-			System.out.print("Sale: " + this.mem.readCell("FF") + "\n");
-		this.mem.writeCell("FE", "00");
+		//		MainLogger.logError("Executing instruction: " + this.getExecutionInstructionRegister() );
+		if(this.mem.readCell("FE").equals("01")){
+			String salida = "Sale: " + this.mem.readCell("FF") + "\n";
+			String salida2 = this.mem.readCell("FF") + "\n";
+			System.out.print(salida);
+			this.mem.writeCell("FE", "00");			
+			win.setText(win.getText() + salida2);
+			
+		}
 
 	}
 
@@ -200,9 +209,8 @@ public class ControlUnit {
 		this.executionInstructionRegister = this.decodeInstructionRegister;
 		this.decodeInstructionRegister = this.instructionToDecode;
 		this.currentExecutingInstruction = this.currentDecodedInstruction;
-//		MainLogger.logError("Decoded instruction: " + this.getDecodeInstructionRegister() );
+		//		MainLogger.logError("Decoded instruction: " + this.getDecodeInstructionRegister() );
 		return this.decode(this.decodeInstructionRegister);		
-		
 	}
 
 	public void loadProgramToMemory(String tempfile) {
@@ -290,7 +298,7 @@ public class ControlUnit {
 
 	public void setInstructionToDecode(String string) {
 		this.instructionToDecode = string;
-		
+
 	}
 
 }
