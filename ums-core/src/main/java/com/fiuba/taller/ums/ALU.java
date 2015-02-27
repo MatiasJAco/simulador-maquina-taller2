@@ -6,6 +6,25 @@ public class ALU {
 
 	private static final int MANTISA_LENGHT = 4;
 	private boolean overflow;
+	public ObservableOverflow getObsOverflow() {
+		return obsOverflow;
+	}
+
+	public void setObsOverflow(ObservableOverflow obsOverflow) {
+		this.obsOverflow = obsOverflow;
+	}
+
+	public ObservablePrecision getObsPrec() {
+		return obsPrec;
+	}
+
+	public void setObsPrec(ObservablePrecision obsPrec) {
+		this.obsPrec = obsPrec;
+	}
+
+	private ObservableOverflow obsOverflow;
+	private ObservablePrecision obsPrec;
+	
 	public int getBitsPrecisionPerdidos() {
 		return bitsPrecisionPerdidos;
 	}
@@ -59,7 +78,9 @@ public class ALU {
 
 	public ALU() {
 		this.overflow = false;
+		this.obsOverflow=new ObservableOverflow(this.overflow);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec = new ObservablePrecision(Integer.toString(this.bitsPrecisionPerdidos));
 		this.setResult("");
 		this.setRegNumSrc1("");
 		this.setRegNumSrc2("");
@@ -74,6 +95,7 @@ public class ALU {
 
 	public void setOverflow(boolean overflow) {
 		this.overflow = overflow;
+		this.obsOverflow.setData(overflow);
 	}
 
 	public boolean isZeroReg(int i) {
@@ -93,6 +115,7 @@ public class ALU {
 		this.obsReg2.setData(this.regSrc2);
 		this.setOverflow(false);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 		int result =0;
 		int op1=HexaConverter.hexaToDecimalC2(regNumSrc1);
 		int op2=HexaConverter.hexaToDecimalC2(regNumSrc2);
@@ -111,6 +134,7 @@ public class ALU {
 		this.obsReg2.setData(this.regSrc2);
 		this.setOverflow(false);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 		float result =0;
 		float op1=FPUnit.puntoFlotanteADecimal(regNumSrc1);		
 		float op2=FPUnit.puntoFlotanteADecimal(regNumSrc2);
@@ -129,6 +153,7 @@ public class ALU {
 		this.obsReg2.setData(this.regSrc2);
 		this.setOverflow(false);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 		//		float result =0;
 		String sumando1B=HexaConverter.hexaToBinary(regNumSrc1);
 		String sumando2B=HexaConverter.hexaToBinary(regNumSrc2);
@@ -151,11 +176,13 @@ public class ALU {
 		if(exp1Ent != exp2Ent){
 			if( exp1Ent > exp2Ent ){
 				this.bitsPrecisionPerdidos = (exp1Ent - exp2Ent);
+				this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 				mantisa2 = normalizar(mantisa2, bitsPrecisionPerdidos );
 				exp2Ent = exp1Ent;
 				exp2Bin = exp1Bin;
 			}else{
 				this.bitsPrecisionPerdidos = (exp2Ent - exp1Ent);
+				this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 				mantisa1 = normalizar(mantisa1, bitsPrecisionPerdidos );
 				exp1Ent = exp2Ent;
 				exp1Bin = exp2Bin;
@@ -336,6 +363,7 @@ public class ALU {
 		this.obsReg1.setData(this.regSrc1);
 		this.obsReg2.setData(this.regSrc2);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 		this.setOverflow(false);
 		int intOp1 = HexaConverter.baseToDecimal(op1, 16);
 		int intOp2 = HexaConverter.baseToDecimal(op2, 16);
@@ -351,6 +379,7 @@ public class ALU {
 		this.obsReg1.setData(this.regSrc1);
 		this.obsReg2.setData(this.regSrc2);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 		this.setOverflow(false);
 		int intOp1 = HexaConverter.baseToDecimal(op1, 16);
 		int intOp2 = HexaConverter.baseToDecimal(op2, 16);
@@ -366,6 +395,7 @@ public class ALU {
 		this.obsReg1.setData(this.regSrc1);
 		this.obsReg2.setData(this.regSrc2);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 		this.setOverflow(false);
 		int intOp1 = HexaConverter.baseToDecimal(op1, 16);
 		int intOp2 = HexaConverter.baseToDecimal(op2, 16);
@@ -381,6 +411,7 @@ public class ALU {
 		this.obsReg1.setData(this.regSrc1);
 		this.obsReg2.setData(this.regSrc2);
 		this.bitsPrecisionPerdidos = 0;
+		this.obsPrec.setData(Integer.toString(this.bitsPrecisionPerdidos));
 		this.setOverflow(false);
 		String binData = HexaConverter.hexaToBinary(data);
 		int intRep = HexaConverter.baseToDecimal(repetitions, 16);		

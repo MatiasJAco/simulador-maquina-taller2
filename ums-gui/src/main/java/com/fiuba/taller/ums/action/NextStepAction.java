@@ -70,8 +70,8 @@ public class NextStepAction implements ActionListener {
 //		emulatorComponent.getRegBaluTextField().setText(myControlUnit.getAlu().getRegNumSrc2());
 //		emulatorComponent.getRegRaluTextField().setText(myControlUnit.getAlu().getResult());
 
-		emulatorComponent.getBitsLostTextField().setText(Integer.toString(myControlUnit.getAlu().getBitsPrecisionPerdidos()));
-		emulatorComponent.getOverflowCheckbox().setEnabled(myControlUnit.getAlu().isOverflow());
+//		emulatorComponent.getBitsLostTextField().setText(Integer.toString(myControlUnit.getAlu().getBitsPrecisionPerdidos()));
+//		emulatorComponent.getOverflowCheckbox().setEnabled(myControlUnit.getAlu().isOverflow());
 
 
 
@@ -86,6 +86,7 @@ public class NextStepAction implements ActionListener {
 		emulatorComponent.getRegAaluTextField().setBackground(WHITE_COLOR);
 		emulatorComponent.getRegBaluTextField().setBackground(WHITE_COLOR);
 		emulatorComponent.getRegRaluTextField().setBackground(WHITE_COLOR);
+		emulatorComponent.getBitsLostTextField().setBackground(WHITE_COLOR);
 		
 	}
 
